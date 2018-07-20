@@ -1,5 +1,6 @@
 const nodeExternals = require('webpack-node-externals')
-const resolve = dir => require('path').join(__dirname, dir)
+const path = require('path')
+// const resolve = dir => path.join(__dirname, dir)
 
 module.exports = {
   /*
@@ -29,7 +30,7 @@ module.exports = {
       }
     ]
   },
-  plugins: ['~/plugins/vuetify.js'],
+  plugins: ['~/plugins/vuetify.js', '~/plugins/globalComponents.js'],
   css: ['~/assets/style/app.styl'],
   /*
   ** Customize the progress bar color
@@ -74,6 +75,12 @@ module.exports = {
           })
         ]
       }
+      config.resolve.alias['@utils'] = path.join(this.options.rootDir, 'utils')
+      config.resolve.alias['@pages'] = path.join(this.options.rootDir, 'pages')
+      config.resolve.alias['@assets'] = path.join(
+        this.options.rootDir,
+        'assets'
+      )
     }
   }
 }

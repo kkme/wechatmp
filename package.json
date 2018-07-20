@@ -11,6 +11,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "nuxt": "^1.0.0",
     "vuetify": "^1.0.0"
   },
@@ -25,6 +26,8 @@
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
+    "node-sass": "^4.9.2",
+    "sass-loader": "^7.0.3",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1"
   }

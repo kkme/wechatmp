@@ -1,9 +1,23 @@
-export const state = () => ({
-  sidebar: false
-})
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-export const mutations = {
-  toggleSidebar (state) {
-    state.sidebar = !state.sidebar
-  }
+import modules from './modules'
+
+Vue.use(Vuex)
+
+const store = () => {
+  return new Vuex.Store({
+    modules,
+    strict: process.env.NODE_ENV !== 'production'
+  })
 }
+
+// // Automatically run the `init` action for every module,
+// // if one exists.
+// for (const moduleName of Object.keys(modules)) {
+//   if (modules[moduleName].actions && modules[moduleName].actions.init) {
+//     store.dispatch(`${moduleName}/init`)
+//   }
+// }
+
+export default store
