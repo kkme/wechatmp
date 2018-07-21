@@ -50,5 +50,73 @@
            block
            round
            depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
+    <v-btn color="secondary"
+           block
+           round
+           depressed>次要</v-btn>
   </div>
 </template>

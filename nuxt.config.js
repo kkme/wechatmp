@@ -32,10 +32,13 @@ module.exports = {
   },
   plugins: ['~/plugins/vuetify.js', '~/plugins/globalComponents.js'],
   css: ['~/assets/style/app.styl'],
+  modules: [
+    ['nuxt-sass-resources-loader', ['@/assets/style/scss/_variables.scss']]
+  ],
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: '#8bc271' },
   /*
   ** Build configuration
   */
