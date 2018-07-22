@@ -1,5 +1,5 @@
 <template>
-	<div class="divider"></div>
+  <div class="base-divider"></div>
 </template>
 
 <script>
@@ -9,9 +9,9 @@ export default {
 </script>
 
 <style lang="scss">
-.divider {
+.base-divider {
     display: block;
     width: 100%;
-    border-top: $divider-height solid $border-color;
+    border-top: $divider-height solid #fafafa;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="white">
     <v-layout align-center
               pa-3>
       <img src="@img/avatar.jpg"
@@ -9,7 +9,8 @@
         <div class="grey--text">等级：66</div>
       </v-flex>
       <v-btn color="primary"
-             class="mr-0">要求赚钱</v-btn>
+             small
+             class="mr-0">邀请赚钱</v-btn>
     </v-layout>
     <v-layout class="text-xs-center py-2 border-top">
       <v-flex>
@@ -47,7 +48,9 @@
             flat
             class="py-0 center-links">
       <template v-for="(item, index) in items">
-        <v-list-tile :class="{'border-top': index !== 0}">
+        <v-list-tile :class="{'border-top': index !== 0}"
+                     nuxt
+                     :to="item.href">
 
           <simple-svg v-if="item.icon"
                       :filepath="require(`~/static/svg/${item.icon}.svg`)" />
@@ -68,13 +71,13 @@
 export default {
   data: () => ({
     items: [
-      { icon: 'collection', title: '我的收藏' },
-      { icon: 'history', title: '浏览记录' },
-      { icon: 'comment', title: '我的评价' },
-      { icon: 'safety', title: '账户安全' },
-      { icon: 'contactus', title: '联系客服' },
-      { icon: 'feedback', title: '投诉反馈' },
-      { icon: 'setting', title: '设置' }
+      { icon: 'collection', title: '我的收藏', href: '/user/collection' },
+      { icon: 'history', title: '浏览记录', href: '/user/' },
+      { icon: 'comment', title: '我的评价', href: '/user/' },
+      { icon: 'safety', title: '账户安全', href: '/user/' },
+      { icon: 'contactus', title: '联系客服', href: '/user/' },
+      { icon: 'feedback', title: '投诉反馈', href: '/user/' },
+      { icon: 'setting', title: '设置', href: '/user/' }
     ]
   })
 }

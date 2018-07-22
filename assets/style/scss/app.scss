@@ -5,7 +5,10 @@
 }
 
 .border-top {
-  border-top: 1px solid $border-color;
+  border-top: 1px solid $border-color !important;
+}
+.border-bottom {
+  border-bottom: 1px solid $border-color !important;
 }
 
 .bg-img {
@@ -24,4 +27,16 @@
     width: inherit;
     height: inherit;
   }
+}
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.text-muted {
+  color: rgba(0,0,0,.7)
+}
+.icon--text {
+  font-size: 1.25em;
+  margin-right: .5em;
 }

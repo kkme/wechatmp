@@ -11,7 +11,8 @@ import {
   VGrid,
   VToolbar,
   VBottomNav,
-  VDivider
+  VDivider,
+  VTabs
 } from 'vuetify'
 
 Vue.use(Vuetify, {
@@ -26,7 +27,8 @@ Vue.use(Vuetify, {
     VGrid,
     VToolbar,
     VBottomNav,
-    VDivider
+    VDivider,
+    VTabs
   },
   theme: {
     primary: '#8bc271',
