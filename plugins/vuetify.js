@@ -10,7 +10,8 @@ import {
   VIcon,
   VGrid,
   VToolbar,
-  VBottomNav
+  VBottomNav,
+  VDivider
 } from 'vuetify'
 
 Vue.use(Vuetify, {
@@ -24,7 +25,8 @@ Vue.use(Vuetify, {
     VIcon,
     VGrid,
     VToolbar,
-    VBottomNav
+    VBottomNav,
+    VDivider
   },
   theme: {
     primary: '#8bc271',

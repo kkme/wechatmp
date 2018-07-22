@@ -1,84 +1,103 @@
 <template>
   <div>
-    <v-layout>
+    <v-layout align-center
+              pa-3>
+      <img src="@img/avatar.jpg"
+           class="avatar">
+      <v-flex class="pl-3">
+        <div class="subheading">马小姐爱</div>
+        <div class="grey--text">等级：66</div>
+      </v-flex>
+      <v-btn color="primary"
+             class="mr-0">要求赚钱</v-btn>
+    </v-layout>
+    <v-layout class="text-xs-center py-2 border-top">
       <v-flex>
-        <img src="">
+        <div class="primary--text subheading">36</div>
+        <div class="grey--text">信誉</div>
       </v-flex>
       <v-flex>
-        <div>马小姐爱</div>
-        <div>等级：66</div>
+        <div class="primary--text subheading">400</div>
+        <div class="grey--text">积分</div>
       </v-flex>
       <v-flex>
-        <v-btn color="primary">要求赚钱</v-btn>
+        <div class="error--text subheading">250</div>
+        <div class="grey--text">钱包</div>
       </v-flex>
     </v-layout>
-    <v-layout class="text-xs-center">
-      <v-flex>
-        <div class="primary--text">36</div>
-        <div>信誉</div>
+    <base-divider></base-divider>
+    <v-layout class="center-shortcut pa-3 text-xs-center">
+      <v-flex xs6>
+        <div class="mr-2 center-resume d-flex align-center justify-center rounded">
+          <span>我的简历<br>
+            <span class="grey--text caption">完善简历提高您的录取率</span>
+          </span>
+        </div>
       </v-flex>
-      <v-flex>
-        <div class="primary--text">400</div>
-        <div>积分</div>
-      </v-flex>
-      <v-flex>
-        <div class="error--text">250</div>
-        <div>钱包</div>
+      <v-flex xs6>
+        <div class="ml-2 center-custom d-flex align-center justify-center rounded">
+          <span>定制推荐<br>
+            <span class="grey--text caption">精准岗位匹配和推荐</span>
+          </span>
+        </div>
       </v-flex>
     </v-layout>
-    <div>
-      <svg version="1.1"
-           id="图层_1"
-           xmlns="http://www.w3.org/2000/svg"
-           xmlns:xlink="http://www.w3.org/1999/xlink"
-           x="0px"
-           y="0px"
-           viewBox="0 0 1024 1024"
-           style="enable-background:new 0 0 1024 1024;"
-           xml:space="preserve">
-        <path class="st0"
-              d="M992,617c-13.5,15.5-250.6,287.1-259.9,297.8c-12.1,13.8-35.3,11.7-42.3-8.6c-5.6-16.3-116.6-343.8-126-371.8
-	c-6.2-18.4,9.3-35.7,28.2-32.3c21,3.9,362,69.6,386.3,74.7C996.1,580.7,1005.3,601.8,992,617z" />
-        <path d="M371.8,474.2c15.4,0,27.8,12.5,27.8,27.8c0,15.4-12.5,27.8-27.8,27.8S344,517.4,344,502C344,486.6,356.4,474.2,371.8,474.2z
-	" />
-        <path d="M501.6,474.2c15.4,0,27.8,12.5,27.8,27.8c0,15.4-12.5,27.8-27.8,27.8c-15.4,0-27.8-12.4-27.8-27.8
-	C473.8,486.6,486.2,474.2,501.6,474.2z" />
-        <path d="M631.4,474.2c15.4,0,27.8,12.5,27.8,27.8c0,15.4-12.5,27.8-27.8,27.8c-15.4,0-27.8-12.4-27.8-27.8
-	C603.5,486.6,616,474.2,631.4,474.2z" />
-        <path d="M256,881h-4.7c-30.1,0-54.6-24.5-54.6-54.6V649.2c-66.1-23-111.2-85.5-111.2-156.4c0-37.9,12.4-73.5,36-103
-	c20.4-25.6,48.1-44.7,79-54.7c8.1-41.7,29.8-79.7,61.9-108c35.3-31.2,80.8-48.4,128-48.4c33.2,0,65.5,8.5,94.4,24.7
-	c36.8-27.9,81.8-43.2,128.1-43.2c51.8,0,101.7,18.9,140.5,53.3c35.3,31.3,59.1,73.3,67.8,119.2c67.4,18.4,115.2,80,115.2,150.9
-	c0,76.8-55.7,141.4-129.8,154.1c0,1.2,0,2.3,0,3.5c0,101.7-82.7,184.4-184.4,184.4c-29.8,0-62.4-8.1-91.8-22.9
-	c-23.9-12-45-28-60.8-46L256,881z M390.3,213.6c-79.1,0-146.6,59.1-157.1,137.5l-1.6,11.8l-11.6,2.8
-	c-58.7,14.4-99.6,66.6-99.6,126.9c0,59.6,40.3,111.6,98.1,126.5l13.1,3.4v203.8c0,9.4,6.7,17.3,15.6,19.2l231.5-135.1l9.3,13.1
-	c27.4,38.7,83.7,66.8,134,66.8c82.4,0,149.4-67,149.4-149.4c0-5.2-0.3-10.8-1-17l-2.1-18.4l18.5-1.1
-	c64.2-3.7,114.4-56.9,114.4-121.2c0-58.3-41.6-108.5-98.8-119.3l-12.5-2.4l-1.6-12.6C776.9,261.3,701.4,195,612.8,195
-	c-42.2,0-83.1,15.2-115.2,42.8l-9.9,8.5l-11-7.1C450.8,222.5,421,213.6,390.3,213.6z" />
-      </svg>
+    <base-divider></base-divider>
+    <v-list dense
+            flat
+            class="py-0 center-links">
+      <template v-for="(item, index) in items">
+        <v-list-tile :class="{'border-top': index !== 0}">
 
-      <svg viewBox="0 0 1024 1024">
-        <path class="st0"
-              d="M683.5,947.3l-119-209.4l119-209.4h237.9l119,209.4l-119,209.4L683.5,947.3L683.5,947.3z" />
-        <path d="M507.4,737.9c10.5,0,19,8.5,19,19s-8.5,19-19,19s-19-8.5-19-19C488.3,746.4,496.9,737.9,507.4,737.9z" />
-        <path d="M507.4,852.1c10.5,0,19,8.5,19,19s-8.5,19-19,19s-19-8.5-19-19C488.3,860.6,496.9,852.1,507.4,852.1z" />
-        <path d="M507.4,527c-41.3,0-81.2-15-112.1-42.3c-7.3-6.4-8-17.4-1.6-24.7c6.4-7.3,17.4-8,24.7-1.6c24.6,21.7,56.2,33.6,89,33.6
-	c31.9,0,62.8-11.3,87.1-31.9c7.4-6.3,18.4-5.3,24.7,2c6.3,7.4,5.3,18.4-2,24.7C586.5,512.7,547.5,527,507.4,527z" />
-        <path d="M507.4,622.1c-70.8,0-137.3-27.6-187.4-77.6c-50-50-77.6-116.6-77.6-187.4S270,219.9,320,169.8s116.6-77.6,187.4-77.6
-	s137.3,27.6,187.4,77.6c50,50,77.6,116.6,77.6,187.4s-27.6,137.3-77.6,187.4C644.7,594.6,578.1,622.1,507.4,622.1z M507.4,127.2
-	c-126.8,0-230,103.2-230,230s103.2,230,230,230s230-103.2,230-230S634.2,127.2,507.4,127.2z" />
-        <path d="M408.7,585.7c-160.5,47.1-262.1,192.2-262.9,342.6c0,0.2-0.1,0.3-0.1,0.5c0,0.1,0.1,0.2,0.1,0.3c0,0.4-0.1,0.7-0.1,1.1h0.3
-	c0.8,9.4,8.6,17,18.4,17s17.7-7.5,18.4-17h0.3c0-183.8,156-325.6,343.3-325.6l0,0 M869,928.8c0-0.2-0.1-0.4-0.1-0.6
-	c-0.7-109.7-56.4-222.8-150.6-289l-0.2,0.3c-3-2-6.4-3.5-10.3-3.5c-10.3,0-18.7,8.2-18.7,18.3c0,5.8,2.8,10.7,7.1,14.1l-0.2,0.3
-	c84.9,59.6,135.6,151.3,135.6,261.5h0.3c0.7,9.4,8.6,17,18.4,17c9.8,0,17.7-7.5,18.4-17h0.3c0-0.4-0.1-0.7-0.1-1.1
-	C868.9,929,869,928.9,869,928.8L869,928.8z" />
-      </svg>
-    </div>
+          <simple-svg v-if="item.icon"
+                      :filepath="require(`~/static/svg/${item.icon}.svg`)" />
+
+          <v-list-tile-content class="pl-2">
+            <v-list-tile-title v-text="item.title"></v-list-tile-title>
+          </v-list-tile-content>
+
+          <simple-svg :filepath="require('~/static/svg/right.svg')" />
+        </v-list-tile>
+        <base-divider v-if="index !==0 && (index+1)%4 === 0 && (index+1) !== item.length"></base-divider>
+      </template>
+    </v-list>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data: () => ({
+    items: [
+      { icon: 'collection', title: '我的收藏' },
+      { icon: 'history', title: '浏览记录' },
+      { icon: 'comment', title: '我的评价' },
+      { icon: 'safety', title: '账户安全' },
+      { icon: 'contactus', title: '联系客服' },
+      { icon: 'feedback', title: '投诉反馈' },
+      { icon: 'setting', title: '设置' }
+    ]
+  })
+}
 </script>
 
 <style lang="scss">
+.center-shortcut {
+    .center-resume,
+    .center-custom {
+        background: no-repeat center;
+        background-size: 100%;
+        min-height: 70px;
+    }
+    .center-resume {
+        background-image: url('~/assets/img/center-bg-1.jpg');
+    }
+    .center-custom {
+        background-image: url('~/assets/img/center-bg-2.jpg');
+    }
+}
+.center-links {
+    .svg {
+        width: 1.5rem;
+    }
+}
 </style>

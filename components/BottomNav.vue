@@ -162,25 +162,26 @@ export default {
 
 <style lang="scss">
 .bottom-nav {
-  .v-btn {
-    opacity: 0.75;
-  }
-  .v-btn--active {
-    opacity: 1;
-    svg path.st0 {
-      fill: #8bc271;
+    .v-btn {
+        opacity: 0.75;
+        min-width: inherit;
     }
-  }
-  svg {
-    width: 32px;
+    .v-btn--active {
+        opacity: 1;
+        svg path.st0 {
+            fill: #8bc271;
+        }
+    }
+    svg {
+        width: 32px;
 
-    path.st0 {
-      fill: transparent;
-    }
+        path.st0 {
+            fill: transparent;
+        }
 
-    path:not(.st0) {
-      fill: #292828;
+        path:not(.st0) {
+            fill: #292828;
+        }
     }
-  }
 }
 </style>

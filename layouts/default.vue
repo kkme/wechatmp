@@ -1,24 +1,19 @@
 <template>
-  <v-app light>
-    <v-toolbar flat
-               fixed
-               app
-               dense
-               :clipped-left="clipped">
-      <v-btn icon
-             @click.stop="clipped = !clipped">
-        <v-icon class="iconfont icon-left"></v-icon>
-      </v-btn>
-      <div v-text="title"></div>
-    </v-toolbar>
-    <v-content>
-      <v-container>
-        <nuxt />
-      </v-container>
-    </v-content>
+	<v-app light>
+		<v-toolbar flat fixed app dense :clipped-left="clipped">
+			<v-btn icon @click.stop="clipped = !clipped">
+				<v-icon class="iconfont icon-left"></v-icon>
+			</v-btn>
+			<div v-text="title"></div>
+		</v-toolbar>
+		<v-content>
+			<v-container class="pa-0">
+				<nuxt />
+			</v-container>
+		</v-content>
 
-    <bottom-nav></bottom-nav>
-  </v-app>
+		<bottom-nav></bottom-nav>
+	</v-app>
 </template>
 
 <script>

@@ -1,0 +1,27 @@
+.avatar {
+  max-width: 100%;
+  width: 50px;
+  border-radius: 50%;
+}
+
+.border-top {
+  border-top: 1px solid $border-color;
+}
+
+.bg-img {
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+}
+
+.rounded {
+  border-radius: $border-radius;
+}
+.simple-svg-wrapper {
+  width: 1.5rem;
+  height: 1.5rem;
+  .simple-svg {
+    width: inherit;
+    height: inherit;
+  }
+}
