@@ -74,12 +74,15 @@ export default {
   head: () => ({
     title: '个人中心'
   }),
+  meta: {
+    title: '个人中心'
+  },
   data: () => ({
     items: [
       { icon: 'collection', title: '我的收藏', href: '/user/collection' },
       { icon: 'history', title: '浏览记录', href: '/user/history' },
       { icon: 'comment', title: '我的评价', href: '/user/comment' },
-      { icon: 'safety', title: '账户安全', href: '/user/safety' },
+      { icon: 'safety', title: '账户安全', href: '/user/account' },
       { icon: 'contactus', title: '联系客服', href: '/user/contactus' },
       { icon: 'feedback', title: '投诉反馈', href: '/user/feedback' },
       { icon: 'setting', title: '设置', href: '/user/setting' }
@@ -90,22 +93,22 @@ export default {
 
 <style lang="scss">
 .center-shortcut {
-  .center-resume,
-  .center-custom {
-    background: no-repeat center;
-    background-size: 100%;
-    min-height: 70px;
-  }
-  .center-resume {
-    background-image: url('~@img/center-bg-1.jpg');
-  }
-  .center-custom {
-    background-image: url('~@img/center-bg-2.jpg');
-  }
+    .center-resume,
+    .center-custom {
+        background: no-repeat center;
+        background-size: 100%;
+        min-height: 70px;
+    }
+    .center-resume {
+        background-image: url('~@img/center-bg-1.jpg');
+    }
+    .center-custom {
+        background-image: url('~@img/center-bg-2.jpg');
+    }
 }
 .center-links {
-  .svg {
-    width: 1.5rem;
-  }
+    .svg {
+        width: 1.5rem;
+    }
 }
 </style>

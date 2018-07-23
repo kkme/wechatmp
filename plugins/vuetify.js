@@ -12,7 +12,9 @@ import {
   VToolbar,
   VBottomNav,
   VDivider,
-  VTabs
+  VTabs,
+  // VInput
+  VTextField
 } from 'vuetify'
 
 Vue.use(Vuetify, {
@@ -28,7 +30,9 @@ Vue.use(Vuetify, {
     VToolbar,
     VBottomNav,
     VDivider,
-    VTabs
+    VTabs,
+    // VInput
+    VTextField
   },
   theme: {
     primary: '#8bc271',

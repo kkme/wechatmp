@@ -11,6 +11,9 @@ export default {
   head: () => ({
     title: '我的评价'
   }),
+  meta: {
+    title: '我的评价'
+  },
   metaInfo() {
     return {
       title1: 'wcaa'

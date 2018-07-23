@@ -10,6 +10,9 @@
 .border-bottom {
   border-bottom: 1px solid $border-color !important;
 }
+.bordered {
+  border: 1px solid $border-color !important;
+}
 
 .bg-img {
   position: absolute;
@@ -43,5 +46,21 @@
     &:last-child {
       margin-right: 0;
     }
+  }
+}
+.flex-auto {
+  flex: 0 0 auto !important;
+}
+.input-rtl {
+  &input,
+  input {
+    text-align: right;
+  }
+}
+input[type=number] {
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }

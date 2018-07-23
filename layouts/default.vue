@@ -28,6 +28,7 @@ export default {
   components: {
     BottomNav
   },
+  middleware: 'meta',
   data() {
     return {
       bottomNav: 'center'
@@ -42,14 +43,9 @@ export default {
       return p.length === 2
     },
     title() {
-      return this.$store.app.head.title || ''
+      let meta = this.$store.getters['sys/meta']
+      return meta ? meta.title || '懒虫动动兼职平台' : '懒虫动动兼职平台'
     }
-  },
-  mounted() {
-    console.log(this.$router)
-    console.log(
-      this.$children[0].$children[1].$children[0].$children[0].$metaInfo.title
-    )
   }
 }
 </script>

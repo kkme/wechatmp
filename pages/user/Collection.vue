@@ -25,6 +25,9 @@ export default {
   head: () => ({
     title: '我的收藏'
   }),
+  meta: {
+    title: '我的收藏'
+  },
   components: {
     CollectionItem
   },
