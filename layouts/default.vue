@@ -4,7 +4,7 @@
                fixed
                app
                dense
-               :clipped-left="clipped"
+               clipped-left
                color="white"
                class="border-bottom">
       <v-btn icon
@@ -18,7 +18,7 @@
         <nuxt />
       </v-container>
     </v-content>
-    <bottom-nav></bottom-nav>
+    <bottom-nav v-if="path"></bottom-nav>
   </v-app>
 </template>
 
@@ -30,10 +30,25 @@ export default {
   },
   data() {
     return {
-      clipped: true,
-      title: '懒虫动动兼职平台',
       bottomNav: 'center'
     }
+  },
+  computed: {
+    path() {
+      let p = this.$route.fullPath
+      if (p) p = p.trim().split('/')
+      else return false
+
+      return p.length === 2
+    },
+    title() {
+      // console.log(this)
+
+      return this.$store.app.head.title || ''
+    }
+  },
+  mounted() {
+    console.log(this.$children[0].$children[1].$children[0].$children[0].$metaInfo.title)
   }
 }
 </script>

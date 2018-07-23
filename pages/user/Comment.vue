@@ -23,8 +23,13 @@
 import CollectionItem from '@/components/CollectionItem'
 export default {
   head: () => ({
-    title: '我的收藏'
+    title: '我的评价'
   }),
+  metaInfo () {
+    return {
+      title1: 'wcaa'
+    }
+  },
   components: {
     CollectionItem
   },
