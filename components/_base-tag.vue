@@ -9,7 +9,8 @@
          tag="div"
          depressed
          :ripple="false"
-         class="base-tag">
+         class="base-tag"
+         :style="height ? style : ''">
     <slot>已认证</slot>
   </v-btn>
 </template>
@@ -24,6 +25,17 @@ export default {
     outline: {
       type: [String, Boolean],
       default: true
+    },
+    height: {
+      type: String,
+      default: ''
+    }
+  },
+  computed: {
+    style() {
+      return {
+        height: this.height
+      }
     }
   }
 }

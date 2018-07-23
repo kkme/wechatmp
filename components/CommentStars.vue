@@ -1,15 +1,16 @@
 <template>
   <div class="d-flex">
-    <simple-svg :filepath="svg"
-                v-for="n in level"
-                :key="n" />
+    <v-icon class="iconfont icon-star icon--text"
+            v-for="n of 5"
+            :key="n"
+            :class="{ 'accent--text': n <= stars }" />
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    level: {
+    stars: {
       type: [Number, String],
       default: 5
     }

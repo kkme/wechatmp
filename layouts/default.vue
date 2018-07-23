@@ -42,13 +42,14 @@ export default {
       return p.length === 2
     },
     title() {
-      // console.log(this)
-
       return this.$store.app.head.title || ''
     }
   },
   mounted() {
-    console.log(this.$children[0].$children[1].$children[0].$children[0].$metaInfo.title)
+    console.log(this.$router)
+    console.log(
+      this.$children[0].$children[1].$children[0].$children[0].$metaInfo.title
+    )
   }
 }
 </script>

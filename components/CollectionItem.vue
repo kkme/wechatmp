@@ -16,7 +16,6 @@
         <v-icon class="iconfont icon-corp icon--text"></v-icon>国企
         <base-tag></base-tag>
       </v-flex>
-
     </v-layout>
     <v-layout>
       <v-flex class="py-2 mt-2 border-top">
@@ -24,7 +23,7 @@
                   class="px-3 text-muted">
           <v-flex class="body-1">正在招聘</v-flex>
           <div>3
-            <v-icon class="iconfont icon-right icon--text"></v-icon>
+            <v-icon class="iconfont icon-right icon--text mr-0"></v-icon>
           </div>
         </v-layout>
       </v-flex>

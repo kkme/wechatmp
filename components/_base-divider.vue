@@ -3,15 +3,13 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style lang="scss">
 .base-divider {
-    display: block;
-    width: 100%;
-    border-top: $divider-height solid #fafafa;
+  display: block;
+  width: 100%;
+  border-top: $divider-height solid #ebebeb;
 }
 </style>

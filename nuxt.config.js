@@ -26,7 +26,7 @@ module.exports = {
       },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_755131_awg3qmsu3vu.css'
+        href: '//at.alicdn.com/t/font_755131_qm65l1ffnv.css'
       }
     ]
   },
@@ -67,7 +67,7 @@ module.exports = {
     ** Run ESLint on save
     */
     extend(config, ctx) {
-      if (ctx.isDev && ctx.isClient) {
+      if (ctx.isDev && process.client) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
