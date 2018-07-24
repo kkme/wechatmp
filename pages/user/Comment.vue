@@ -14,11 +14,6 @@ export default {
   meta: {
     title: '我的评价'
   },
-  metaInfo() {
-    return {
-      title1: 'wcaa'
-    }
-  },
   components: {
     CommentItem
   },

@@ -22,17 +22,24 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
+        href:
+          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
       },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_755131_l3eyh30xiej.css'
+        href: '//at.alicdn.com/t/font_755131_txz8qx93339.css'
       }
     ]
   },
-  plugins: ['~/plugins/vuetify.js', '~/plugins/globalComponents.js', '~/plugins/simpleSvg.js'],
+  plugins: [
+    '~/plugins/vuetify.js',
+    '~/plugins/globalComponents.js',
+    '~/plugins/simpleSvg.js'
+  ],
   css: ['~/assets/style/app.styl', '~/assets/style/scss/app.scss'],
-  modules: [['nuxt-sass-resources-loader', ['@/assets/style/scss/_variables.scss']]],
+  modules: [
+    ['nuxt-sass-resources-loader', ['@/assets/style/scss/_variables.scss']]
+  ],
   /*
   ** Customize the progress bar color
   */
@@ -76,10 +83,19 @@ module.exports = {
           })
         ]
       }
-      config.resolve.alias['@const'] = path.join(this.options.rootDir, 'constant')
+      config.resolve.alias['@const'] = path.join(
+        this.options.rootDir,
+        'constant'
+      )
       config.resolve.alias['@pages'] = path.join(this.options.rootDir, 'pages')
-      config.resolve.alias['@img'] = path.join(this.options.rootDir, 'static/img/')
-      config.resolve.alias['@svg'] = path.join(this.options.rootDir, 'static/svg/')
+      config.resolve.alias['@img'] = path.join(
+        this.options.rootDir,
+        'static/img/'
+      )
+      config.resolve.alias['@svg'] = path.join(
+        this.options.rootDir,
+        'static/svg/'
+      )
     }
   }
 }

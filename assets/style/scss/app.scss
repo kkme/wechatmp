@@ -9,7 +9,11 @@
 }
 .border-bottom {
   border-bottom: 1px solid $border-color !important;
+  &:last-child {
+    border-bottom: none !important;
+  }
 }
+
 .bordered {
   border: 1px solid $border-color !important;
 }
@@ -57,10 +61,17 @@
     text-align: right;
   }
 }
-input[type=number] {
+input[type='number'] {
   &::-webkit-inner-spin-button,
   &::-webkit-outer-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
+}
+
+.d-none {
+  display: none !important;
+}
+a {
+  text-decoration: none;
 }

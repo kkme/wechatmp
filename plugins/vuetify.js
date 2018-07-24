@@ -13,9 +13,12 @@ import {
   VBottomNav,
   VDivider,
   VTabs,
-  // VInput
-  VTextField
+  VTextField,
+  VRadioGroup,
+  VTextarea
 } from 'vuetify'
+
+import { Ripple } from 'vuetify/es5/directives'
 
 Vue.use(Vuetify, {
   components: {
@@ -31,8 +34,9 @@ Vue.use(Vuetify, {
     VBottomNav,
     VDivider,
     VTabs,
-    // VInput
-    VTextField
+    VTextField,
+    VRadioGroup,
+    VTextarea
   },
   theme: {
     primary: '#8bc271',
@@ -42,5 +46,12 @@ Vue.use(Vuetify, {
     info: '#2196F3',
     success: '#4CAF50',
     warning: '#FFC107'
+  },
+  icons: {
+    radioOn: 'iconfont icon-radio_on',
+    radioOff: 'iconfont icon-radio_off'
+  },
+  directives: {
+    Ripple
   }
 })
