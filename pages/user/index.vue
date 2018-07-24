@@ -47,11 +47,12 @@
     <base-divider></base-divider>
     <v-layout class="user-center-shortcut pa-3 text-xs-center">
       <v-flex xs6>
-        <div class="mr-2 user-center-resume d-flex align-center justify-center rounded">
+        <nuxt-link to="/user/resume"
+                   class="mr-2 user-center-resume d-flex align-center justify-center rounded text--primary">
           <span>我的简历<br>
             <span class="grey--text caption">完善简历提高您的录取率</span>
           </span>
-        </div>
+        </nuxt-link>
       </v-flex>
       <v-flex xs6>
         <div class="ml-2 user-center-custom d-flex align-center justify-center rounded">
@@ -120,47 +121,47 @@ export default {
 
 <style lang="scss">
 .user-center-balance {
-  a {
-    display: block;
-    height: 100%;
-    width: 100%;
-  }
-  user-select: none;
+    a {
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
+    user-select: none;
 }
 .user-center-shortcut {
-  .user-center-resume,
-  .user-center-custom {
-    background: no-repeat center;
-    background-size: 100%;
-    min-height: 70px;
-  }
-  .user-center-resume {
-    background-image: url('~@img/center-bg-1.jpg');
-  }
-  .user-center-custom {
-    background-image: url('~@img/center-bg-2.jpg');
-  }
+    .user-center-resume,
+    .user-center-custom {
+        background: no-repeat center;
+        background-size: 100%;
+        min-height: 70px;
+    }
+    .user-center-resume {
+        background-image: url('~@img/center-bg-1.jpg');
+    }
+    .user-center-custom {
+        background-image: url('~@img/center-bg-2.jpg');
+    }
 }
 .user-center-links {
-  .svg {
-    width: 1.5rem;
-  }
+    .svg {
+        width: 1.5rem;
+    }
 }
 .certification {
-  .st0 {
-    fill: #ffa433;
-  }
-  .st1 {
-    fill: transparent;
-  }
-  &.checked {
-    .st1 {
-      fill: #87b953;
+    .st0 {
+        fill: #ffa433;
     }
-  }
-  svg {
-    width: 2em;
-    height: 2em;
-  }
+    .st1 {
+        fill: transparent;
+    }
+    &.checked {
+        .st1 {
+            fill: #87b953;
+        }
+    }
+    svg {
+        width: 2em;
+        height: 2em;
+    }
 }
 </style>

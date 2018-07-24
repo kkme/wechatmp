@@ -44,7 +44,7 @@ Vue.use(Vuetify, {
     accent: '#ffa433',
     error: '#fe4343',
     info: '#2196F3',
-    success: '#4CAF50',
+    success: '#62b13b',
     warning: '#FFC107'
   },
   icons: {
