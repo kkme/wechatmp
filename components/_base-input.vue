@@ -2,7 +2,7 @@
   <v-layout class="base-input"
             align-center>
     <v-flex>
-      <v-text-field class="body-1"
+      <v-text-field class="subheading"
                     :value="value"
                     v-bind="$attrs"
                     v-model="inputValue"
@@ -35,6 +35,15 @@ export default {
       default: null
     },
     value: String
+  },
+  watch: {
+    value: {
+      handler: function (newVal, oldVal) {
+        this.inputValue = newVal
+        console.log(newVal, oldVal, this.inputValue)
+      },
+      immediate: true
+    }
   },
   data: () => ({
     inputValue: null,
@@ -77,12 +86,18 @@ export default {
 .base-input {
     position: relative;
     .v-input__control {
-        padding: 6px 0 !important;
+        padding: 0 !important;
     }
     .base-input-btn {
         position: absolute;
         right: 16px;
         top: 8px;
+    }
+    input:focus {
+        font-size: 16px;
+    }
+    input::placeholder {
+        font-size: 14px;
     }
 }
 </style>

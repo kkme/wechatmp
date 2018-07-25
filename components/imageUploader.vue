@@ -28,7 +28,7 @@
              ref="uploadImage"
              accept="image/*"
              @change="onFilePicked"
-             multiple>
+             :multiple="!!multiple">
     </div>
   </div>
 </template>
@@ -36,13 +36,24 @@
 <script>
 import { unionBy } from 'lodash'
 import constant from '@const/public'
+import { readFiles } from '@helper'
 export default {
+  props: {
+    max: Number,
+    multiple: {
+      default: true
+    }
+  },
   data: () => ({
     loading: false,
     images: [],
-    imagesUrl: [],
-    maxImages: constant.MAX_IMAGES_UPLOAD
+    imagesUrl: []
   }),
+  computed: {
+    maxImages() {
+      return this.max ? this.max : constant.MAX_IMAGES_UPLOAD
+    }
+  },
   methods: {
     // ...mapActions(['uploadFile']),
     chooseFile() {
@@ -50,21 +61,19 @@ export default {
     },
     onFilePicked(event) {
       this.loading = true
-      Array.from(event.target.files).forEach(file => {
-        let filename = file.name
-        if (filename.lastIndexOf('.') <= 0) {
-          return
-        }
-        const fileReader = new FileReader()
-        fileReader.addEventListener('load', () => {
-          if (this.imagesUrl.length === this.maxImages) return
+      readFiles(event.target.files).then(res => {
+        console.log(res)
+
+        if (!this.multiple) {
+          this.$emit('input', res[0])
+        } else {
           this.imagesUrl = unionBy(
-            [{ name: file.name, base64: fileReader.result }],
+            res,
             this.imagesUrl,
             'name'
           )
-        })
-        fileReader.readAsDataURL(file)
+          this.$emit('input', this.imagesUrl)
+        }
       })
       this.loading = false
       // TODO: upload file to server
@@ -86,38 +95,38 @@ export default {
 
 <style lang="scss">
 .image-uploader {
-  display: flex;
-  flex-wrap: wrap;
-  & > div {
-    flex: 0 0 88px;
-    width: 88px;
-    height: 88px;
-    margin: 16px;
-    position: relative;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    img {
-      width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    & > div {
+        flex: 0 0 88px;
+        width: 88px;
+        height: 88px;
+        margin: 16px;
+        position: relative;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        img {
+            width: 100%;
+        }
     }
-  }
-  .image-uploader-btn {
-    .v-btn.v-btn--outline {
-      border-style: dashed;
-      height: 100%;
-      width: 100%;
-      display: block;
-      border-radius: $border-radius * 2;
+    .image-uploader-btn {
+        .v-btn.v-btn--outline {
+            border-style: dashed;
+            height: 100%;
+            width: 100%;
+            display: block;
+            border-radius: $border-radius * 2;
+        }
     }
-  }
-  .image-uploader-item-close {
-    display: block;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 24px;
-    height: 24px;
-    transform: translate3d(50%, -50%, 0);
-  }
+    .image-uploader-item-close {
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 24px;
+        height: 24px;
+        transform: translate3d(50%, -50%, 0);
+    }
 }
 </style>

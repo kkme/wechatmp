@@ -12,11 +12,14 @@ import {
   VToolbar,
   VBottomNav,
   VDivider,
+  VDialog,
   VTabs,
   VTextField,
   VRadioGroup,
   VTextarea,
-  VDatePicker
+  VDatePicker,
+  VbottomSheet,
+  VAvatar
 } from 'vuetify'
 
 import { Ripple } from 'vuetify/es5/directives'
@@ -34,11 +37,14 @@ Vue.use(Vuetify, {
     VToolbar,
     VBottomNav,
     VDivider,
+    VDialog,
     VTabs,
     VTextField,
     VRadioGroup,
     VTextarea,
-    VDatePicker
+    VDatePicker,
+    VbottomSheet,
+    VAvatar
   },
   theme: {
     primary: '#8bc271',

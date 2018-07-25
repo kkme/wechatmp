@@ -1,99 +1,128 @@
 <template>
-  <v-list dense
-          flat
-          class="py-0">
-    <v-list-tile nuxt
-                 to="/user/resume/online">
-      <v-list-tile-content>
-        <v-list-tile-title>个人头像</v-list-tile-title>
-      </v-list-tile-content>
-      <v-spacer></v-spacer>
-      <span class="caption text-muted font-weight-bold">已完成：</span>
-      <span class="success--text body-2">40%</span>
-      <simple-svg :filepath="iconRight" />
-    </v-list-tile>
+  <div>
+    <v-list dense
+            flat
+            class="py-0">
+      <v-list-tile @click="$refs.imageInput.chooseFile()">
+        <v-list-tile-content>
+          <v-list-tile-title>个人头像</v-list-tile-title>
+        </v-list-tile-content>
+        <v-spacer></v-spacer>
+        <img :src="avatar.base64"
+             class="avatar-sm">
+        <image-uploader class="d-none"
+                        ref="imageInput"
+                        :multiple="false"
+                        v-model="avatar" />
+        <simple-svg :filepath="iconRight" />
+      </v-list-tile>
 
-    <v-divider class="mx-3"></v-divider>
+      <v-divider class="mx-3"></v-divider>
 
-    <v-list-tile>
-      <v-list-tile-content>
-        <v-list-tile-title>真实姓名</v-list-tile-title>
-      </v-list-tile-content>
-      <v-spacer></v-spacer>
-      <base-input placeholder="请输入真实姓名"
-                  class="input-rtl"></base-input>
-    </v-list-tile>
+      <v-list-tile>
+        <v-list-tile-content>
+          <v-list-tile-title>真实姓名</v-list-tile-title>
+        </v-list-tile-content>
+        <v-spacer></v-spacer>
+        <base-input placeholder="请输入真实姓名"
+                    class="input-rtl"></base-input>
+      </v-list-tile>
 
-    <v-divider class="mx-3"></v-divider>
+      <v-divider class="mx-3"></v-divider>
 
-    <v-list-tile>
-      <v-list-tile-content>
-        <v-list-tile-title>最高学历</v-list-tile-title>
-      </v-list-tile-content>
-      <v-spacer></v-spacer>
-      <span class="caption text-muted">高中</span>
-      <simple-svg :filepath="iconRight" />
-    </v-list-tile>
+      <v-list-tile @click="$refs.eduSheet.active()">
+        <v-list-tile-content>
+          <v-list-tile-title>最高学历</v-list-tile-title>
+        </v-list-tile-content>
+        <v-spacer></v-spacer>
+        <base-bottom-sheet class="caption text-muted"
+                           v-model="info.edu"
+                           :items="eduList"
+                           placeholder="请选择学历"
+                           ref="eduSheet"></base-bottom-sheet>
+        <simple-svg :filepath="iconRight" />
+      </v-list-tile>
 
-    <v-divider class="mx-3"></v-divider>
+      <v-divider class="mx-3"></v-divider>
 
-    <v-list-tile>
-      <v-list-tile-content>
-        <v-list-tile-title>性别</v-list-tile-title>
-      </v-list-tile-content>
-      <v-spacer></v-spacer>
-      <span class="caption text-muted">女</span>
-      <simple-svg :filepath="iconRight" />
-    </v-list-tile>
-    <v-divider class="mx-3"></v-divider>
+      <v-list-tile @click="$refs.genderSheet.active()">
+        <v-list-tile-content>
+          <v-list-tile-title>性别</v-list-tile-title>
+        </v-list-tile-content>
+        <base-bottom-sheet class="caption text-muted"
+                           v-model="info.gender"
+                           :items="genderTypes"
+                           placeholder="请选择性别"
+                           ref="genderSheet"></base-bottom-sheet>
+        <simple-svg :filepath="iconRight" />
+      </v-list-tile>
+      <v-divider class="mx-3"></v-divider>
 
-    <v-list-tile>
-      <v-list-tile-content>
-        <v-list-tile-title>身份</v-list-tile-title>
-      </v-list-tile-content>
-      <v-spacer></v-spacer>
-      <span class="caption text-muted">非学生</span>
-      <simple-svg :filepath="iconRight" />
-    </v-list-tile>
-    <v-divider class="mx-3"></v-divider>
+      <v-list-tile @click="$refs.identitySheet.active()">
+        <v-list-tile-content>
+          <v-list-tile-title>身份</v-list-tile-title>
+        </v-list-tile-content>
+        <base-bottom-sheet class="caption text-muted"
+                           v-model="info.identity"
+                           :items="identityTypes"
+                           placeholder="请选择身份"
+                           ref="identitySheet"></base-bottom-sheet>
+        <simple-svg :filepath="iconRight" />
+      </v-list-tile>
+      <v-divider class="mx-3"></v-divider>
 
-    <v-list-tile>
-      <v-list-tile-content>
-        <v-list-tile-title>民族</v-list-tile-title>
-      </v-list-tile-content>
-      <v-spacer></v-spacer>
-      <span class="caption text-muted">汉</span>
-      <simple-svg :filepath="iconRight" />
-    </v-list-tile>
-    <v-divider class="mx-3"></v-divider>
+      <v-list-tile>
+        <v-list-tile-content>
+          <v-list-tile-title>民族</v-list-tile-title>
+        </v-list-tile-content>
+        <v-spacer></v-spacer>
+        <span class="caption text-muted">汉</span>
+        <simple-svg :filepath="iconRight" />
+      </v-list-tile>
+      <v-divider class="mx-3"></v-divider>
 
-    <v-list-tile>
-      <v-list-tile-content>
-        <v-list-tile-title>出生年月</v-list-tile-title>
-      </v-list-tile-content>
-      <v-spacer></v-spacer>
-      <span class="caption text-muted">
-        <base-birthday-picker></base-birthday-picker>
-      </span>
-      <simple-svg :filepath="iconRight" />
-    </v-list-tile>
-    <v-divider class="mx-3"></v-divider>
+      <v-list-tile>
+        <v-list-tile-content>
+          <v-list-tile-title>出生年月</v-list-tile-title>
+        </v-list-tile-content>
+        <v-spacer></v-spacer>
+        <span class="caption text-muted">
+          <base-date-picker type="month"
+                            placeholder="请选择出生年月"></base-date-picker>
+        </span>
+        <simple-svg :filepath="iconRight" />
+      </v-list-tile>
+      <v-divider class="mx-3"></v-divider>
 
-    <v-list-tile>
-      <v-list-tile-content>
-        <v-list-tile-title>居住地</v-list-tile-title>
-      </v-list-tile-content>
-      <v-spacer></v-spacer>
-      <span class="caption text-muted">成都</span>
-      <simple-svg :filepath="iconRight" />
-    </v-list-tile>
-    <v-divider class="mx-3"></v-divider>
+      <v-list-tile>
+        <v-list-tile-content>
+          <v-list-tile-title>居住地</v-list-tile-title>
+        </v-list-tile-content>
+        <v-spacer></v-spacer>
+        <span class="caption text-muted">成都</span>
+        <simple-svg :filepath="iconRight" />
+      </v-list-tile>
+      <v-divider class="mx-3"></v-divider>
+    </v-list>
+    <v-layout justify-center
+              class="mt-5">
+      <v-flex xs10>
+        <v-btn block
+               color="primary">保存</v-btn>
+      </v-flex>
+    </v-layout>
 
-  </v-list>
+  </div>
+
 </template>
 
 <script>
+import { gender, identity, eduList } from '@const'
+import ImageUploader from '@/components/ImageUploader'
 export default {
+  components: {
+    ImageUploader
+  },
   head: () => ({
     title: '基本信息'
   }),
@@ -101,7 +130,18 @@ export default {
     title: '基本信息'
   },
   data: () => ({
-    iconRight: require('~/static/svg/right.svg')
+    iconRight: require('@svg/right.svg'),
+    info: {
+      gender: 'SEX_BOY',
+      identity: 'IDENTITY_OTHER'
+    },
+    genderTypes: gender,
+    identityTypes: identity,
+    eduList,
+    avatar: {
+      url: '',
+      base64: require('@img/avatar.jpg')
+    }
   })
 }
 </script>

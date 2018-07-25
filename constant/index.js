@@ -587,3 +587,19 @@ export default {
     value: 'IDENTITY_OTHER'
   }
 }
+
+const gender = [{ label: '男', value: 'SEX_BOY' }, { label: '女', value: 'SEX_GIRL' }]
+const eduList = [
+  { label: '小学及小学以下', value: 'EDUCATION_LEVEL_1', code: 311 },
+  { label: '初中/中专', value: 'EDUCATION_LEVEL_2', code: 312 },
+  { label: '高中/高职', value: 'EDUCATION_LEVEL_3', code: 313 },
+  { label: '大学专科', value: 'EDUCATION_LEVEL_4', code: 314 },
+  { label: '大学本科', value: 'EDUCATION_LEVEL_5', code: 315 },
+  { label: '硕士研究生', value: 'EDUCATION_LEVEL_6', code: 316 },
+  { label: '博士及以上', value: 'EDUCATION_LEVEL_7', code: 317 }
+]
+const identity = [
+  { label: '学生', value: 'IDENTITY_STUDENT' },
+  { label: '其他', value: 'IDENTITY_OTHER' }
+]
+export { gender, eduList, identity }
