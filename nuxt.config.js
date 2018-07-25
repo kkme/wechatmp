@@ -27,7 +27,7 @@ module.exports = {
       },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_755131_txz8qx93339.css'
+        href: '//at.alicdn.com/t/font_755131_2508hf4fhe5j.css'
       }
     ]
   },

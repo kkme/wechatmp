@@ -15,7 +15,8 @@ import {
   VTabs,
   VTextField,
   VRadioGroup,
-  VTextarea
+  VTextarea,
+  VDatePicker
 } from 'vuetify'
 
 import { Ripple } from 'vuetify/es5/directives'
@@ -36,7 +37,8 @@ Vue.use(Vuetify, {
     VTabs,
     VTextField,
     VRadioGroup,
-    VTextarea
+    VTextarea,
+    VDatePicker
   },
   theme: {
     primary: '#8bc271',

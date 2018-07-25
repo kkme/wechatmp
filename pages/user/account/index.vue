@@ -13,7 +13,8 @@
         <simple-svg :filepath="require('~/static/svg/right.svg')" />
       </v-list-tile>
       <div class="px-3"
-           v-if="index !== items.length - 1">
+           v-if="index !== items.length - 1"
+           :key="index">
         <v-divider/>
       </div>
     </template>

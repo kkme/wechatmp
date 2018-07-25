@@ -2,7 +2,7 @@
   <v-list dense
           flat
           class="py-0">
-    <v-list-tile>
+    <v-list-tile nuxt to="/user/resume/online">
       <v-list-tile-content>
         <v-list-tile-title>在线简历</v-list-tile-title>
       </v-list-tile-content>
