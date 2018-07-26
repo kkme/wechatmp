@@ -2,7 +2,8 @@
   <v-list dense
           flat
           class="py-0">
-    <v-list-tile nuxt to="/user/resume/online">
+    <v-list-tile nuxt
+                 to="/user/resume/online">
       <v-list-tile-content>
         <v-list-tile-title>在线简历</v-list-tile-title>
       </v-list-tile-content>
@@ -37,6 +38,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   head: () => ({
     title: '我的简历'
@@ -46,7 +48,17 @@ export default {
   },
   data: () => ({
     iconRight: require('~/static/svg/right.svg')
-  })
+  }),
+  methods: {
+    ...mapActions({
+      fetchUser: 'user/fetchUser'
+    })
+  },
+  mounted() {
+    console.log(1)
+
+    // this.fetchUser()
+  }
 }
 </script>
 

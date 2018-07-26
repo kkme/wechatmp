@@ -7,6 +7,7 @@
 
 <script>
 import CommentItem from '@/components/CommentItem'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   head: () => ({
     title: '我的评价'
@@ -19,7 +20,20 @@ export default {
   },
   data: () => ({
     tabs: null
-  })
+  }),
+  computed: {
+    ...mapGetters({
+      comments: 'users/comments'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchComments: 'users/fetchComments'
+    })
+  },
+  mounted() {
+    this.fetchComments()
+  }
 }
 </script>
 

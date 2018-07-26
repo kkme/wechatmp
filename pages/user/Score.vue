@@ -8,6 +8,7 @@
 
 <script>
 import PointsItem from '@/components/PointsItem'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {
     PointsItem
@@ -17,6 +18,19 @@ export default {
   }),
   meta: {
     title: '我的信誉'
+  },
+  computed: {
+    ...mapGetters({
+      scoreLog: 'users/scoreLog'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchScoreLog: 'users/fetchScoreLog'
+    })
+  },
+  mounted() {
+    this.fetchScoreLog()
   }
 }
 </script>

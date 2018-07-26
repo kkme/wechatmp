@@ -88,3 +88,12 @@ input[type='number'] {
 a {
   text-decoration: none;
 }
+
+.textarea-thin {
+  &.v-text-field--outline .v-input__slot {
+    border-width: 1px !important;
+  }
+  &.v-text-field--outline:not(.v-input--is-focused) .v-input__slot:hover {
+    border-width: 1px !important;
+  }
+}

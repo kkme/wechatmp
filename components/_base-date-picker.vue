@@ -16,7 +16,8 @@
                 v-model="date"
                 readonly
                 class="input-rtl px-0"
-                :placeholder="$attrs.placeholder"></base-input>
+                :placeholder="$attrs.placeholder"
+                ref="activator"></base-input>
     <v-date-picker v-model="date"
                    v-bind="$attrs"
                    locale="zh-cn"
@@ -51,21 +52,26 @@ export default {
   data: () => ({
     date: null,
     modal: false
-  })
+  }),
+  methods: {
+    active() {
+      this.$refs.activator.click()
+    }
+  }
 }
 </script>
 
 <style lang="scss">
 .data-picker {
-    .v-date-picker-years {
-        -webkit-overflow-scrolling: touch;
-        user-select: none;
-        li:hover {
-            background: unset;
-        }
+  .v-date-picker-years {
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+    li:hover {
+      background: unset;
     }
-    .v-btn:hover:before {
-        background: unset;
-    }
+  }
+  .v-btn:hover:before {
+    background: unset;
+  }
 }
 </style>

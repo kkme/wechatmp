@@ -6,24 +6,28 @@
            class="avatar">
       <v-flex class="pl-3">
         <v-layout class="subheading"
-                  align-center>马小姐爱
-          <simple-svg class="certification ml-3 checked"
-                      :filepath="require(`~/static/svg/certification.svg`)" />
+                  align-center>
+          <span>{{ baseInfo.name }}</span>
+          <nuxt-link to="/user/idcheck">
+            <simple-svg class="certification ml-3"
+                        :class="{ checked: !!baseInfo.checkStatusIDcard, 'mt-1': !baseInfo.checkStatusIDcard }"
+                        :filepath="require(`~/static/svg/certification.svg`)" />
+          </nuxt-link>
 
         </v-layout>
 
-        <div class="grey--text">等级：66</div>
+        <div class="grey--text">等级：{{ baseInfo.level }}</div>
       </v-flex>
       <v-btn color="primary"
              small
-             class="mr-0">邀请赚钱</v-btn>
+             class="mr-0">邀请加入</v-btn>
     </v-layout>
     <v-layout class="text-xs-center border-top user-center-balance">
       <v-flex>
         <nuxt-link to="/user/score"
                    class="py-2"
                    v-ripple>
-          <div class="primary--text subheading">36</div>
+          <div class="primary--text subheading">{{ baseInfo.reputation }}</div>
           <div class="grey--text">信誉</div>
         </nuxt-link>
       </v-flex>
@@ -31,7 +35,7 @@
         <nuxt-link to="/user/points"
                    class="py-2"
                    v-ripple>
-          <div class="primary--text subheading">400</div>
+          <div class="primary--text subheading">{{ baseInfo.integra }}</div>
           <div class="grey--text">积分</div>
         </nuxt-link>
       </v-flex>
@@ -39,7 +43,7 @@
         <nuxt-link to="/user/wallet"
                    class="py-2"
                    v-ripple>
-          <div class="error--text subheading">250</div>
+          <div class="error--text subheading">{{ baseInfo.balance}}</div>
           <div class="grey--text">钱包</div>
         </nuxt-link>
       </v-flex>
@@ -94,6 +98,7 @@
 
 <script>
 import constant from '@const/public'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   head: () => ({
     title: '个人中心'
@@ -115,53 +120,66 @@ export default {
       { icon: 'feedback', title: '投诉反馈', href: '/user/feedback' },
       { icon: 'setting', title: '设置', href: '/user/setting' }
     ]
-  })
+  }),
+  computed: {
+    ...mapGetters({
+      baseInfo: 'users/baseInfo'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchBaseInfo: 'users/fetchBaseInfo'
+    })
+  },
+  mounted() {
+    this.fetchBaseInfo()
+  }
 }
 </script>
 
 <style lang="scss">
 .user-center-balance {
-    a {
-        display: block;
-        height: 100%;
-        width: 100%;
-    }
-    user-select: none;
+  a {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+  user-select: none;
 }
 .user-center-shortcut {
-    .user-center-resume,
-    .user-center-custom {
-        background: no-repeat center;
-        background-size: 100%;
-        min-height: 70px;
-    }
-    .user-center-resume {
-        background-image: url('~@img/center-bg-1.jpg');
-    }
-    .user-center-custom {
-        background-image: url('~@img/center-bg-2.jpg');
-    }
+  .user-center-resume,
+  .user-center-custom {
+    background: no-repeat center;
+    background-size: 100%;
+    min-height: 70px;
+  }
+  .user-center-resume {
+    background-image: url('~@img/center-bg-1.jpg');
+  }
+  .user-center-custom {
+    background-image: url('~@img/center-bg-2.jpg');
+  }
 }
 .user-center-links {
-    .svg {
-        width: 1.5rem;
-    }
+  .svg {
+    width: 1.5rem;
+  }
 }
 .certification {
-    .st0 {
-        fill: #ffa433;
-    }
+  .st0 {
+    fill: #ffa433;
+  }
+  .st1 {
+    fill: transparent;
+  }
+  &.checked {
     .st1 {
-        fill: transparent;
+      fill: #87b953;
     }
-    &.checked {
-        .st1 {
-            fill: #87b953;
-        }
-    }
-    svg {
-        width: 2em;
-        height: 2em;
-    }
+  }
+  svg {
+    width: 2em;
+    height: 2em;
+  }
 }
 </style>

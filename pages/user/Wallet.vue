@@ -6,7 +6,7 @@
       <v-layout align-center
                 justify-center
                 class="px-3 mb-5 primary--text">
-        <div class="display-1">￥ 8000</div>
+        <div class="display-1">￥ {{ baseInfo.balance }}</div>
         <v-divider class="mx-4"
                    inset
                    vertical
@@ -43,24 +43,45 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   head: () => ({
     title: '我的钱包'
   }),
   meta: {
     title: '我的钱包'
-  }}
+  },
+  computed: {
+    ...mapGetters({
+      walletLog: 'users/walletLog',
+      baseInfo: 'users/baseInfo'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchBaseInfo: 'users/fetchBaseInfo',
+      fetchWalletLog: 'users/fetchWalletLog'
+    })
+  },
+  mounted() {
+    if (!(this.baseInfo.balance >= 0)) {
+      this.fetchBaseInfo()
+    }
+    this.fetchWalletLog()
+  }
+}
 </script>
 
 <style lang="scss">
 .wallet {
-    .wallet-balance {
-        background: url('~@svg/wallet_bg.svg') no-repeat center bottom;
-        background-size: 100%;
-        height: 26.98vh;
-        & > div {
-            height: 48px;
-        }
+  .wallet-balance {
+    background: url('~@svg/wallet_bg.svg') no-repeat center bottom;
+    background-size: 100%;
+    height: 26.98vh;
+    & > div {
+      height: 48px;
     }
+  }
 }
 </style>

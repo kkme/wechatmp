@@ -21,6 +21,8 @@
 
 <script>
 import CollectionItem from '@/components/CollectionItem'
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   head: () => ({
     title: '我的收藏'
@@ -33,7 +35,20 @@ export default {
   },
   data: () => ({
     tabs: null
-  })
+  }),
+  computed: {
+    ...mapGetters({
+      collections: 'users/collections'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchCollections: 'users/fetchCollections'
+    })
+  },
+  mounted() {
+    this.fetchCollections()
+  }
 }
 </script>
 

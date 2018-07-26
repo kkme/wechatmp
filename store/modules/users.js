@@ -1,18 +1,42 @@
 import axios from 'axios'
+import UserService from '@/services/UserService'
 
 export const state = {
-  cached: [112, 1212, 121, 21, 21, 4, 21, 2, 1, 2]
+  baseInfo: {},
+  scoreLog: [],
+  pointsLog: [],
+  walletLog: [],
+  collections: [],
+  comments: []
 }
 
 export const getters = {
-  cached: state => state.cached,
-
-  positions: state => state.positions
+  baseInfo: state => state.baseInfo,
+  scoreLog: state => state.scoreLog,
+  pointsLog: state => state.pointsLog,
+  walletLog: state => state.walletLog,
+  collections: state => state.collections,
+  comments: state => state.comments
 }
 
 export const mutations = {
-  CACHE_USER(state, newUser) {
-    state.cached.push(newUser)
+  UPDATE_BASE_INFO(state, info) {
+    state.baseInfo = info
+  },
+  UPDATE_SCORE_LOG(state, scoreLog) {
+    state.scoreLog = scoreLog
+  },
+  UPDATE_POINTS_LOG(state, pointsLog) {
+    state.pointsLog = pointsLog
+  },
+  UPDATE_WALLET_LOG(state, walletLog) {
+    state.walletLog = walletLog
+  },
+  UPDATE_COLLECTIONS(state, collections) {
+    state.collections = collections
+  },
+  UPDATE_COMMENTS(state, comments) {
+    state.comments = comments
   }
 }
 
@@ -36,6 +60,48 @@ export const actions = {
       const user = response.data
       commit('CACHE_USER', user)
       return user
+    })
+  },
+
+  fetchBaseInfo({ commit }) {
+    return UserService.fetchBaseInfo().then(res => {
+      commit('UPDATE_BASE_INFO', res)
+      return res
+    })
+  },
+
+  fetchScoreLog({ commit }) {
+    return UserService.fetchScoreLog().then(res => {
+      commit('UPDATE_SCORE_LOG', res)
+      return res
+    })
+  },
+
+  fetchPointsLog({ commit }) {
+    return UserService.fetchPointsLog().then(res => {
+      commit('UPDATE_POINTS_LOG', res)
+      return res
+    })
+  },
+
+  fetchWalletLog({ commit }) {
+    return UserService.fetchWalletLog().then(res => {
+      commit('UPDATE_WALLET_LOG', res)
+      return res
+    })
+  },
+
+  fetchCollections({ commit }) {
+    return UserService.fetchCollections().then(res => {
+      commit('UPDATE_COLLECTIONS', res)
+      return res
+    })
+  },
+
+  fetchComments({ commit }) {
+    return UserService.fetchComments().then(res => {
+      commit('UPDATE_COMMENTS', res)
+      return res
     })
   }
 }

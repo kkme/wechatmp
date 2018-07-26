@@ -86,10 +86,10 @@
           <v-list-tile-title>出生年月</v-list-tile-title>
         </v-list-tile-content>
         <v-spacer></v-spacer>
-        <span class="caption text-muted">
+        <div class="caption text-muted">
           <base-date-picker type="month"
                             placeholder="请选择出生年月"></base-date-picker>
-        </span>
+        </div>
         <simple-svg :filepath="iconRight" />
       </v-list-tile>
       <v-divider class="mx-3"></v-divider>
