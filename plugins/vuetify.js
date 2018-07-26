@@ -22,7 +22,7 @@ import {
   VAvatar
 } from 'vuetify'
 
-import { Ripple } from 'vuetify/es5/directives'
+import { Ripple, Scroll } from 'vuetify/es5/directives'
 
 Vue.use(Vuetify, {
   components: {
@@ -60,6 +60,7 @@ Vue.use(Vuetify, {
     radioOff: 'iconfont icon-radio_off'
   },
   directives: {
-    Ripple
+    Ripple,
+    Scroll
   }
 })

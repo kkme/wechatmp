@@ -2,16 +2,25 @@
   max-width: 100%;
   width: 50px;
   border-radius: 50%;
+  img {
+    max-width: 100%;
+  }
 }
 .avatar-lg {
   max-width: 100%;
   width: 65px;
   border-radius: 50%;
+  img {
+    max-width: 100%;
+  }
 }
 .avatar-sm {
   max-width: 100%;
   width: 35px;
   border-radius: 50%;
+  img {
+    max-width: 100%;
+  }
 }
 
 .border-top {
@@ -62,7 +71,8 @@
     }
   }
 }
-.flex-auto {
+.flex-auto ,
+.d-flex .flex-auto{
   flex: 0 0 auto !important;
 }
 .input-rtl {
@@ -96,4 +106,8 @@ a {
   &.v-text-field--outline:not(.v-input--is-focused) .v-input__slot:hover {
     border-width: 1px !important;
   }
+}
+.image--bg {
+  background-repeat: no-repeat;
+  background-size: cover;
 }

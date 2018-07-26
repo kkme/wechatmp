@@ -8,7 +8,7 @@
         <v-layout class="subheading"
                   align-center>
           <span>{{ baseInfo.name }}</span>
-          <nuxt-link to="/user/idcheck">
+          <nuxt-link to="/user/certification">
             <simple-svg class="certification ml-3"
                         :class="{ checked: !!baseInfo.checkStatusIDcard, 'mt-1': !baseInfo.checkStatusIDcard }"
                         :filepath="require(`~/static/svg/certification.svg`)" />
@@ -139,47 +139,47 @@ export default {
 
 <style lang="scss">
 .user-center-balance {
-  a {
-    display: block;
-    height: 100%;
-    width: 100%;
-  }
-  user-select: none;
+    a {
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
+    user-select: none;
 }
 .user-center-shortcut {
-  .user-center-resume,
-  .user-center-custom {
-    background: no-repeat center;
-    background-size: 100%;
-    min-height: 70px;
-  }
-  .user-center-resume {
-    background-image: url('~@img/center-bg-1.jpg');
-  }
-  .user-center-custom {
-    background-image: url('~@img/center-bg-2.jpg');
-  }
+    .user-center-resume,
+    .user-center-custom {
+        background: no-repeat center;
+        background-size: 100%;
+        min-height: 70px;
+    }
+    .user-center-resume {
+        background-image: url('~@img/center-bg-1.jpg');
+    }
+    .user-center-custom {
+        background-image: url('~@img/center-bg-2.jpg');
+    }
 }
 .user-center-links {
-  .svg {
-    width: 1.5rem;
-  }
+    .svg {
+        width: 1.5rem;
+    }
 }
 .certification {
-  .st0 {
-    fill: #ffa433;
-  }
-  .st1 {
-    fill: transparent;
-  }
-  &.checked {
-    .st1 {
-      fill: #87b953;
+    .st0 {
+        fill: #ffa433;
     }
-  }
-  svg {
-    width: 2em;
-    height: 2em;
-  }
+    .st1 {
+        fill: transparent;
+    }
+    &.checked {
+        .st1 {
+            fill: #87b953;
+        }
+    }
+    svg {
+        width: 2em;
+        height: 2em;
+    }
 }
 </style>
