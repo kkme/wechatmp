@@ -18,8 +18,7 @@ import {
   VRadioGroup,
   VTextarea,
   VDatePicker,
-  VbottomSheet,
-  VAvatar
+  VbottomSheet
 } from 'vuetify'
 
 import { Ripple, Scroll } from 'vuetify/es5/directives'
@@ -43,12 +42,11 @@ Vue.use(Vuetify, {
     VRadioGroup,
     VTextarea,
     VDatePicker,
-    VbottomSheet,
-    VAvatar
+    VbottomSheet
   },
   theme: {
     primary: '#8bc271',
-    secondary: '#424242',
+    secondary: '#e6e6e6',
     accent: '#ffa433',
     error: '#fe4343',
     info: '#2196F3',
@@ -57,7 +55,8 @@ Vue.use(Vuetify, {
   },
   icons: {
     radioOn: 'iconfont icon-radio_on',
-    radioOff: 'iconfont icon-radio_off'
+    radioOff: 'iconfont icon-radio_off',
+    clear: 'iconfont icon-clear'
   },
   directives: {
     Ripple,

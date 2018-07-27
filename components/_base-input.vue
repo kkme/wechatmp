@@ -2,15 +2,16 @@
   <v-layout class="base-input"
             align-center>
     <v-flex>
-      <v-text-field class="subheading"
-                    :value="value"
-                    v-bind="$attrs"
-                    v-model="inputValue"
-                    @input="$emit('input', inputValue)"
-                    single-line
+      <v-text-field single-line
                     full-width
                     hide-details
-                    @click:append="$emit('click:append')"></v-text-field>
+                    flat
+                    solo
+                    @input="$emit('input', inputValue)"
+                    v-on="$listeners"
+                    v-bind="$attrs"
+                    :value="value"
+                    v-model="inputValue"></v-text-field>
     </v-flex>
     <v-btn class="base-input-btn1 body-1 ml-0 mr-3"
            v-if="sms !== null"
@@ -85,8 +86,9 @@ export default {
 <style lang="scss">
 .base-input {
     position: relative;
-    .v-input__control {
-        padding: 0 !important;
+    .v-text-field.v-text-field--solo .v-input__control {
+        min-height: 35px;
+        background-color: transparent;
     }
     .base-input-btn {
         position: absolute;
