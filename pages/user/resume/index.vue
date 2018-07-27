@@ -23,17 +23,6 @@
       <span class="caption text-muted">已上传</span>
       <simple-svg :filepath="iconRight" />
     </v-list-tile>
-
-    <v-divider class="mx-3"></v-divider>
-
-    <v-list-tile>
-      <v-list-tile-content>
-        <v-list-tile-title>默认投递简历</v-list-tile-title>
-      </v-list-tile-content>
-      <v-spacer></v-spacer>
-      <span class="caption text-muted">附件简历</span>
-      <simple-svg :filepath="iconRight" />
-    </v-list-tile>
   </v-list>
 </template>
 

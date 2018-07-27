@@ -1,22 +1,30 @@
 import axios from 'axios'
 import UserService from '@/services/UserService'
-
+import { groupBy } from 'lodash'
 export const state = {
   baseInfo: {},
   scoreLog: [],
   pointsLog: [],
   walletLog: [],
   collections: [],
-  comments: []
+  comments: [],
+  resume: {}
 }
 
 export const getters = {
   baseInfo: state => state.baseInfo,
   scoreLog: state => state.scoreLog,
+  groupedScoreLog: state => groupByMonth(state.scoreLog),
   pointsLog: state => state.pointsLog,
+  groupedPointsLog: state => {
+    let list = groupByMonth(state.pointsLog)
+    // console.log(JSON.stringify(list, null, 2))
+    return list
+  },
   walletLog: state => state.walletLog,
   collections: state => state.collections,
-  comments: state => state.comments
+  comments: state => state.comments,
+  resume: state => state.resume
 }
 
 export const mutations = {
@@ -37,6 +45,9 @@ export const mutations = {
   },
   UPDATE_COMMENTS(state, comments) {
     state.comments = comments
+  },
+  UPDATE_RESUME(state, resume) {
+    state.resume = resume
   }
 }
 
@@ -103,5 +114,22 @@ export const actions = {
       commit('UPDATE_COMMENTS', res)
       return res
     })
+  },
+
+  fetchResume({ commit }) {
+    return UserService.fetchResume().then(res => {
+      commit('UPDATE_RESUME', res)
+      return res
+    })
   }
+}
+
+const groupByMonth = data => {
+  if (!(data || data.length)) return []
+  let group = Object.entries(groupBy(data, ele => ele.createtime.substr(0, 7)))
+  return group.sort((a, b) => a[0] < b[0]).map(ele => {
+    ele[1] = ele[1].sort((a, b) => a.createtime < b.createtime)
+    // TODO count negative and positive
+    return ele
+  })
 }

@@ -33,8 +33,7 @@
           <v-list-tile-title>学校所在地</v-list-tile-title>
         </v-list-tile-content>
         <v-spacer></v-spacer>
-        <base-input placeholder="请输入支付宝账号"
-                    class="input-rtl"></base-input>
+        <base-city-selector />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>

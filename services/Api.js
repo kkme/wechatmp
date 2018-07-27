@@ -10,7 +10,7 @@ let instance = axios.create({
     'x-requested-with': 'WX_APPLETS_JOBUSER',
     'content-type': 'application/json'
   },
-  timeout: 1000
+  timeout: 100000
 })
 instance.interceptors.response.use(
   response => {

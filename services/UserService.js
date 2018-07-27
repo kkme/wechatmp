@@ -1,40 +1,63 @@
 import Api from '@/services/Api'
+import constant from '@const/public'
+const DEFAULT_PAGESIZE = constant.DEFAULT_PAGESIZE
+console.log(DEFAULT_PAGESIZE)
 
 export default {
-  // signIn: () => Api.post('../Login/login'),
+  // signIn: ((data = DEFAULT_PAGESIZE)) => Api.post('../Login/login', data),
   //
-  // signUp: () => Api.get('../Login/register'),
+  // signUp: ((data = DEFAULT_PAGESIZE)) => Api.post('../Login/register', data),
   //
-  // logout: () => Api.get('loginOut'),
+  // logout: ((data = DEFAULT_PAGESIZE)) => Api.post('loginOut', data),
 
-  fetchBaseInfo: () => Api.get('jobuser/center'), // center页面信息
+  // center页面信息
+  fetchBaseInfo: (data = DEFAULT_PAGESIZE) => Api.post('jobuser/center', data),
 
-  fetchCertification: () => Api.get('jobuser/verify'), // 用户认证信息
+  // 用户认证信息
+  fetchCertification: (data = DEFAULT_PAGESIZE) =>
+    Api.post('jobuser/verify', data),
 
-  fetchIDCard: () => Api.get('jobuser/verify/idcard'), // 用户身份证
+  // 用户身份证
+  fetchIDCard: (data = DEFAULT_PAGESIZE) =>
+    Api.post('jobuser/verify/idcard', data),
 
-  fetchCollections: () => Api.get('jobuser/collection'), // 收藏明细
+  // 收藏明细
+  fetchCollections: (data = DEFAULT_PAGESIZE) =>
+    Api.post('jobuser/collection', data),
 
-  deleteCollection: () => Api.get('jobuser/collection/delete'), // 删除收藏
+  // 删除收藏
+  deleteCollection: (data = DEFAULT_PAGESIZE) =>
+    Api.post('jobuser/collection/delete', data),
 
-  fetchHistory: () => Api.get('jobuser/history'), // 浏览记录
+  // 浏览记录
+  fetchHistory: (data = DEFAULT_PAGESIZE) => Api.post('jobuser/history', data),
 
-  fetchComments: () => Api.get('jobuser/evaluation'), // 用户评价
+  // 用户评价
+  fetchComments: (data = DEFAULT_PAGESIZE) =>
+    Api.post('jobuser/evaluation', data),
 
-  fetchScoreLog: () => Api.get('jobuser/reputation'), // 信誉记录
+  // 信誉记录
+  fetchScoreLog: (data = DEFAULT_PAGESIZE) =>
+    Api.post('jobuser/reputation', data),
 
-  fetchPointsLog: data =>
-    Api.get('jobuser/integral/receive', {
-      params: {
-        flag: true
-      }
-    }), // 积分记录
+  // 积分记录
+  fetchPointsLog: (data = DEFAULT_PAGESIZE) =>
+    Api.post('jobuser/integral', data),
 
-  fetchWalletLog: () => Api.get('jobuser/money'), // 钱包记录
+  // 钱包记录
+  fetchWalletLog: (data = DEFAULT_PAGESIZE) => Api.post('jobuser/money', data),
 
-  fetchExp: () => Api.get('jobuser/experience/receive'), // 用户经验值
+  // 用户经验值
+  fetchExp: (data = DEFAULT_PAGESIZE) => Api.post('jobuser/experience', data),
 
-  fetchFeedBack: () => Api.get('jobuser/platform/add'), // 投诉建议
+  // 投诉建议
+  fetchFeedBack: (data = DEFAULT_PAGESIZE) =>
+    Api.post('jobuser/platform/add', data),
 
-  fetchCharges: () => Api.get('jobuser/company/add') // 用户申述
+  // 用户申述
+  fetchCharges: (data = DEFAULT_PAGESIZE) =>
+    Api.post('jobuser/company/add', data),
+
+  // 简历信息
+  fetchResume: () => Api.post('jobuser/resume')
 }

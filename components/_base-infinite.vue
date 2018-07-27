@@ -2,7 +2,16 @@
   <no-ssr>
     <infinite-loading v-bind="$attrs"
                       v-on="$listeners"
-                      :spinner="spinner"></infinite-loading>
+                      :spinner="spinner">
+      <div slot="no-more"
+           class="caption text-muted">
+        没有更多数据了
+      </div>
+      <div slot="no-results"
+           class="caption text-muted">
+        没有查询到结果
+      </div>
+    </infinite-loading>
   </no-ssr>
 </template>
 
@@ -19,7 +28,6 @@ export default {
   components: {
     InfiniteLoading
   }
-
 }
 </script>
 

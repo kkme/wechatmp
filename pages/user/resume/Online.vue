@@ -190,6 +190,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 export default {
   head: () => ({
     title: '在线简历'
@@ -199,7 +200,20 @@ export default {
   },
   data: () => ({
     listIcon: require('@svg/resume_online_item_icon.svg')
-  })
+  }),
+  computed: {
+    ...mapGetters({
+      resume: 'users/resume'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchResume: 'users/fetchResume'
+    })
+  },
+  mounted() {
+    this.fetchResume()
+  }
 }
 </script>
 

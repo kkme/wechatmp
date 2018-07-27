@@ -25,6 +25,7 @@
         </v-list-tile-content>
         <v-spacer></v-spacer>
         <base-input placeholder="请输入真实姓名"
+                    v-model="info.name"
                     class="input-rtl"></base-input>
       </v-list-tile>
 
@@ -50,7 +51,7 @@
           <v-list-tile-title>性别</v-list-tile-title>
         </v-list-tile-content>
         <base-bottom-sheet class="caption text-muted"
-                           v-model="info.gender"
+                           v-model="info.sex"
                            :items="genderTypes"
                            placeholder="请选择性别"
                            ref="genderSheet"></base-bottom-sheet>
@@ -63,7 +64,7 @@
           <v-list-tile-title>身份</v-list-tile-title>
         </v-list-tile-content>
         <base-bottom-sheet class="caption text-muted"
-                           v-model="info.identity"
+                           v-model="info.identitytype"
                            :items="identityTypes"
                            placeholder="请选择身份"
                            ref="identitySheet"></base-bottom-sheet>
@@ -76,7 +77,9 @@
           <v-list-tile-title>民族</v-list-tile-title>
         </v-list-tile-content>
         <v-spacer></v-spacer>
-        <span class="caption text-muted">汉</span>
+        <base-input placeholder="请输入名族"
+                    v-model="info.family"
+                    class="input-rtl"></base-input>
         <simple-svg :filepath="iconRight" />
       </v-list-tile>
       <v-divider class="mx-3"></v-divider>
@@ -87,8 +90,9 @@
         </v-list-tile-content>
         <v-spacer></v-spacer>
         <div class="caption text-muted">
-          <base-date-picker type="month"
-                            placeholder="请选择出生年月"></base-date-picker>
+          <base-date-picker type="date"
+                            placeholder="请选择出生年月"
+                            v-model="info.birthday"></base-date-picker>
         </div>
         <simple-svg :filepath="iconRight" />
       </v-list-tile>
@@ -102,7 +106,19 @@
         <span class="caption text-muted">成都</span>
         <simple-svg :filepath="iconRight" />
       </v-list-tile>
+
       <v-divider class="mx-3"></v-divider>
+
+      <v-list-tile>
+        <v-list-tile-content>
+          <v-list-tile-title>支付宝</v-list-tile-title>
+        </v-list-tile-content>
+        <v-spacer></v-spacer>
+        <base-input placeholder="请输入支付宝"
+                    v-model="info.alipay"
+                    class="input-rtl"></base-input>
+        <simple-svg :filepath="iconRight" />
+      </v-list-tile>
     </v-list>
     <v-layout justify-center
               class="mt-5">

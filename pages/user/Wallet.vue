@@ -22,22 +22,23 @@
     <div class="px-3">
       <v-layout class="py-2 border-bottom"
                 align-center
-                v-for="n of 10"
-                :key="n">
+                v-for="item of walletLog"
+                :key="item">
         <v-flex class="text-truncate pr-3">
-          <div class="body-2 text-truncate">提现
+          <div class="body-2 text-truncate">{{ item.financetype }}
             <span class="caption text-muted "
-                  v-if="n%2!==0">(试吃调研项目，第二期工资结算)</span>
+                  v-if="n%2!==0">({{ item.directions }})</span>
           </div>
-          <div class="caption">2018-02-05 08:00</div>
+          <div class="caption">{{ item.createtime }}</div>
         </v-flex>
         <div>
           <div class="error--text text-xs-right body-2"
-               :class="n%2===0 ? 'error--text' : 'success--text'">-200</div>
+               :class="item.amount < 0 ? 'error--text' : 'success--text'">{{ item.amount }}</div>
           <div class="caption"
-               v-if="n%2===0">提现失败</div>
+               v-if="item.handlerType">{{ item.handlerType }}</div>
         </div>
       </v-layout>
+      <base-infinite @infinite="getMoreData"></base-infinite>
     </div>
   </div>
 </template>
@@ -62,13 +63,20 @@ export default {
     ...mapActions({
       fetchBaseInfo: 'users/fetchBaseInfo',
       fetchWalletLog: 'users/fetchWalletLog'
-    })
+    }),
+    getMoreData($state) {
+      this.fetchWalletLog().then(res => {
+        $state.loaded()
+        if (res.length < 20 || res.length === 0) {
+          $state.complete()
+        }
+      })
+    }
   },
   mounted() {
     if (!(this.baseInfo.balance >= 0)) {
       this.fetchBaseInfo()
     }
-    this.fetchWalletLog()
   }
 }
 </script>

@@ -1,20 +1,31 @@
 <template>
-  <div class="points-item">
-    <div class="pointes-item-title subheading px-3 py-2 grey lighten-2">5月</div>
+  <div class="points-item"
+       v-if="items">
+    <div class="pointes-item-title subheading px-3 py-2 grey lighten-2">{{ items[0] | monthToCh}}</div>
     <v-layout row
               wrap
               class="px-3 py-2 border-bottom"
-              v-for="n of 10"
-              :key="n">
-      <div>2018-02-02 08:02</div>
-      <v-flex class="px-3">系统评价</v-flex>
-      <div>43.8</div>
+              v-for="item of items[1]"
+              :key="item.id">
+      <div>{{ item.createtime }}</div>
+      <v-flex class="px-3">{{item.directions}}</v-flex>
+      <div class="subheading"
+           :class="{
+             'success--text': item.number > 0,
+             'error--text' : item.number < 0
+           }">{{item.number}}</div>
     </v-layout>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    items: {
+      type: Array
+    }
+  }
+}
 </script>
 
 <style lang="scss">

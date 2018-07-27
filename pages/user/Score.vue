@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <points-item v-for="n of list"
-                 :key="n"></points-item>
+  <div class="white">
+    <points-item v-for="item in scoreLog"
+                 :key="item[0]"
+                 :items="item"></points-item>
     <base-infinite @infinite="getMoreData"></base-infinite>
   </div>
 </template>
@@ -24,7 +25,7 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      scoreLog: 'users/scoreLog'
+      scoreLog: 'users/groupedScoreLog'
     })
   },
   methods: {
@@ -32,18 +33,13 @@ export default {
       fetchScoreLog: 'users/fetchScoreLog'
     }),
     getMoreData($state) {
-      setTimeout(() => {
-        const temp = []
-        for (let i = this.list.length + 1; i <= this.list.length + 2; i++) {
-          temp.push(i)
-        }
-        this.list = this.list.concat(temp)
+      this.fetchScoreLog().then(res => {
         $state.loaded()
-      }, 1000)
+        if (res.length < 20 || res.length === 0) {
+          $state.complete()
+        }
+      })
     }
-  },
-  mounted() {
-    this.fetchScoreLog()
   }
 }
 </script>

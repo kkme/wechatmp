@@ -61,33 +61,30 @@ export default {
     },
     onFilePicked(event) {
       this.loading = true
-      readFiles(event.target.files).then(res => {
+      let files = event.target.files
+      readFiles(files).then(res => {
         console.log(res)
 
         if (!this.multiple) {
           this.$emit('input', res[0])
         } else {
-          this.imagesUrl = unionBy(
-            res,
-            this.imagesUrl,
-            'name'
-          )
+          this.imagesUrl = unionBy(res, this.imagesUrl, 'name')
           this.$emit('input', this.imagesUrl)
         }
       })
       this.loading = false
       // TODO: upload file to server
 
-      // this.images = files[0]
-      // let formData = new FormData()
-      // formData.append('file', files[0])
-      // var request = new XMLHttpRequest();
-      // request.open("POST", "http://192.168.0.105:8085/common/upload");
-      // request.send(formData);
-      // this.uploadFile(formData).then(res => {
-      //   this.$emit('input', res.src)
-      //   this.loading = false
-      // })
+      this.images = files[0]
+      let formData = new FormData()
+      formData.append('file', files[0])
+      var request = new XMLHttpRequest()
+      request.open('POST', 'http://192.168.0.105:8085/common/upload')
+      request.send(formData)
+      this.uploadFile(formData).then(res => {
+        this.$emit('input', res.src)
+        this.loading = false
+      })
     }
   }
 }
@@ -95,38 +92,38 @@ export default {
 
 <style lang="scss">
 .image-uploader {
-    display: flex;
-    flex-wrap: wrap;
-    & > div {
-        flex: 0 0 88px;
-        width: 88px;
-        height: 88px;
-        margin: 16px;
-        position: relative;
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: contain;
-        img {
-            width: 100%;
-        }
+  display: flex;
+  flex-wrap: wrap;
+  & > div {
+    flex: 0 0 88px;
+    width: 88px;
+    height: 88px;
+    margin: 16px;
+    position: relative;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    img {
+      width: 100%;
     }
-    .image-uploader-btn {
-        .v-btn.v-btn--outline {
-            border-style: dashed;
-            height: 100%;
-            width: 100%;
-            display: block;
-            border-radius: $border-radius * 2;
-        }
+  }
+  .image-uploader-btn {
+    .v-btn.v-btn--outline {
+      border-style: dashed;
+      height: 100%;
+      width: 100%;
+      display: block;
+      border-radius: $border-radius * 2;
     }
-    .image-uploader-item-close {
-        display: block;
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 24px;
-        height: 24px;
-        transform: translate3d(50%, -50%, 0);
-    }
+  }
+  .image-uploader-item-close {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    transform: translate3d(50%, -50%, 0);
+  }
 }
 </style>

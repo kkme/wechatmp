@@ -10,7 +10,7 @@
              class="d-none"
              ref="uploadImage"
              accept="image/*"
-             @change="onFrontPicked" />
+             @change="onFilePicked(_, 'front')" />
     </v-flex>
     <v-flex class="d-flex align-center justify-center ml-2 certificate-uploader-btn"
             v-ripple>
@@ -22,7 +22,7 @@
              class="d-none"
              ref="uploadImage"
              accept="image/*"
-             @change="onBackPicked" />
+             @change="onFilePicked(_, 'back')" />
     </v-flex>
   </v-layout>
 </template>
@@ -41,12 +41,14 @@ export default {
   }),
   methods: {
     // ...mapActions(['uploadFile']),
-    onFilePicked(event) {
+    onFilePicked(event, flag) {
       this.loading = true
-      readFiles(event.target.files).then(res => {
-        console.log(res)
-        this.$emit('input', res[0])
-      })
+      console.log(event, flag)
+
+      // readFiles(event.target.files).then(res => {
+      //   console.log(res)
+      //   this.$emit('input', res[0])
+      // })
       this.loading = false
       // TODO: upload file to server
 
@@ -67,15 +69,15 @@ export default {
 
 <style lang="scss">
 .certificate-uploader {
-    height: 100px;
-    .certificate-uploader-btn {
-        border: 1px dashed $primary;
-        border-radius: $border-radius;
-        i.iconfont {
-            background-color: $primary;
-            border-radius: 50%;
-            padding: 6px;
-        }
+  height: 100px;
+  .certificate-uploader-btn {
+    border: 1px dashed $primary;
+    border-radius: $border-radius;
+    i.iconfont {
+      background-color: $primary;
+      border-radius: 50%;
+      padding: 6px;
     }
+  }
 }
 </style>
