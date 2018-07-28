@@ -9,9 +9,11 @@
         </v-list-tile-content>
 
         <!-- <div class="caption text-muted">四川省成都市锦江区</div> -->
-
-        <city-selector v-model="region">
-          <span></span>
+        <v-spacer></v-spacer>
+        <city-selector v-model="region"
+                       class="mr-3"
+                       placeholder="请选择区域"
+                       :defalutRegion="[64, 6405, 640599]">
         </city-selector>
         <simple-svg :filepath="iconRight" />
       </v-list-tile>

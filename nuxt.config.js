@@ -8,7 +8,7 @@ module.exports = {
   */
   head: {
     title: '懒虫动动兼职平台',
-    titleTemplate: '%s | My Awesome Webapp',
+    titleTemplate: '%s | 懒虫动动兼职平台',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -22,7 +22,8 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
+        href:
+          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
       },
       {
         rel: 'stylesheet',
@@ -34,10 +35,13 @@ module.exports = {
     '~/plugins/vuetify.js',
     '~/plugins/globalComponents.js',
     '~/plugins/simpleSvg.js',
-    '~/plugins/filters.js'
+    '~/plugins/filters.js',
+    { src: '~/plugins/scrollto.js', ssr: false }
   ],
   css: ['~/assets/style/app.styl', '~/assets/style/scss/app.scss'],
-  modules: [['nuxt-sass-resources-loader', ['@/assets/style/scss/_variables.scss']]],
+  modules: [
+    ['nuxt-sass-resources-loader', ['@/assets/style/scss/_variables.scss']]
+  ],
   /*
   ** Customize the progress bar color
   */
@@ -81,12 +85,27 @@ module.exports = {
           })
         ]
       }
-      config.resolve.alias['@const'] = path.join(this.options.rootDir, 'constant')
-      config.resolve.alias['@helper'] = path.join(this.options.rootDir, 'helper')
-      config.resolve.alias['@api'] = path.join(this.options.rootDir, 'service/Api')
+      config.resolve.alias['@const'] = path.join(
+        this.options.rootDir,
+        'constant'
+      )
+      config.resolve.alias['@helper'] = path.join(
+        this.options.rootDir,
+        'helper'
+      )
+      config.resolve.alias['@api'] = path.join(
+        this.options.rootDir,
+        'service/Api'
+      )
       config.resolve.alias['@pages'] = path.join(this.options.rootDir, 'pages')
-      config.resolve.alias['@img'] = path.join(this.options.rootDir, 'static/img/')
-      config.resolve.alias['@svg'] = path.join(this.options.rootDir, 'static/svg/')
+      config.resolve.alias['@img'] = path.join(
+        this.options.rootDir,
+        'static/img/'
+      )
+      config.resolve.alias['@svg'] = path.join(
+        this.options.rootDir,
+        'static/svg/'
+      )
     }
   }
 }

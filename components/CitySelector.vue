@@ -1,13 +1,13 @@
 <template>
-  <v-layout row
-            justify-center
-            class="city-selector">
+  <div class="city-selector">
     <v-dialog v-model="dialog"
               fullscreen
               hide-overlay
               transition="dialog-bottom-transition">
-      <div slot="activator">
-        <slot>打开</slot>
+
+      <div slot="activator"
+           :class="{'grey--text': !currentLocation }">
+        <slot>{{currentLocation || placeholder}}</slot>
       </div>
       <v-card>
         <div class="city-selector-action">
@@ -42,28 +42,29 @@
             当前位置：
             <span class="primary--text">成都</span>
             <v-spacer></v-spacer>
-            刷新
+            <a href="#"
+               v-scroll-to="{
+                    el: '#province64',
+                    container: '.city-selector-main-provinces',
+                }">刷新</a>
           </div>
         </div>
         <v-layout class="city-selector-main">
           <v-list class="city-selector-main-provinces secondary">
-            <!-- <v-list-tile class="active city-selector-main-province">
-              <v-list-tile-content>
-                <span class="body-1">热门</span>
-              </v-list-tile-content>
-            </v-list-tile> -->
             <v-list-tile class="city-selector-main-province"
                          :class="{active: +province.id === +currentProvince.id}"
                          v-for="province of provinces"
                          :key="province.id"
-                         @click="setCurrentProvince(province)">
+                         @click="setCurrentProvince(province)"
+                         :id="`province${province.id}`">
               <v-list-tile-content>
                 <span class="body-1">{{ province.areaname }}</span>
               </v-list-tile-content>
             </v-list-tile>
 
           </v-list>
-          <v-list class="city-selector-main-cities">
+          <v-list class="city-selector-main-cities"
+                  v-if="disableCity === false">
             <v-list-tile class="city-selector-main-city"
                          v-for="city of currentCities"
                          :key="city.id"
@@ -74,7 +75,8 @@
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
-          <v-list class="city-selector-main-cities">
+          <v-list class="city-selector-main-cities"
+                  v-if="disableCity === false && disableCounty === false">
             <v-list-tile class="city-selector-main-city"
                          v-for="county of currentCounties"
                          :key="county.id"
@@ -88,7 +90,7 @@
         </v-layout>
       </v-card>
     </v-dialog>
-  </v-layout>
+  </div>
 </template>
 
 <script>
@@ -102,6 +104,11 @@ export default {
     disableCounty: {
       type: [String, Boolean],
       default: false
+    },
+    placeholder: String,
+    defalutRegion: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
@@ -133,6 +140,22 @@ export default {
         area => +area.pid === +this.currentCity.id
       )
       return counties
+    },
+    currentLocation() {
+      let location = ''
+      let province = this.currentProvince.areaname || ''
+      let city = this.currentCity.areaname || ''
+      let county = this.currentCounty.areaname || ''
+      if (!province) return ''
+      location += province
+      if (this.disableCity === false) {
+        location += city
+        if (this.disableCounty === false) {
+          location += county
+        }
+        return location
+      }
+      return location
     }
   },
   methods: {
@@ -147,7 +170,7 @@ export default {
     },
     setCurrentCity(city) {
       this.currentCity = city
-      this.currentCounty = 0
+      this.currentCounty = {}
       this.fetchCities({ id: city.id })
     },
     setCurrentCounty(county) {
@@ -159,35 +182,52 @@ export default {
         province: this.currentProvince,
         city: this.currentCity,
         county: this.currentCounty,
-        location: this.currentProvince
+        location: this.currentLocation
       })
     },
-    getLocation() {
-      let location = ''
-      location += this.currentProvince.areaname
-      if (this.disableCity === false) {
-        location += this.currentCity.areaname
-        if (this.disableCounty === false) {
-          location += this.currentCounty.areaname
+    getDefault() {
+      let region = this.defalutRegion
+      if (region.length) {
+        if (region[0]) {
+          this.fetchCities().then(() => {
+            this.currentProvince = this.areas.find(
+              area => +area.id === +region[0]
+            )
+            setTimeout(() => {
+              this.$nextTick(
+                this.$scrollTo('#province64', 1000, {
+                  container: '.city-selector-main-provinces',
+                  cancelable: false,
+                  onStart: () => console.log(111),
+                  onDone: () => console.log(222),
+                  onCancel: () => console.log(333)
+                })
+              )
+            }, 5000)
+          })
         }
-        return location
-      }
-      return location
+        if (region[1]) {
+          this.fetchCities({ id: region[0] }).then(() => {
+            this.currentCity = this.areas.find(area => +area.id === +region[1])
+          })
+        }
+        if (region[2]) {
+          this.fetchCities({ id: region[1] }).then(() => {
+            this.currentCounty = this.areas.find(
+              area => +area.id === +region[2]
+            )
+          })
+        }
+      } else this.fetchCities()
     }
   },
   mounted() {
-    this.fetchCities()
+    this.getDefault()
   }
 }
 </script>
 
 <style lang="scss">
-.city-selector-action {
-  // position: fixed;
-  // top: 0;
-  // left:0;
-  // width: 100%;
-}
 .city-selector-main {
   height: calc(100vh - 138px);
   display: flex;
