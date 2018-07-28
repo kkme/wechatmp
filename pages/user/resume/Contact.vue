@@ -10,7 +10,9 @@
 
         <!-- <div class="caption text-muted">四川省成都市锦江区</div> -->
 
-        <city-selector></city-selector>
+        <city-selector v-model="region">
+          <span></span>
+        </city-selector>
         <simple-svg :filepath="iconRight" />
       </v-list-tile>
 
@@ -98,8 +100,10 @@ export default {
     title: '联系方式'
   },
   data: () => ({
-    iconRight: require('@svg/right.svg')
-  })
+    iconRight: require('@svg/right.svg'),
+    region: {}
+  }),
+  computed: {}
 }
 </script>
 
