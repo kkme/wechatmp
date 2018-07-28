@@ -1,15 +1,28 @@
+import CommonService from '@/services/CommonService'
+import { unionBy } from 'lodash'
 export const state = {
-  meta: null
+  areas: []
 }
 
 export const getters = {
-  meta: state => state.meta
+  areas: state => state.areas
 }
 
 export const mutations = {
-  SET_META(state, newMeta) {
-    state.meta = newMeta[0]
+  UPDATE_CITY(state, areas) {
+    state.areas = unionBy(areas, state.areas, 'id')
   }
 }
 
-export const actions = {}
+export const actions = {
+  fetchCities({ commit, state }, payload) {
+    if (payload) {
+      let exist = state.areas.find(area => +area.pid === +payload.id)
+      if (exist) return
+    }
+    return CommonService.fetchCities(payload).then(res => {
+      commit('UPDATE_CITY', res)
+      return res
+    })
+  }
+}

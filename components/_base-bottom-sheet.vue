@@ -13,6 +13,7 @@
                              :class="{ 'primary--text': item.value === value }">{{ item.label }}</v-list-tile-title>
         </v-list-tile>
         <v-divider v-if="index !== items.length - 1"
+                   :key="item.value"
                    class="mx-3" />
       </template>
     </v-list>
