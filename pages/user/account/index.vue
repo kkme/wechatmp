@@ -10,7 +10,7 @@
         <v-list-tile-content class="pl-2">
           <v-list-tile-title v-text="item.title"></v-list-tile-title>
         </v-list-tile-content>
-        <simple-svg :filepath="require('~/static/svg/right.svg')" />
+        <simple-svg style="none" :filepath="require('~/static/svg/right.svg')" />
       </v-list-tile>
       <div class="px-3"
            v-if="index !== items.length - 1"
