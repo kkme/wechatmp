@@ -8,7 +8,7 @@ export default () => {
     // Do not look in subdirectories
     false,
     // Only include "_" prefixed .svg files
-    /^\.\/_[\w-]+\.svg$/
+    /\.\/_[\w-]+\.icon\.svg$/
   )
 
   // For each matching file name...
@@ -21,18 +21,15 @@ export default () => {
         fileName
           // Remove the "./_" from the beginning
           .replace(/^\.\/_/, '')
+          // Remove the ".icon" in the middle
+          .replace(/\.icon/, '')
           // Remove the file extension from the end
           .replace(/\.\w+$/, '')
       )
     )
     // Globally register the component
 
-    console.log(
-      `svg:'${componentName}' has been registed as Svg${componentName}`
-    )
-    Vue.component(
-      `Svg${componentName}`,
-      componentConfig.default || componentConfig
-    )
+    console.log(`svg:'${componentName}' has been registed as Svg${componentName}`)
+    Vue.component(`Svg${componentName}`, componentConfig.default || componentConfig)
   })
 }
