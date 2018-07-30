@@ -1,11 +1,5 @@
 <template>
-  <!-- <v-layout class="bottom-nav text-xs-center">
-    <v-flex>1</v-flex>
-    <v-flex>1</v-flex>
-    <v-flex>1</v-flex>
-    <v-flex>1</v-flex>
-    <v-flex>1</v-flex>
-  </v-layout> -->
+
   <v-bottom-nav :active.sync="bottomNav"
                 :value="true"
                 fixed
@@ -19,7 +13,8 @@
            :key="index"
            :value="link.label">
       <span v-text="link.title"></span>
-      <simple-svg :filepath="link.icon" />
+      <component :is="link.icon"
+                 class="svg" />
     </v-btn>
   </v-bottom-nav>
 </template>
@@ -29,36 +24,21 @@ export default {
   data: () => ({
     bottomNav: 'user',
     links: [
-      {
-        title: '兼职',
-        href: '/job',
-        label: 'job',
-        icon: require('@svg/job.svg')
-      },
-      {
-        title: '战队',
-        label: 'team',
-        href: '/team',
-        icon: require('@svg/team.svg')
-      },
+      { title: '兼职', href: '/job', label: 'job', icon: 'SvgJob' },
+      { title: '战队', label: 'team', href: '/team', icon: 'SvgTeam' },
       {
         title: '排行榜',
         label: 'ranking',
         href: '/ranking',
-        icon: require('@svg/ranking.svg')
+        icon: 'SvgRanking'
       },
       {
         title: '消息',
         label: 'message',
         href: '/message',
-        icon: require('@svg/message.svg')
+        icon: 'SvgMessage'
       },
-      {
-        title: '我的',
-        label: 'user',
-        href: '/user',
-        icon: require('@svg/center.svg')
-      }
+      { title: '我的', label: 'user', href: '/user', icon: 'SvgCenter' }
     ]
   })
 }

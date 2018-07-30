@@ -7,7 +7,6 @@
         <v-list-tile-content>
           <v-list-tile-title>居住地址</v-list-tile-title>
         </v-list-tile-content>
-
         <!-- <div class="caption text-muted">四川省成都市锦江区</div> -->
         <v-spacer></v-spacer>
         <city-selector v-model="region"
@@ -15,7 +14,7 @@
                        placeholder="请选择区域"
                        :defalutRegion="[64, 6405, 640599]">
         </city-selector>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -27,7 +26,7 @@
 
         <base-input class="caption text-muted input-rtl"
                     placeholder="请选择地址"></base-input>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -39,7 +38,7 @@
 
         <base-input class="caption text-muted input-rtl"
                     placeholder="请输入联系电话"></base-input>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -51,7 +50,7 @@
 
         <base-input class="caption text-muted input-rtl"
                     placeholder="请输入电子邮箱"></base-input>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -62,7 +61,7 @@
 
         <base-input class="caption text-muted input-rtl"
                     placeholder="请输入QQ号码"></base-input>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -73,7 +72,7 @@
 
         <base-input class="caption text-muted input-rtl"
                     placeholder="请输入微信账号"></base-input>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -85,7 +84,6 @@
                color="primary">保存</v-btn>
       </v-flex>
     </v-layout>
-
   </div>
 </template>
 
@@ -102,7 +100,6 @@ export default {
     title: '联系方式'
   },
   data: () => ({
-    iconRight: require('@svg/right.svg'),
     region: {}
   }),
   computed: {}

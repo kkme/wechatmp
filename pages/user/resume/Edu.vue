@@ -9,7 +9,7 @@
         </v-list-tile-content>
         <v-spacer></v-spacer>
         <div class="caption text-muted">四川省成都市锦江区</div>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -21,7 +21,7 @@
         <v-spacer></v-spacer>
         <base-input class="caption text-muted input-rtl"
                     placeholder="请输入学校名称"></base-input>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -36,7 +36,7 @@
                            :items="eduList"
                            placeholder="请选择学历"
                            ref="eduSheet"></base-bottom-sheet>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -48,7 +48,7 @@
         <v-spacer></v-spacer>
         <base-input class="caption text-muted input-rtl"
                     placeholder="请选择专业"></base-input>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -62,7 +62,7 @@
                             placeholder="请选择入学日期"
                             ref="dayone"></base-date-picker>
         </div>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -76,7 +76,7 @@
                             placeholder="请选择毕业日期"
                             ref="graduate"></base-date-picker>
         </div>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -102,7 +102,6 @@ export default {
     title: '学历信息'
   },
   data: () => ({
-    iconRight: require('@svg/right.svg'),
     eduList,
     edu: {}
   })

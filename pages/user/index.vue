@@ -9,9 +9,8 @@
                   align-center>
           <span>{{ baseInfo.name }}</span>
           <nuxt-link to="/user/certification">
-            <simple-svg class="certification ml-3"
-                        :class="{ checked: !!baseInfo.checkStatusIDcard, 'mt-1': !baseInfo.checkStatusIDcard }"
-                        :filepath="require(`~/static/svg/certification.svg`)" />
+            <svg-certification class="certification ml-3"
+                               :class="{ checked: !!baseInfo.checkStatusIDcard, 'mt-1': !baseInfo.checkStatusIDcard }" />
           </nuxt-link>
 
         </v-layout>
@@ -80,14 +79,15 @@
                      }"
                      :key="index">
 
-          <simple-svg v-if="item.icon"
-                      :filepath="require(`~/static/svg/${item.icon}.svg`)" />
+          <component v-if="item.icon"
+                     :is="item.icon"
+                     class="svg-sm" />
 
           <v-list-tile-content class="pl-2">
             <v-list-tile-title v-text="item.title"></v-list-tile-title>
           </v-list-tile-content>
 
-          <simple-svg :filepath="require('~/static/svg/right.svg')" />
+          <svg-right class="svg-sm" />
         </v-list-tile>
         <base-divider :key="item.icon"
                       v-if="index !== 0 && (index + 1) % 4 === 0 && (index + 1) !== item.length"></base-divider>
@@ -108,17 +108,17 @@ export default {
   },
   data: () => ({
     items: [
-      { icon: 'collection', title: '我的收藏', href: '/user/collection' },
-      { icon: 'history', title: '浏览记录', href: '/user/history' },
-      { icon: 'comment', title: '我的评价', href: '/user/comment' },
-      { icon: 'safety', title: '账户安全', href: '/user/account' },
+      { icon: 'svg-collection', title: '我的收藏', href: '/user/collection' },
+      { icon: 'svg-history', title: '浏览记录', href: '/user/history' },
+      { icon: 'svg-comment', title: '我的评价', href: '/user/comment' },
+      { icon: 'svg-safety', title: '账户安全', href: '/user/account' },
       {
-        icon: 'contactus',
+        icon: 'svg-contactus',
         title: '联系客服',
         href: `tel:${constant.CUSTOM_SERVICE_TEL}`
       },
-      { icon: 'feedback', title: '投诉反馈', href: '/user/feedback' },
-      { icon: 'setting', title: '设置', href: '/user/setting' }
+      { icon: 'svg-feedback', title: '投诉反馈', href: '/user/feedback' },
+      { icon: 'svg-setting', title: '设置', href: '/user/setting' }
     ]
   }),
   computed: {

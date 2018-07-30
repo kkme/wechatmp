@@ -23,11 +23,11 @@
       <v-layout class="py-2 border-bottom"
                 align-center
                 v-for="item of walletLog"
-                :key="item">
+                :key="item.id">
         <v-flex class="text-truncate pr-3">
           <div class="body-2 text-truncate">{{ item.financetype }}
             <span class="caption text-muted "
-                  v-if="n%2!==0">({{ item.directions }})</span>
+                  v-if="item.directions">({{ item.directions }})</span>
           </div>
           <div class="caption">{{ item.createtime }}</div>
         </v-flex>

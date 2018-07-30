@@ -1,11 +1,7 @@
 const nodeExternals = require('webpack-node-externals')
 const path = require('path')
-// const resolve = dir => path.join(__dirname, dir)
 
 module.exports = {
-  /*
-  ** Headers of the page
-  */
   head: {
     title: '懒虫动动兼职平台',
     titleTemplate: '%s | 懒虫动动兼职平台',
@@ -36,6 +32,7 @@ module.exports = {
     '~/plugins/globalComponents.js',
     '~/plugins/simpleSvg.js',
     '~/plugins/filters.js',
+    '~/plugins/svgicons.js',
     { src: '~/plugins/scrollto.js', ssr: false }
   ],
   css: ['~/assets/style/app.styl', '~/assets/style/scss/app.scss'],
@@ -106,6 +103,30 @@ module.exports = {
         this.options.rootDir,
         'static/svg/'
       )
+
+      const svgRule = config.module.rules.find(rule => {
+        if (rule.test.test('a.svg')) {
+          return rule.use.find(loader => loader.loader === 'url-loader')
+        }
+      })
+      svgRule.exclude = /\.svg$/
+      console.log(svgRule)
+
+      config.module.rules.push({
+        test: /\.svg$/,
+        loader: 'vue-svg-loader'
+      })
+
+      // const urlLoader = config.module.rules.find(
+      //   rule => rule.loader === 'url-loader'
+      // )
+      // urlLoader.test = /\.(png|jpe?g|gif)$/
+
+      // config.module.rules.push({
+      //   test: /\.svg$/,
+      //   loader: 'svg-inline-loader',
+      //   exclude: /node_modules/
+      // })
     }
   }
 }

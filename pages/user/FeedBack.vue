@@ -25,7 +25,7 @@
       </div>
     </div>
     <image-uploader></image-uploader>
-    <v-layout class="mt-5"
+    <v-layout class="mt-3"
               align-center
               justify-center>
       <v-flex xs10>

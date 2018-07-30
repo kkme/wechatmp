@@ -24,5 +24,9 @@ export const actions = {
       commit('UPDATE_CITY', res)
       return res
     })
+  },
+
+  uploadFile({ commit }, payload) {
+    return CommonService.uploadFile(payload)
   }
 }

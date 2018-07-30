@@ -1,26 +1,32 @@
 <template>
-  <v-layout row>
+  <v-layout row
+            class="message-index">
     <v-flex xs12>
-      <v-card>
-        <v-list two-line
-                subheader>
+      <v-card class="h-100">
+        <v-list two-line>
+          <template v-for="(item, index) in items">
+            <v-list-tile :key="item.index"
+                         nuxt
+                         :to="item.href">
+              <v-list-tile-avatar>
+                <component :is="item.icon"
+                           class="svg-sm" />
+              </v-list-tile-avatar>
 
-          <v-list-tile v-for="item in items"
+              <v-list-tile-content>
+                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+              </v-list-tile-content>
+
+              <span class="caption text-muted">共
+                <span class="primary--text body-2">23</span>条动态</span>
+              <v-list-tile-action>
+                <svg-right class="svg-sm" />
+              </v-list-tile-action>
+            </v-list-tile>
+            <v-divider inset
                        :key="item.title"
-                       @click="">
-            <v-list-tile-avatar>
-              <simple-svg :filepath="item.icon" />
-            </v-list-tile-avatar>
-
-            <v-list-tile-content>
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-            </v-list-tile-content>
-
-            <v-list-tile-action>
-              <simple-svg :filepath="require('@svg/right.svg')" />
-            </v-list-tile-action>
-          </v-list-tile>
-          <v-divider inset></v-divider>
+                       v-if="index !== items.length - 1"></v-divider>
+          </template>
         </v-list>
       </v-card>
     </v-flex>
@@ -28,11 +34,6 @@
 </template>
 
 <script>
-import iconMission from '@svg/notice_mission.svg'
-import iconApply from '@svg/notice_apply.svg'
-import iconTeam from '@svg/notice_team.svg'
-import iconSys from '@svg/notice_sys.svg'
-import iconCharge from '@svg/notice_charge.svg'
 export default {
   head: () => ({
     title: '消息中心'
@@ -40,14 +41,18 @@ export default {
   meta: {
     title: '消息中心'
   },
-  data () {
+  data() {
     return {
       items: [
-        { icon: iconMission, iconClass: 'grey lighten-1 white--text', title: 'Photos', subtitle: 'Jan 9, 2014' },
-        { icon: iconApply, iconClass: 'grey lighten-1 white--text', title: 'Recipes', subtitle: 'Jan 17, 2014' },
-        { icon: iconTeam, iconClass: 'grey lighten-1 white--text', title: 'Work', subtitle: 'Jan 28, 2014' },
-        { icon: iconSys, iconClass: 'grey lighten-1 white--text', title: 'Work', subtitle: 'Jan 28, 2014' },
-        { icon: iconCharge, iconClass: 'grey lighten-1 white--text', title: 'Work', subtitle: 'Jan 28, 2014' }
+        {
+          icon: 'SvgNoticeMission',
+          title: '任务通知',
+          href: '/message/mission'
+        },
+        { icon: 'SvgNoticeApply', title: '申请确认', href: '/message/apply' },
+        { icon: 'SvgNoticeTeam', title: '战队消息', href: '/message/team' },
+        { icon: 'SvgNoticeSys', title: '系统消息', href: '/message/sys' },
+        { icon: 'SvgNoticeCharge', title: '投诉反馈', href: '/message/charge' }
       ]
     }
   }
@@ -55,4 +60,9 @@ export default {
 </script>
 
 <style lang="scss">
+.message-index {
+  .v-list__tile__action {
+    min-width: 2em;
+  }
+}
 </style>

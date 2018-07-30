@@ -14,7 +14,7 @@
                         ref="imageInput"
                         :multiple="false"
                         v-model="avatar" />
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -41,7 +41,7 @@
                            :items="eduList"
                            placeholder="请选择学历"
                            ref="eduSheet"></base-bottom-sheet>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -55,7 +55,7 @@
                            :items="genderTypes"
                            placeholder="请选择性别"
                            ref="genderSheet"></base-bottom-sheet>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
       <v-divider class="mx-3"></v-divider>
 
@@ -68,7 +68,7 @@
                            :items="identityTypes"
                            placeholder="请选择身份"
                            ref="identitySheet"></base-bottom-sheet>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
       <v-divider class="mx-3"></v-divider>
 
@@ -80,7 +80,7 @@
         <base-input placeholder="请输入名族"
                     v-model="info.family"
                     class="input-rtl"></base-input>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
       <v-divider class="mx-3"></v-divider>
 
@@ -94,7 +94,7 @@
                             placeholder="请选择出生年月"
                             v-model="info.birthday"></base-date-picker>
         </div>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
       <v-divider class="mx-3"></v-divider>
 
@@ -104,7 +104,7 @@
         </v-list-tile-content>
         <v-spacer></v-spacer>
         <span class="caption text-muted">成都</span>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -117,7 +117,7 @@
         <base-input placeholder="请输入支付宝"
                     v-model="info.alipay"
                     class="input-rtl"></base-input>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
     </v-list>
     <v-layout justify-center
@@ -146,7 +146,6 @@ export default {
     title: '基本信息'
   },
   data: () => ({
-    iconRight: require('@svg/right.svg'),
     info: {
       gender: 'SEX_BOY',
       identity: 'IDENTITY_OTHER'

@@ -42,18 +42,18 @@
       <v-layout class="py-2"
                 wrap>
         <div class="d-flex">
-          <simple-svg :filepath="require('@svg/phone.svg')" />13551065642</div>
+          <svg-phone class="svg-sm" />13551065642</div>
         <v-spacer></v-spacer>
         <div class="d-flex">
-          <simple-svg :filepath="require('@svg/wechat.svg')" />13551066564</div>
+          <svg-wechat class="svg-sm" />13551066564</div>
       </v-layout>
       <v-layout class="py-2"
                 wrap>
         <div class="d-flex">
-          <simple-svg :filepath="require('@svg/mail.svg')" />lirunw@gmail.com</div>
+          <svg-mail class="svg-sm" />lirunw@gmail.com</div>
         <v-spacer></v-spacer>
         <div class="d-flex">
-          <simple-svg :filepath="require('@svg/qq.svg')" />363372111</div>
+          <svg-qq class="svg-sm" />363372111</div>
       </v-layout>
     </div>
 
@@ -70,7 +70,7 @@
                     v-for="n of 3"
                     :key="n">
             <div class="resume-online-item-icon mr-3 white">
-              <simple-svg :filepath="listIcon" />
+              <SvgResumeItemListIcon class="svg-sm" />
             </div>
             <v-flex>
               <div>2013-09 - 2016-08</div>
@@ -113,7 +113,7 @@
                     v-for="n of 5"
                     :key="n">
             <div class="resume-online-item-icon mr-3 white">
-              <simple-svg :filepath="listIcon" />
+              <SvgResumeItemListIcon class="svg-sm" />
             </div>
             <v-flex>
               <div>销售顾问︱兼职</div>
@@ -198,9 +198,7 @@ export default {
   meta: {
     title: '在线简历'
   },
-  data: () => ({
-    listIcon: require('@svg/resume_online_item_icon.svg')
-  }),
+  data: () => ({}),
   computed: {
     ...mapGetters({
       resume: 'users/resume'

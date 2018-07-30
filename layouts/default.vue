@@ -14,7 +14,7 @@
       <div v-text="title"></div>
     </v-toolbar>
     <v-content>
-      <v-container class="pa-0">
+      <v-container class="pa-0 main-container">
         <nuxt />
       </v-container>
     </v-content>
@@ -49,3 +49,8 @@ export default {
   }
 }
 </script>
+<style scss="lang">
+.main-container {
+  height: 100%;
+}
+</style>

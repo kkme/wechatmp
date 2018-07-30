@@ -9,7 +9,7 @@
         </v-list-tile-content>
         <v-spacer></v-spacer>
         <div class="caption text-muted">四川省成都市锦江区</div>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -21,7 +21,7 @@
         <v-spacer></v-spacer>
         <base-input class="caption text-muted input-rtl"
                     placeholder="请选择地址"></base-input>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -33,7 +33,7 @@
         <v-spacer></v-spacer>
         <base-input class="caption text-muted input-rtl"
                     placeholder="请输入联系电话"></base-input>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -45,7 +45,7 @@
         <v-spacer></v-spacer>
         <base-input class="caption text-muted input-rtl"
                     placeholder="请输入电子邮箱"></base-input>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -57,7 +57,7 @@
         <base-date-picker type="month"
                           placeholder="工作开始日期"
                           ref="beginDate"></base-date-picker>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -69,7 +69,7 @@
         <base-date-picker type="month"
                           placeholder="工作结束日期"
                           ref="endDate"></base-date-picker>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -101,7 +101,7 @@
                class="px-3"
                :class="{ 'grey--text': !exp.note }"> {{ exp.note || '添加工作经验' }}</div>
         </full-screen-dialog>
-        <simple-svg :filepath="iconRight" />
+        <svg-right class="svg-sm" />
       </v-list-tile>
 
       <v-divider class="mx-3"></v-divider>
@@ -130,7 +130,6 @@ export default {
     title: '工作经验'
   },
   data: () => ({
-    iconRight: require('@svg/right.svg'),
     exp: {}
   })
 }

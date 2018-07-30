@@ -37,6 +37,7 @@
 import { unionBy } from 'lodash'
 import constant from '@const/public'
 import { readFiles } from '@helper'
+import { mapActions } from 'vuex'
 export default {
   props: {
     max: Number,
@@ -63,8 +64,6 @@ export default {
       this.loading = true
       let files = event.target.files
       readFiles(files).then(res => {
-        console.log(res)
-
         if (!this.multiple) {
           this.$emit('input', res[0])
         } else {
@@ -75,17 +74,22 @@ export default {
       this.loading = false
       // TODO: upload file to server
 
-      this.images = files[0]
-      let formData = new FormData()
-      formData.append('file', files[0])
-      var request = new XMLHttpRequest()
-      request.open('POST', 'http://192.168.0.105:8085/common/upload')
-      request.send(formData)
-      this.uploadFile(formData).then(res => {
-        this.$emit('input', res.src)
-        this.loading = false
+      // let formData = new FormData()
+      // formData.append('file', files)
+      // return this.uploadFile(formData).
+      let formDataPromise = Array.from(files).map(file => {
+        let formData = new FormData()
+        formData.append('file', file)
+        return this.uploadFile(formData)
       })
-    }
+
+      Promise.all(formDataPromise).then(res => {
+        console.log({ res })
+      })
+    },
+    ...mapActions({
+      uploadFile: 'common/uploadFile'
+    })
   }
 }
 </script>

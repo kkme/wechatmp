@@ -10,7 +10,7 @@
       <v-spacer></v-spacer>
       <span class="caption text-muted font-weight-bold">已完成：</span>
       <span class="success--text body-2">40%</span>
-      <simple-svg :filepath="iconRight" />
+      <svg-right class="svg-sm" />
     </v-list-tile>
 
     <v-divider class="mx-3"></v-divider>
@@ -21,7 +21,7 @@
       </v-list-tile-content>
       <v-spacer></v-spacer>
       <span class="caption text-muted">已上传</span>
-      <simple-svg :filepath="iconRight" />
+      <svg-right class="svg-sm" />
     </v-list-tile>
   </v-list>
 </template>
@@ -35,9 +35,7 @@ export default {
   meta: {
     title: '我的简历'
   },
-  data: () => ({
-    iconRight: require('~/static/svg/right.svg')
-  }),
+  data: () => ({}),
   methods: {
     ...mapActions({
       fetchUser: 'user/fetchUser'

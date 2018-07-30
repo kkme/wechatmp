@@ -70,7 +70,7 @@
                          :key="city.id"
                          @click="setCurrentCity(city)">
               <v-list-tile-content>
-                <span class="px-4 body-1"
+                <span class="px-3 body-1"
                       :class="{active: +city.id === +currentCity.id}">{{ city.areaname }}</span>
               </v-list-tile-content>
             </v-list-tile>
@@ -82,7 +82,7 @@
                          :key="county.id"
                          @click="setCurrentCounty(county)">
               <v-list-tile-content>
-                <span class="px-4 body-1"
+                <span class="px-3 body-1"
                       :class="{active: +county.id === +currentCounty.id}">{{ county.areaname }}</span>
               </v-list-tile-content>
             </v-list-tile>
@@ -113,7 +113,7 @@ export default {
   },
   data() {
     return {
-      dialog: true,
+      dialog: false,
       inputValue: '',
       currentProvince: {},
       currentCity: {},
@@ -200,7 +200,7 @@ export default {
                   cancelable: false,
                   onStart: () => console.log(111),
                   onDone: () => console.log(222),
-                  onCancel: () => console.log(333)
+                  onCancel: () => console.log('为什么取消了??????!!!!!')
                 })
               )
             }, 5000)
@@ -272,6 +272,11 @@ export default {
         background-color: lighten($primary, 15%);
       }
     }
+  }
+  .body-1 {
+    line-height: 1.2;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
 }
 </style>

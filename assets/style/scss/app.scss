@@ -54,6 +54,14 @@
     height: inherit;
   }
 }
+.svg-sm {
+  width: $svg-icon-width;
+  height: $svg-icon-width;
+}
+.svg {
+  width: $svg-icon-width * 1.5;
+  height: $svg-icon-width * 1.5;
+}
 .text-truncate {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -71,8 +79,8 @@
     }
   }
 }
-.flex-auto ,
-.d-flex .flex-auto{
+.flex-auto,
+.d-flex .flex-auto {
   flex: 0 0 auto !important;
 }
 .input-rtl {
@@ -110,4 +118,11 @@ a {
 .image--bg {
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.h-100 {
+  height: 100%;
+}
+.w-100 {
+  width: 100%;
 }
