@@ -1,17 +1,17 @@
 <template>
   <div class="white message-mission">
-    <v-layout row
-              wrap>
-      <icon class="svg-sm" /> 消息
-    </v-layout>
+    <msg-item v-for="n of 10"
+              :key="n"
+              class="message-item"
+              :class="{active: n%2 === 0}"></msg-item>
   </div>
 </template>
 
 <script>
-import Icon from '@svg/message_dot.svg'
+import MsgItem from '@/components/MessageItem'
 export default {
   components: {
-    Icon
+    MsgItem
   },
   head: () => ({
     title: '消息中心'
@@ -19,22 +19,6 @@ export default {
   meta: {
     title: '消息中心'
   },
-  deta: () => ({
-    icon: Icon,
-    items: [
-      {
-        title: '签到任务被驳回',
-        date: '2018-09-08 08:00',
-        msg:
-          '寻找、分享自己家族的英雄故事（不同年代的报国家书老物件、报国故事等），将相关照片、视频、文字，发送至人民日报征集邮箱yingxiong@pdnews.cn，以及各平台征集邮箱。'
-      }
-    ]
-  })
+  deta: () => ({})
 }
 </script>
-
-<style lang="scss">
-.message-mission {
-  min-height: inherit;
-}
-</style>
