@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 1024 1024" style="enable-background:new 0 0 1024 1024;" xml:space="preserve">
+<g id="图层_1" style="display:none;">
+</g>
+<g id="图层_3">
+	<g>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M672.5,704H799v64H672.5V704z"/>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M673.5,576H800v64H673.5V576z"/>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M673.1,448h126.5v64H673.1V448z"/>
+	</g>
+	<g>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M448,832h126.5v64H448V832z"/>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M448.5,704H575v64H448.5V704z"/>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M449.5,576H576v64H449.5V576z"/>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M449.1,448h126.5v64H449.1V448z"/>
+	</g>
+	<g>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M224,832h126.5v64H224V832z"/>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M224.5,704H351v64H224.5V704z"/>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M225.5,576H352v64H225.5V576z"/>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M225.1,448h126.5v64H225.1V448z"/>
+	</g>
+	<g>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M322.7,0h26.7C386.2,0,416,28.7,416,64c0,35.3-29.8,64-66.7,64h-26.7
+			c-36.8,0-66.7-28.7-66.7-64C256,28.7,285.8,0,322.7,0z"/>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M674.7,0h26.7C738.2,0,768,28.7,768,64c0,35.3-29.8,64-66.7,64h-26.7
+			c-36.8,0-66.7-28.7-66.7-64C608,28.7,637.8,0,674.7,0z"/>
+	</g>
+	<g>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M96,320h832v64H96V320z"/>
+		<path style="fill-rule:evenodd;clip-rule:evenodd;fill:#8BC271;" d="M160,160h704v160H160V160z"/>
+		<g>
+			<path d="M864,160v800H160V160H864 M872.5,96H151.5C120.8,96,96,121.2,96,152.2v815.5c0,31.1,24.8,56.2,55.5,56.2h721.1
+				c30.6,0,55.5-25.2,55.5-56.2V152.2C928,121.2,903.2,96,872.5,96L872.5,96z"/>
+		</g>
+	</g>
+</g>
+</svg>
