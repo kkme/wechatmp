@@ -143,10 +143,10 @@ export default {
   data: () => ({
     btnBg,
     items: [
-      { icon: '', href: '/team/mission', title: '任务管理' },
-      { icon: '', href: '/team/hr', title: '成员管理' },
-      { icon: 'svg-comment', href: '/team/notice', title: '战队公告' },
-      { icon: 'svg-log-out', href: '/team/setting', title: '退出战队' },
+      { icon: 'svg-mission-manage', href: '/team/mission', title: '任务管理' },
+      { icon: 'svg-hr', href: '/team/hr', title: '成员管理' },
+      { icon: 'svg-notice', href: '/team/notice', title: '战队公告' },
+      { icon: 'svg-sign-out', href: '/team/setting', title: '退出战队' },
       { icon: 'svg-setting', href: '/team/setting', title: '设置' }
     ]
   }),
@@ -160,54 +160,54 @@ export default {
 
 <style lang="scss">
 .team-index {
-  position: relative;
-  .team-search {
-    .v-text-field--solo .v-input__slot {
-      background: lighten($secondary, 5%);
-    }
-  }
-  .team-index-banner {
     position: relative;
-    .team--index-banner-action {
-      position: absolute;
-      bottom: 0;
-      .team--create,
-      .team--invitation {
-        display: flex;
-        border-radius: $border-radius * 2;
-      }
+    .team-search {
+        .v-text-field--solo .v-input__slot {
+            background: lighten($secondary, 5%);
+        }
     }
-  }
-  .team--index-team-list {
-    .avatar {
-      border-radius: 0.5em;
+    .team-index-banner {
+        position: relative;
+        .team--index-banner-action {
+            position: absolute;
+            bottom: 0;
+            .team--create,
+            .team--invitation {
+                display: flex;
+                border-radius: $border-radius * 2;
+            }
+        }
     }
-    button {
-      background-position: center;
-      background-size: contain;
-      min-width: 75px;
+    .team--index-team-list {
+        .avatar {
+            border-radius: 0.5em;
+        }
+        button {
+            background-position: center;
+            background-size: contain;
+            min-width: 75px;
+        }
     }
-  }
-  .team-my-team {
-    .team-my-team-info {
-      position: fixed;
-      top: $top-nav-height;
-      left: 0;
-      width: 100%;
-      background-image: url('~@img/team_index_bg.jpg');
-      background-repeat: no-repeat;
-      background-position: top center;
-      background-size: contain;
-      color: $white;
+    .team-my-team {
+        .team-my-team-info {
+            position: fixed;
+            top: $top-nav-height;
+            left: 0;
+            width: 100%;
+            background-image: url('~@img/team_index_bg.jpg');
+            background-repeat: no-repeat;
+            background-position: top center;
+            background-size: contain;
+            color: $white;
+        }
+        .team-my-team-content {
+            position: relative;
+            z-index: 1;
+            top: 187px;
+            border-top-left-radius: 2em;
+            border-top-right-radius: 2em;
+            min-height: calc(100vh - 187px - #{$top-nav-height});
+        }
     }
-    .team-my-team-content {
-      position: relative;
-      z-index: 1;
-      top: 187px;
-      border-top-left-radius: 2em;
-      border-top-right-radius: 2em;
-      min-height: calc(100vh - 187px - #{$top-nav-height});
-    }
-  }
 }
 </style>
