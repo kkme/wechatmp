@@ -2,23 +2,27 @@
 .avatar-sm,
 .avatar-lg {
   max-width: 100%;
-  border-radius: 50%;
   img {
     max-width: 100%;
+    border-radius: 50%;
   }
 }
 
 .avatar-sm {
   width: 35px;
+  height: 35px;
 }
 .avatar {
   width: 50px;
+  height: 50px;
 }
 .avatar-lg {
   width: 65px;
+  height: 65px;
 }
 .avatar-xl {
   width: 80px;
+  height: 80px;
 }
 
 .border-top {
@@ -50,6 +54,17 @@
   .simple-svg {
     width: inherit;
     height: inherit;
+  }
+}
+.svg-icon {
+  width: 2em;
+  height: 2em;
+  vertical-align: middle;
+  .st1 {
+    fill: #666666;
+  }
+  .st2 {
+    fill: #cccccc;
   }
 }
 .svg-sm {

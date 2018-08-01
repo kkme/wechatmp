@@ -18,7 +18,8 @@ import {
   VRadioGroup,
   VTextarea,
   VDatePicker,
-  VbottomSheet
+  VbottomSheet,
+  VCheckbox
 } from 'vuetify'
 
 import { Ripple, Scroll } from 'vuetify/es5/directives'
@@ -42,7 +43,8 @@ Vue.use(Vuetify, {
     VRadioGroup,
     VTextarea,
     VDatePicker,
-    VbottomSheet
+    VbottomSheet,
+    VCheckbox
   },
   theme: {
     primary: '#8bc271',
@@ -56,6 +58,8 @@ Vue.use(Vuetify, {
   icons: {
     radioOn: 'iconfont icon-radio_on',
     radioOff: 'iconfont icon-radio_off',
+    checkboxOn: 'iconfont icon-check_on',
+    checkboxOff: 'iconfont icon-radio_off',
     clear: 'iconfont icon-clear'
   },
   directives: {
