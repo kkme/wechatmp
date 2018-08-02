@@ -23,7 +23,7 @@ module.exports = {
       },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_755131_kryufe9ny2g.css'
+        href: '//at.alicdn.com/t/font_755131_81u9lo6aqpd.css'
       }
     ]
   },
@@ -33,7 +33,8 @@ module.exports = {
     '~/plugins/simpleSvg.js',
     '~/plugins/filters.js',
     '~/plugins/svgicons.js',
-    { src: '~/plugins/scrollto.js', ssr: false }
+    { src: '~/plugins/scrollto.js', ssr: false },
+    { src: '~/plugins/baidumap.js', ssr: false }
   ],
   css: ['~/assets/style/app.styl', '~/assets/style/scss/app.scss'],
   modules: [

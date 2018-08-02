@@ -108,7 +108,7 @@
                 class="py-3">
           <template v-for="(item, index) in items">
             <v-list-tile nuxt
-                         :key="index"
+                         :key="index.title"
                          :to="item.href">
               <v-list-tile-avatar>
                 <component :is="item.icon"

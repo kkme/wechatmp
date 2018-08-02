@@ -7,7 +7,7 @@
 
       <div slot="activator"
            :class="{'grey--text': !currentLocation }">
-        <slot>{{currentLocation || placeholder}}</slot>
+        <slot>{{currentLocation || placeholder || '请选择城市'}}</slot>
       </div>
       <v-card>
         <div class="city-selector-action">
@@ -222,7 +222,7 @@ export default {
     }
   },
   mounted() {
-    this.getDefault()
+    // this.getDefault()
   }
 }
 </script>

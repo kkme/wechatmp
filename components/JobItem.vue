@@ -1,7 +1,9 @@
 <template>
   <div class="job-item">
     <v-layout class="px-3 pt-3 white"
-              column>
+              column
+              @click="$router.push('/job/1')"
+              v-ripple>
       <v-flex>
         <v-layout align-center>
           <v-flex class="subheading text-truncate pr-3">我秦始皇!打钱!</v-flex>
@@ -28,7 +30,7 @@
           </div>
         </v-layout>
       </v-flex>
-      <v-divider class="mt-2"></v-divider>
+      <v-divider class="mt-2 job-item-divider"></v-divider>
     </v-layout>
     <slot></slot>
   </div>
@@ -38,5 +40,10 @@
 export default {}
 </script>
 
-<style>
+<style lang="scss">
+.job-item:last-child {
+  .job-item-divider {
+    border-color: transparent;
+  }
+}
 </style>

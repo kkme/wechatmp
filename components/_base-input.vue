@@ -39,9 +39,9 @@ export default {
   },
   watch: {
     value: {
-      handler: function (newVal, oldVal) {
+      handler: function(newVal, oldVal) {
         this.inputValue = newVal
-        console.log(newVal, oldVal, this.inputValue)
+        // console.log(newVal, oldVal, this.inputValue)
       },
       immediate: true
     }
@@ -85,21 +85,21 @@ export default {
 
 <style lang="scss">
 .base-input {
-    position: relative;
-    .v-text-field.v-text-field--solo .v-input__control {
-        min-height: 35px;
-        background-color: transparent;
-    }
-    .base-input-btn {
-        position: absolute;
-        right: 16px;
-        top: 8px;
-    }
-    input:focus {
-        font-size: 16px;
-    }
-    input::placeholder {
-        font-size: 14px;
-    }
+  position: relative;
+  .v-text-field.v-text-field--solo .v-input__control {
+    min-height: 35px;
+    background-color: transparent;
+  }
+  .base-input-btn {
+    position: absolute;
+    right: 16px;
+    top: 8px;
+  }
+  input:focus {
+    font-size: 16px;
+  }
+  input::placeholder {
+    font-size: 14px;
+  }
 }
 </style>

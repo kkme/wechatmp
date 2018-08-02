@@ -9,7 +9,7 @@
          tag="div"
          depressed
          :ripple="false"
-         class="base-tag"
+         class="base-tag mx-1"
          :style="height ? style : ''">
     <slot>已认证</slot>
   </v-btn>
@@ -20,7 +20,7 @@ export default {
   props: {
     color: {
       type: String,
-      default: 'primary'
+      default: 'grey'
     },
     outline: {
       type: [String, Boolean],
@@ -49,5 +49,8 @@ export default {
   height: $size2 + 2px;
   line-height: $size2 + 2px;
   min-width: $size1 * 3;
+  &:first-child {
+    margin-left: 0 !important;
+  }
 }
 </style>
