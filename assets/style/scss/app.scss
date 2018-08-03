@@ -79,6 +79,12 @@
   width: $svg-icon-width * 2;
   height: $svg-icon-width * 2;
 }
+.svg-grey {
+  opacity: 0.47;
+  path.st0 {
+    fill: $white;
+  }
+}
 .text-truncate {
   overflow: hidden;
   text-overflow: ellipsis;

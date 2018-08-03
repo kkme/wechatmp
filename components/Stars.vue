@@ -14,9 +14,6 @@ export default {
       type: [Number, String],
       default: 5
     }
-  },
-  data: () => ({
-    svg: require('~/static/svg/corp_level.svg')
-  })
+  }
 }
 </script>

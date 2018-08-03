@@ -5,7 +5,7 @@
               column>
       <v-layout align-center>
         <v-flex class="subheading text-truncate pr-3">四川淘淘信息技术有限公司</v-flex>
-        <comment-stars stars="3"></comment-stars>
+        <stars stars="3"></stars>
       </v-layout>
       <v-flex class="caption text-muted mt-1">
         <v-icon class="iconfont icon-time icon--text"></v-icon>评价时间：2015-05-08 05:02
@@ -24,10 +24,10 @@
 </template>
 
 <script>
-import CommentStars from '@/components/CommentStars'
+import Stars from '@/components/Stars'
 export default {
   components: {
-    CommentStars
+    Stars
   }
 }
 </script>

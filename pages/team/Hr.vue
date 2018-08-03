@@ -41,7 +41,10 @@
           </div>
         </template>
       </v-list>
-      <team-bottom-btns :disabled="checked">
+      <bottom-btns :disabled="!checked"
+                   border
+                   rounded
+                   class="px-4 py-3 border-bottom">
         <v-btn slot="no"
                color="white"
                class="ma-0 elevation-0"
@@ -52,7 +55,7 @@
                class="ma-0 elevation-0"
                :disabled="!checked"
                block>赠送积分</v-btn>
-      </team-bottom-btns>
+      </bottom-btns>
     </v-tab-item>
     <v-tab-item>
 
@@ -64,10 +67,10 @@
 </template>
 
 <script>
-import TeamBottomBtns from '@/components/TeamBottomBtns'
+import BottomBtns from '@/components/BottomBtns'
 export default {
   components: {
-    TeamBottomBtns
+    BottomBtns
   },
   head: () => ({
     title: '人员管理'

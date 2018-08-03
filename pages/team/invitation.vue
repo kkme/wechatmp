@@ -25,15 +25,18 @@
         </div>
       </template>
     </v-list>
-    <team-bottom-btns :disabled="checked"></team-bottom-btns>
+    <bottom-btns :disabled="!checked"
+                 border
+                 rounded
+                 class="px-4 py-3 border-bottom"></bottom-btns>
   </div>
 </template>
 
 <script>
-import TeamBottomBtns from '@/components/TeamBottomBtns'
+import BottomBtns from '@/components/BottomBtns'
 export default {
   components: {
-    TeamBottomBtns
+    BottomBtns
   },
   head: () => ({
     title: '战队邀请'

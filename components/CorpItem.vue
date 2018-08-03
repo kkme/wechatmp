@@ -6,7 +6,7 @@
       <v-flex>
         <v-layout align-center>
           <v-flex class="subheading text-truncate pr-3">四川淘淘信息技术有限公司</v-flex>
-          <corp-level></corp-level>
+          <corp-level level="3"></corp-level>
         </v-layout>
       </v-flex>
       <v-flex class="pt-2 caption text-muted">
@@ -17,7 +17,7 @@
         <base-tag></base-tag>
       </v-flex>
     </v-layout>
-    <v-layout>
+    <v-layout v-if="disableStatus === false">
       <v-flex class="py-2 mt-2 border-top">
         <v-layout align-center
                   class="px-3 text-muted">
@@ -36,6 +36,12 @@ import CorpLevel from '@/components/CorpLevel'
 export default {
   components: {
     CorpLevel
+  },
+  props: {
+    disableStatus: {
+      type: [String, Boolean],
+      default: false
+    }
   }
 }
 </script>

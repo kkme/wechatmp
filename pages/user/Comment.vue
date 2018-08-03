@@ -9,15 +9,16 @@
 import CommentItem from '@/components/CommentItem'
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  components: {
+    CommentItem
+  },
   head: () => ({
     title: '我的评价'
   }),
   meta: {
     title: '我的评价'
   },
-  components: {
-    CommentItem
-  },
+
   data: () => ({
     tabs: null
   }),

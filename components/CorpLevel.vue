@@ -1,8 +1,10 @@
 <template>
   <div class="d-flex">
-    <simple-svg :filepath="svg"
-                v-for="n in level"
-                :key="n" />
+    <component :is="'svg-corp-level'"
+               v-for="n in 5"
+               :key="n"
+               class="svg-sm"
+               :class="{ 'svg-grey': n > +level}"></component>
   </div>
 </template>
 
@@ -13,9 +15,6 @@ export default {
       type: [Number, String],
       default: 5
     }
-  },
-  data: () => ({
-    svg: require('~/static/svg/corp_level.svg')
-  })
+  }
 }
 </script>

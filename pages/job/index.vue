@@ -11,25 +11,7 @@
                          reverse-transition="fade"
                          transition="fade"></v-carousel-item>
       </v-carousel>
-      <div class="job-search-wrap py-2 px-3">
-        <v-layout class="job-search white elevation-1"
-                  align-center>
-          <city-selector>
-            <v-btn flat
-                   large
-                   class="ma-0 px-3 body-1">
-              <span class="cart">请选择城市</span>
-            </v-btn>
-          </city-selector>
-          <v-flex class="job-search-input">
-            <base-input placeholder="请输入要搜索的兼职"
-                        prepend-inner-icon="iconfont icon-search"
-                        autofocus
-                        clearable
-                        v-model="inputValue"></base-input>
-          </v-flex>
-        </v-layout>
-      </div>
+      <job-searsh></job-searsh>
     </div>
     <v-layout class="job-shortcut text-xs-center">
       <v-flex xs3
@@ -62,13 +44,13 @@
 </template>
 
 <script>
-import CitySelector from '@/components/CitySelector'
 import JobFilter from '@/components/JobFilter'
+import JobSearsh from '@/components/JobSearsh'
 import JobItem from '@/components/JobItem'
 export default {
   components: {
-    CitySelector,
     JobFilter,
+    JobSearsh,
     JobItem
   },
   data: () => ({
@@ -81,8 +63,7 @@ export default {
       { icon: 'svg-fun', title: '趣味体验', href: '/job' },
       { icon: 'svg-recommend', title: '组合推荐', href: '/job' },
       { icon: 'svg-reward', title: '领取奖励', href: '/job' }
-    ],
-    inputValue: null
+    ]
   })
 }
 </script>
@@ -119,28 +100,6 @@ export default {
       }
       img {
         width: 100%;
-      }
-    }
-    .job-search-wrap {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      .job-search {
-        border-radius: $border-radius * 2;
-        .job-search-input {
-          position: relative;
-          &::before {
-            content: '';
-            height: 100%;
-            border-left: 2px solid $border-color;
-            position: absolute;
-            left: 0;
-            top: 0;
-            z-index: 1;
-            transform: scale(0.6);
-          }
-        }
       }
     }
   }

@@ -15,7 +15,7 @@
     </v-toolbar>
     <v-content>
       <v-container class="pa-0 main-container">
-        <nuxt />
+        <nuxt keep-alive/>
       </v-container>
     </v-content>
     <bottom-nav v-if="path"></bottom-nav>
