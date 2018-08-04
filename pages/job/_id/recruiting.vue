@@ -18,7 +18,7 @@ export default {
   meta: {
     title: '正在招聘'
   },
-  deta: () => ({})
+  data: () => ({})
 }
 </script>
 

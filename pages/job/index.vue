@@ -59,10 +59,10 @@ export default {
       { src: require('@img/slider1.jpg') }
     ],
     shortcuts: [
-      { icon: 'svg-my-mission', title: '我的任务', href: '/job/' },
-      { icon: 'svg-fun', title: '趣味体验', href: '/job' },
-      { icon: 'svg-recommend', title: '组合推荐', href: '/job' },
-      { icon: 'svg-reward', title: '领取奖励', href: '/job' }
+      { icon: 'svg-my-mission', title: '我的任务', href: '/job/mymission' },
+      { icon: 'svg-fun', title: '趣味体验', href: '/job/fun' },
+      { icon: 'svg-recommend', title: '组合推荐', href: '/job/recommend' },
+      { icon: 'svg-reward', title: '领取奖励', href: '/job/reward' }
     ]
   })
 }

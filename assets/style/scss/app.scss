@@ -33,6 +33,9 @@
 }
 .border-bottom {
   border-bottom: 1px solid $border-color !important;
+  &:last-child {
+    border-color: transparent !important;
+  }
 }
 
 .bordered {

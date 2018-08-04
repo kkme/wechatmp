@@ -6,7 +6,7 @@
       <v-flex xs12>
         <v-layout row
                   wrap>
-          <div class="subheading">我秦始皇,打钱!</div>
+          <div class="subheading">听说还没开始设计!</div>
           <v-spacer></v-spacer>
           <stars stars="2"></stars>
         </v-layout>
@@ -26,10 +26,10 @@ export default {
     Stars
   },
   head: () => ({
-    title: '已完成的招聘'
+    title: '趣味体验'
   }),
   meta: {
-    title: '已完成的招聘'
+    title: '趣味体验'
   },
   data: () => ({})
 }

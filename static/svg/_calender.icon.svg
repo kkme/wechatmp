@@ -1,40 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 1024 1024" style="enable-background:new 0 0 1024 1024;" xml:space="preserve">
-<g id="图层_1" style="display:none;">
+<g id="group6">
+	<path style="fill:#666666;" d="M652.4,680.1h110.7v56H652.4V680.1z"/>
+	<path style="fill:#666666;" d="M653.3,568H764v56H653.3V568z"/>
+	<path style="fill:#666666;" d="M652.9,456h110.7v56H652.9V456z"/>
 </g>
-<g id="图层_3">
-	<g>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M672.5,704H799v64H672.5V704z"/>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M673.5,576H800v64H673.5V576z"/>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M673.1,448h126.5v64H673.1V448z"/>
-	</g>
-	<g>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M448,832h126.5v64H448V832z"/>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M448.5,704H575v64H448.5V704z"/>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M449.5,576H576v64H449.5V576z"/>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M449.1,448h126.5v64H449.1V448z"/>
-	</g>
-	<g>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M224,832h126.5v64H224V832z"/>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M224.5,704H351v64H224.5V704z"/>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M225.5,576H352v64H225.5V576z"/>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M225.1,448h126.5v64H225.1V448z"/>
-	</g>
-	<g>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M322.7,0h26.7C386.2,0,416,28.7,416,64c0,35.3-29.8,64-66.7,64h-26.7
-			c-36.8,0-66.7-28.7-66.7-64C256,28.7,285.8,0,322.7,0z"/>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M674.7,0h26.7C738.2,0,768,28.7,768,64c0,35.3-29.8,64-66.7,64h-26.7
-			c-36.8,0-66.7-28.7-66.7-64C608,28.7,637.8,0,674.7,0z"/>
-	</g>
-	<g>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;" d="M96,320h832v64H96V320z"/>
-		<path style="fill-rule:evenodd;clip-rule:evenodd;fill:#8BC271;" d="M160,160h704v160H160V160z"/>
-		<g>
-			<path d="M864,160v800H160V160H864 M872.5,96H151.5C120.8,96,96,121.2,96,152.2v815.5c0,31.1,24.8,56.2,55.5,56.2h721.1
-				c30.6,0,55.5-25.2,55.5-56.2V152.2C928,121.2,903.2,96,872.5,96L872.5,96z"/>
-		</g>
-	</g>
+<g id="group5">
+	<path style="fill:#666666;" d="M456,792.1h110.7v56H456V792.1z"/>
+	<path style="fill:#666666;" d="M456.4,680.1h110.7v56H456.4V680.1z"/>
+	<path style="fill:#666666;" d="M457.3,568H568v56H457.3V568z"/>
+	<path style="fill:#666666;" d="M456.9,456h110.7v56H456.9V456z"/>
+</g>
+<g id="group3">
+	<path style="fill:#666666;" d="M259.9,792.1h110.7v56H259.9V792.1z"/>
+	<path style="fill:#666666;" d="M260.4,680.1h110.7v56H260.4V680.1z"/>
+	<path style="fill:#666666;" d="M261.2,568h110.7v56H261.2V568z"/>
+	<path style="fill:#666666;" d="M260.9,456h110.7v56H260.9V456z"/>
+</g>
+<g id="group2">
+	<path style="fill:#666666;" d="M346.3,64h23.4c32.2,0,58.3,25.1,58.3,56s-26.1,56-58.4,56h-23.4c-32.2,0-58.4-25.1-58.4-56
+		C287.9,89.1,314,64,346.3,64z"/>
+	<path style="fill:#666666;" d="M654.3,64h23.4c32.2,0,58.3,25.1,58.3,56s-26.1,56-58.4,56h-23.4c-32.2,0-58.4-25.1-58.4-56
+		C596,89.1,622,64,654.3,64z"/>
+</g>
+<g id="group1">
+	<path id="green" style="fill:#8BC271;" d="M203.9,204H820v140H203.9V204z"/>
+	<path style="fill:#666666;" d="M827.4,148H196.5c-26.9,0-48.6,22.1-48.6,49.2V344v56v510.8c0,27.2,21.7,49.2,48.6,49.2h631
+		c26.8,0,48.6-22.1,48.6-49.2V197.2C876,170.1,854.3,148,827.4,148z M203.9,204H820v140H203.9V204z M203.9,904.1V400H820v504H203.9z
+		"/>
 </g>
 </svg>
