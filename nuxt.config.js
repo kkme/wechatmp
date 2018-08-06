@@ -18,8 +18,7 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
         rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
+        href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
       },
       {
         rel: 'stylesheet',
@@ -35,11 +34,10 @@ module.exports = {
     '~/plugins/svgicons.js',
     { src: '~/plugins/scrollto.js', ssr: false },
     { src: '~/plugins/baidumap.js', ssr: false }
+    // { src: '~/plugins/vue-amap.js', ssr: false }
   ],
   css: ['~/assets/style/app.styl', '~/assets/style/scss/app.scss'],
-  modules: [
-    ['nuxt-sass-resources-loader', ['@/assets/style/scss/_variables.scss']]
-  ],
+  modules: [['nuxt-sass-resources-loader', ['@/assets/style/scss/_variables.scss']]],
   /*
   ** Customize the progress bar color
   */
@@ -61,7 +59,13 @@ module.exports = {
         ]
       ]
     },
-    vendor: ['~/plugins/vuetify.js'],
+    vendor: [
+      '~/plugins/vuetify.js',
+      '~/plugins/simpleSvg.js',
+      '~/plugins/svgicons.js',
+      '~/plugins/scrollto.js',
+      '~/plugins/baidumap.js'
+    ],
     extractCSS: true,
     cssSourceMap: false,
     /*
@@ -83,27 +87,12 @@ module.exports = {
           })
         ]
       }
-      config.resolve.alias['@const'] = path.join(
-        this.options.rootDir,
-        'constant'
-      )
-      config.resolve.alias['@helper'] = path.join(
-        this.options.rootDir,
-        'helper'
-      )
-      config.resolve.alias['@api'] = path.join(
-        this.options.rootDir,
-        'service/Api'
-      )
+      config.resolve.alias['@const'] = path.join(this.options.rootDir, 'constant')
+      config.resolve.alias['@helper'] = path.join(this.options.rootDir, 'helper')
+      config.resolve.alias['@api'] = path.join(this.options.rootDir, 'service/Api')
       config.resolve.alias['@pages'] = path.join(this.options.rootDir, 'pages')
-      config.resolve.alias['@img'] = path.join(
-        this.options.rootDir,
-        'static/img/'
-      )
-      config.resolve.alias['@svg'] = path.join(
-        this.options.rootDir,
-        'static/svg/'
-      )
+      config.resolve.alias['@img'] = path.join(this.options.rootDir, 'static/img/')
+      config.resolve.alias['@svg'] = path.join(this.options.rootDir, 'static/svg/')
 
       const svgRule = config.module.rules.find(rule => {
         if (rule.test.test('a.svg')) {

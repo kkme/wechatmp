@@ -9,11 +9,7 @@
     <v-tabs-items v-model="tabs"
                   class="white">
       <v-tab-item class="collection-tab">
-        <corp-item></corp-item>
-        <corp-item></corp-item>
-        <corp-item></corp-item>
-        <corp-item></corp-item>
-        <corp-item></corp-item>
+        <job-item></job-item>
       </v-tab-item>
       <v-tab-item>
         <corp-item></corp-item>
@@ -24,11 +20,13 @@
 </template>
 
 <script>
+import JobItem from '@/components/JobItem'
 import CorpItem from '@/components/CorpItem'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {
+    JobItem,
     CorpItem
   },
   head: () => ({
@@ -38,7 +36,7 @@ export default {
     title: '我的收藏'
   },
   data: () => ({
-    tabs: null
+    tabs: 0
   }),
   computed: {
     ...mapGetters({

@@ -29,7 +29,7 @@ export default () => {
     )
     // Globally register the component
 
-    console.log(`svg:'${componentName}' has been registed as Svg${componentName}`)
+    // console.log(`svg:'${componentName}' has been registed as Svg${componentName}`)
     Vue.component(`Svg${componentName}`, componentConfig.default || componentConfig)
   })
 }

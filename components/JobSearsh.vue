@@ -102,8 +102,6 @@ export default {
       event.stopPropagation()
     },
     onClose() {
-      console.log(1)
-
       this.formBg = false
     }
   },
@@ -167,14 +165,6 @@ export default {
     z-index: 1;
     transform: translateY(0%);
     width: 100%;
-    // overflow: hidden;
-    // position: re;
-    // top: 0;
-    // left: 0;
-    // width: 100vw;
-    // height: 100vh;
-    // z-index: 5;
-    // padding-top: 100px;
     flex: 1;
   }
 
@@ -183,7 +173,8 @@ export default {
     transition: transform 300ms;
     transform: translateY(0%);
   }
-  .fall-enter, .fall-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  .fall-enter,
+  .fall-leave-to {
     transform: translateY(-100%);
   }
 }

@@ -112,7 +112,8 @@
                    class="ma-0"
                    depressed
                    large
-                   block>
+                   block
+                   @click="addToCollection({id:$route.params.id})">
               <v-icon color="accent"
                       class="icon--text">iconfont icon-star</v-icon>
               已收藏
@@ -165,6 +166,7 @@ import CorpItem from '@/components/CorpItem'
 import JobItem from '@/components/JobItem'
 import BottomBtns from '@/components/BottomBtns'
 import constant from '@const/public'
+import { mapActions } from 'vuex'
 export default {
   components: {
     CorpItem,
@@ -181,6 +183,7 @@ export default {
     mapIcon: constant.BAIDU_MAP_POSITION_ICON,
     mapIconOffset: constant.BAIDU_MAP_POSITION_ICON_OFFSET,
     active: null,
+    isCollected: false,
     a: `急招传单派发人员60名，周末，平时，节假日。
 工资待遇：无责任底薪120元天日结，男女不限，16到25岁之间，做事认真踏实，不乱扔单页。
 工作时间：上午9点到下午6点，下午半天，半天2点到6点
@@ -212,12 +215,16 @@ export default {
     zoom: 3
   }),
   methods: {
+    ...mapActions({
+      fetchJob: 'job/fetchJob',
+      addToCollection: 'job/addToCollection'
+    }),
     mapReady({ BMap, map }) {
       console.log(BMap, map)
-      this.center.lng = 116.404
-      this.center.lat = 39.915
-      this.zoom = 15
     }
+  },
+  mounted() {
+    this.fetchJob({ id: this.$route.params.id }).then(res => {})
   }
 }
 </script>

@@ -22,3 +22,15 @@ Vue.filter('monthToCh', function(value) {
   if (year !== +date[0]) return +date[0] + '年' + +date[1] + '月'
   else return +date[1] + '月'
 })
+
+Vue.filter('formatDistance', function(value) {
+  if (!(value > 0)) return '未知'
+  if (value > 999) return Math.round((value / 1000) * 100) / 100 + 'km'
+  return value + 'm'
+})
+
+Vue.filter('formatCreateTime', function(value) {
+  // if (!(value > 0)) return '未知'
+  // if (value > 999) return Math.round((value / 1000) * 100) / 100 + 'km'
+  return value
+})
