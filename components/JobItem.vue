@@ -1,6 +1,6 @@
 <template>
   <div class="job-items"
-       v-if="items">
+       v-if="items && items.length">
     <div class="job-item"
          v-for="item of items"
          :key="item.recruitmentId">
@@ -54,10 +54,10 @@ export default {
 
 <style lang="scss">
 .job-items {
-  .job-item:last-child {
-    .job-item-divider {
-      border-color: transparent;
+    .job-item:last-child {
+        .job-item-divider {
+            border-color: transparent;
+        }
     }
-  }
 }
 </style>

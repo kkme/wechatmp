@@ -9,12 +9,14 @@
     <v-tabs-items v-model="tabs"
                   class="white">
       <v-tab-item class="collection-tab">
-        <job-item :items="collections"></job-item>
-        <base-infinite @infinite="getMoreJob" />
+        <job-item :items="jobCollections"></job-item>
+        <base-infinite v-if="tabs === 0"
+                       @infinite="getMoreJob" />
       </v-tab-item>
       <v-tab-item>
-        <corp-item :info="{}"></corp-item>
-        <base-infinite @infinite="getMoreCorp" />
+        <corp-item></corp-item>
+        <base-infinite v-if="tabs === 1"
+                       @infinite="getMoreCorp" />
       </v-tab-item>
     </v-tabs-items>
   </div>
@@ -39,13 +41,16 @@ export default {
   },
   data: () => ({
     tabs: 0,
+    list: [],
+    list1: [],
     jobPagination: {},
     corpPagination: {}
   }),
   mixins: [page],
   computed: {
     ...mapGetters({
-      collections: 'users/collections'
+      jobCollections: 'users/jobCollections',
+      corpCollections: 'users/corpCollections'
     })
   },
   methods: {
@@ -54,17 +59,17 @@ export default {
     }),
 
     getMoreJob($infinite) {
-      this.jobPagination = this.getPage(this.jobPagination, { type: 'COLLECTION_TYPE_PARTTIME' })
-      this.fetchCollections(this.jobPagination).then(res => {
+      this.jobPagination = this.getPage(this.jobPagination)
+      this.fetchCollections({ payload: this.jobPagination, type: 'job' }).then(res => {
         $infinite.loaded()
-        if (res.length < 20 || res.length === 0) {
+        if (res.length < this.jobPagination.pagesize || res.length === 0) {
           $infinite.complete()
         }
       })
     },
     getMoreCorp($infinite1) {
-      this.corpPagination = this.getPage(this.corpPagination, { type: 'COLLECTION_TYPE_COMPANY' })
-      this.fetchCollections(this.corpPagination).then(res => {
+      this.corpPagination = this.getPage(this.corpPagination)
+      this.fetchCollections({ payload: this.jobPagination, type: 'corp' }).then(res => {
         $infinite1.loaded()
         if (res.length < 20 || res.length === 0) {
           $infinite1.complete()

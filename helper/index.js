@@ -11,4 +11,9 @@ const readFiles = files => {
   let readFileList = Array.from(files).map(file => fileReader(file))
   return Promise.all(readFileList)
 }
-export { fileReader, readFiles }
+const labelToValue = (labelOrName, items) => {
+  if (!labelOrName || !items) return ''
+  const item = items.find(ele => ele.lable === labelOrName || ele.name === labelOrName)
+  return item ? item.value : labelOrName
+}
+export { fileReader, readFiles, labelToValue }

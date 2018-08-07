@@ -28,12 +28,12 @@
     <base-divider></base-divider>
     <v-layout align-center
               justify-center
-              class="text-xs-center job-title text-muted py-3">
-      <svg-medal-left class="svg-sm"></svg-medal-left>
+              class="text-xs-center job-title text-muted py-2">
+      <svg-medal-left class="svg-xs"></svg-medal-left>
       <v-icon>iconfont icon-dot</v-icon>
       <span class="body-2 text--primay">兼职打怪</span>
       <v-icon>iconfont icon-dot</v-icon>
-      <svg-medal-right class="svg-sm"></svg-medal-right>
+      <svg-medal-right class="svg-xs"></svg-medal-right>
     </v-layout>
     <job-filter></job-filter>
     <div class="job-list">
@@ -41,7 +41,7 @@
       <base-infinite @infinite="getMoreData"></base-infinite>
     </div>
 
-    <no-ssr>
+    <no-ssr v-if="!currentLocation">
       <baidu-map class="d-none"
                  @ready="gotLocation">
       </baidu-map>
@@ -54,6 +54,7 @@ import JobFilter from '@/components/JobFilter'
 import JobSearsh from '@/components/JobSearsh'
 import JobItem from '@/components/JobItem'
 import { mapGetters, mapActions } from 'vuex'
+import { page } from '@mixins'
 
 export default {
   components: {
@@ -64,13 +65,15 @@ export default {
   data: () => ({
     items: [{ src: require('@img/slider0.jpg') }, { src: require('@img/slider1.jpg') }],
     shortcuts: [
-      { icon: 'svg-my-mission', title: '我的任务', href: '/job/mymission' },
+      { icon: 'svg-my-mission', title: '我的任务', href: '/job/mission' },
       { icon: 'svg-fun', title: '趣味体验', href: '/job/fun' },
       { icon: 'svg-recommend', title: '组合推荐', href: '/job/recommend' },
       { icon: 'svg-reward', title: '领取奖励', href: '/job/reward' }
     ],
-    currentLocation: null
+    currentLocation: null,
+    pagination: {}
   }),
+  mixins: [page],
   computed: {
     ...mapGetters({
       jobs: 'job/jobs'
@@ -81,21 +84,22 @@ export default {
       fetchJobs: 'job/fetchJobs'
     }),
     getMoreData($state) {
-      this.fetchJobs().then(res => {
+      this.pagination = this.getPage(this.pagination)
+      this.fetchJobs(this.pagination).then(res => {
         $state.loaded()
-        if (res.length < 20 || res.length === 0) {
+        if (res.length < this.pagination.pagesize || res.length === 0) {
           $state.complete()
         }
       })
     },
     gotLocation({ BMap, map }) {
       var geolocation = new BMap.Geolocation()
+      let self = this
       geolocation.getCurrentPosition(
         function(r) {
-          var mk = new BMap.Marker(r.point)
-          map.addOverlay(mk)
-          map.panTo(r.point)
-          // alert('您的位置：' + r.point.lng + ',' + r.point.lat)
+          console.log(r)
+
+          if (r.point) self.currentLocation = r.point
         },
         { enableHighAccuracy: true }
       )
@@ -106,46 +110,46 @@ export default {
 
 <style lang="scss">
 .job {
-  position: relative;
-  .job-carousel_wrap {
-    .fade {
-      &-enter-active,
-      &-leave-active,
-      &-leave-to {
-        transition: 0.3s ease-out;
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-      &-enter,
-      &-leave,
-      &-leave-to {
-        opacity: 0;
-      }
-    }
-    .job-carousel {
-      height: 210px;
-      .v-carousel__controls {
-        background: transparent;
-        button {
-          margin: 0 !important;
-          i.iconfont {
-            font-size: 12px;
-          }
+    position: relative;
+    .job-carousel_wrap {
+        .fade {
+            &-enter-active,
+            &-leave-active,
+            &-leave-to {
+                transition: 0.3s ease-out;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            &-enter,
+            &-leave,
+            &-leave-to {
+                opacity: 0;
+            }
         }
-      }
-      img {
-        width: 100%;
-      }
+        .job-carousel {
+            height: 210px;
+            .v-carousel__controls {
+                background: transparent;
+                button {
+                    margin: 0 !important;
+                    i.iconfont {
+                        font-size: 12px;
+                    }
+                }
+            }
+            img {
+                width: 100%;
+            }
+        }
     }
-  }
-  .job-title {
-    i.iconfont {
-      font-size: 12px;
-      vertical-align: middle;
-      padding: 3px;
-      transform: scale(0.5);
+    .job-title {
+        i.iconfont {
+            font-size: 12px;
+            vertical-align: middle;
+            padding: 3px;
+            transform: scale(0.5);
+        }
     }
-  }
 }
 </style>

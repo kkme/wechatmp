@@ -1,12 +1,16 @@
 import axios from 'axios'
 import UserService from '@/services/UserService'
-import { groupBy } from 'lodash'
+import { groupBy, unionBy } from 'lodash'
+import { collectionTypes } from '@const'
+import { labelToValue } from '@helper'
 export const state = {
   baseInfo: {},
   scoreLog: [],
   pointsLog: [],
   walletLog: [],
   collections: [],
+  jobCollections: [],
+  corpCollections: [],
   comments: [],
   resume: {}
 }
@@ -23,6 +27,8 @@ export const getters = {
   },
   walletLog: state => state.walletLog,
   collections: state => state.collections,
+  jobCollections: state => state.jobCollections,
+  corpCollections: state => state.corpCollections,
   comments: state => state.comments,
   resume: state => state.resume
 }
@@ -40,8 +46,11 @@ export const mutations = {
   UPDATE_WALLET_LOG(state, walletLog) {
     state.walletLog = walletLog
   },
-  UPDATE_COLLECTIONS(state, collections) {
-    state.collections = collections
+  UPDATE_JOB_COLLECTIONS(state, jobCollections) {
+    state.jobCollections = unionBy(jobCollections, state.jobCollections, 'collectionId')
+  },
+  UPDATE_CORP_COLLECTIONS(state, corpCollections) {
+    state.corpCollections = unionBy(corpCollections, state.corpCollections, 'comId')
   },
   UPDATE_COMMENTS(state, comments) {
     state.comments = comments
@@ -102,9 +111,14 @@ export const actions = {
     })
   },
 
-  fetchCollections({ commit }, payload) {
+  fetchCollections({ commit }, { payload, type }) {
+    payload.type = labelToValue(type, collectionTypes)
     return UserService.fetchCollections(payload).then(res => {
-      commit('UPDATE_COLLECTIONS', res)
+      if (type === 'job') {
+        commit('UPDATE_JOB_COLLECTIONS', res)
+      } else if (type === 'corp') {
+        commit('UPDATE_CORP_COLLECTIONS', res)
+      }
       return res
     })
   },

@@ -31,11 +31,20 @@
 .border-right {
   border-right: 1px solid $border-color !important;
 }
+.border-right__list {
+  position: relative;
+  &:not(:last-child):after {
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 1em;
+            top: 0;
+            right: 0;
+            border-right: 1px solid $border-color;
+        }
+}
 .border-bottom {
   border-bottom: 1px solid $border-color !important;
-  &:last-child {
-    border-color: transparent !important;
-  }
 }
 
 .bordered {
@@ -70,6 +79,10 @@
     fill: #cccccc;
   }
 }
+.svg-xs {
+  width: $svg-icon-width * 0.75;
+  height: $svg-icon-width * 0.75;
+}
 .svg-sm {
   width: $svg-icon-width;
   height: $svg-icon-width;
@@ -89,7 +102,7 @@
   }
 }
 .text-truncate {
-  overflow: hidden;
+  overflow-x: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }

@@ -599,6 +599,12 @@ const eduList = [
   { label: '硕士研究生', name: 'EDUCATION_LEVEL_6', value: 316 },
   { label: '博士及以上', name: 'EDUCATION_LEVEL_7', value: 317 }
 ]
-const identity = [{ label: '学生', value: 'IDENTITY_STUDENT' }, { label: '其他', value: 'IDENTITY_OTHER' }]
-
-export { gender, eduList, identity }
+const identity = [
+  { label: '学生', value: 'IDENTITY_STUDENT' },
+  { label: '其他', value: 'IDENTITY_OTHER' }
+]
+const collectionTypes = [
+  { label: '兼职', name: 'job', value: 'COLLECTION_TYPE_PARTTIME' },
+  { label: '企业', name: 'corp', value: 'COLLECTION_TYPE_COMPANY' }
+]
+export { gender, eduList, identity, collectionTypes }
