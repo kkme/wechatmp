@@ -5,8 +5,7 @@ import config from '@const/public'
 let instance = axios.create({
   baseURL: config.BASE_URL,
   headers: {
-    user_author:
-      'OPl8wAyWVffMg3acs9uITHEvE2r+Hf0cDqy4ad1uiZs2sk6II3wHNp/C+gRXkxtsjPOkwrck6nuG2iPDy2M+TA==',
+    user_author: 'TsNZv/6n/LvjQQSBiFnQLnEvE2r+Hf0cDqy4ad1uiZs2sk6II3wHNp/C+gRXkxtsMBTcetfe6nngtHRKR8OQZg==',
     'x-requested-with': 'WX_APPLETS_JOBUSER',
     'content-type': 'application/json'
   },

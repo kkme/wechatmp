@@ -37,9 +37,15 @@
     </v-layout>
     <job-filter></job-filter>
     <div class="job-list">
-      <job-item v-for="n of 10"
-                :key="n"></job-item>
+      <job-item :items="jobs"></job-item>
+      <base-infinite @infinite="getMoreData"></base-infinite>
     </div>
+
+    <no-ssr>
+      <baidu-map class="d-none"
+                 @ready="gotLocation">
+      </baidu-map>
+    </no-ssr>
   </div>
 </template>
 
@@ -47,6 +53,8 @@
 import JobFilter from '@/components/JobFilter'
 import JobSearsh from '@/components/JobSearsh'
 import JobItem from '@/components/JobItem'
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
   components: {
     JobFilter,
@@ -54,17 +62,45 @@ export default {
     JobItem
   },
   data: () => ({
-    items: [
-      { src: require('@img/slider0.jpg') },
-      { src: require('@img/slider1.jpg') }
-    ],
+    items: [{ src: require('@img/slider0.jpg') }, { src: require('@img/slider1.jpg') }],
     shortcuts: [
       { icon: 'svg-my-mission', title: '我的任务', href: '/job/mymission' },
       { icon: 'svg-fun', title: '趣味体验', href: '/job/fun' },
       { icon: 'svg-recommend', title: '组合推荐', href: '/job/recommend' },
       { icon: 'svg-reward', title: '领取奖励', href: '/job/reward' }
-    ]
-  })
+    ],
+    currentLocation: null
+  }),
+  computed: {
+    ...mapGetters({
+      jobs: 'job/jobs'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchJobs: 'job/fetchJobs'
+    }),
+    getMoreData($state) {
+      this.fetchJobs().then(res => {
+        $state.loaded()
+        if (res.length < 20 || res.length === 0) {
+          $state.complete()
+        }
+      })
+    },
+    gotLocation({ BMap, map }) {
+      var geolocation = new BMap.Geolocation()
+      geolocation.getCurrentPosition(
+        function(r) {
+          var mk = new BMap.Marker(r.point)
+          map.addOverlay(mk)
+          map.panTo(r.point)
+          // alert('您的位置：' + r.point.lng + ',' + r.point.lat)
+        },
+        { enableHighAccuracy: true }
+      )
+    }
+  }
 }
 </script>
 

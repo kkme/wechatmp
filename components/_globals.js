@@ -32,7 +32,7 @@ export default () => {
       )
     )
     // Globally register the component
-    console.log(`component: ${componentName} have been registed`)
+    // console.log(`component: ${componentName} have been registed`)
     Vue.component(componentName, componentConfig.default || componentConfig)
   })
 }

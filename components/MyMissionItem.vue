@@ -3,7 +3,9 @@
           two-line>
     <v-list-tile v-for="n of 30"
                  :key="n"
-                 class="border-bottom">
+                 class="border-bottom"
+                 nuxt
+                 :to="`/job/mission/${$route.params.id}`">
       <v-list-tile-content>
         <v-list-tile-title>
           <v-layout align-center>
@@ -13,7 +15,7 @@
               <base-tag outline
                         color="accent"
                         height="20px"
-                        class="my-0">战队</base-tag>
+                        class="my-0">战队1</base-tag>
             </slot>
           </v-layout>
         </v-list-tile-title>

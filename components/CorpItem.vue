@@ -1,20 +1,27 @@
 <template>
-  <div>
+  <div v-if="info">
     <base-divider></base-divider>
     <v-layout class="px-3 pt-2"
               column>
       <v-flex>
         <v-layout align-center>
-          <v-flex class="subheading text-truncate pr-3">四川淘淘信息技术有限公司</v-flex>
-          <corp-level level="3"></corp-level>
+          <v-flex class="subheading text-truncate pr-3">{{info.comName}}</v-flex>
+          <corp-level :level="info.reputation"></corp-level>
         </v-layout>
       </v-flex>
       <v-flex class="pt-2 caption text-muted">
         <v-icon class="iconfont icon-location icon--text"></v-icon>四川省成都市青羊区青羊工业园D区28栋
       </v-flex>
-      <v-flex class="caption text-muted mt-1">
-        <v-icon class="iconfont icon-corp icon--text"></v-icon>国企
-        <base-tag></base-tag>
+      <v-flex class="caption text-muted mt-1 pb-1">
+        <v-layout align-center>
+          <v-icon class="iconfont icon-corp icon--text"></v-icon>{{info.nature}}
+          <base-tag v-if="info.businessLicenseFile"></base-tag>
+          <v-spacer></v-spacer>
+          <v-btn icon
+                 @click="onAddToCorpCollection(info.comId)">
+            <v-icon color="accent">iconfont icon-collection</v-icon>
+          </v-btn>
+        </v-layout>
       </v-flex>
     </v-layout>
     <v-layout v-if="disableStatus === false">
@@ -22,7 +29,7 @@
         <v-layout align-center
                   class="px-3 text-muted">
           <v-flex class="body-1">正在招聘</v-flex>
-          <div>3
+          <div>
             <v-icon class="iconfont icon-right icon--text mr-0"></v-icon>
           </div>
         </v-layout>
@@ -33,6 +40,7 @@
 
 <script>
 import CorpLevel from '@/components/CorpLevel'
+import { mapActions } from 'vuex'
 export default {
   components: {
     CorpLevel
@@ -41,6 +49,15 @@ export default {
     disableStatus: {
       type: [String, Boolean],
       default: false
+    },
+    info: Object
+  },
+  methods: {
+    ...mapActions({
+      addToCorpCollection: 'job/addToCorpCollection'
+    }),
+    onAddToCorpCollection(id) {
+      this.addToCorpCollection({ id })
     }
   }
 }

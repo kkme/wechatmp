@@ -102,13 +102,18 @@ export const actions = {
     })
   },
 
-  fetchCollections({ commit }) {
-    return UserService.fetchCollections().then(res => {
+  fetchCollections({ commit }, payload) {
+    return UserService.fetchCollections(payload).then(res => {
       commit('UPDATE_COLLECTIONS', res)
       return res
     })
   },
-
+  deleteJobCollection({ commit }, payload) {
+    return UserService.deleteJobCollection(payload).then(res => {
+      // commit('UPDATE_COLLECTIONS', res)
+      return res
+    })
+  },
   fetchComments({ commit }) {
     return UserService.fetchComments().then(res => {
       commit('UPDATE_COMMENTS', res)

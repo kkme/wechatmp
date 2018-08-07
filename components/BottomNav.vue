@@ -9,8 +9,8 @@
     <v-btn nuxt
            :to="link.href"
            flat
-           v-for="(link, index) in links"
-           :key="index"
+           v-for="link in links"
+           :key="link.label"
            :value="link.label">
       <span v-text="link.title"></span>
       <component :is="link.icon"
