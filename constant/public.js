@@ -17,5 +17,6 @@ export default {
   DEFAULT_PAGESIZE: {
     pagesize: 20,
     pageindex: 1
-  }
+  },
+  DEFAULT_PAGE_SIZE: 20
 }

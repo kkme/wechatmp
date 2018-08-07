@@ -20,7 +20,8 @@ import {
   VDatePicker,
   VbottomSheet,
   VCheckbox,
-  VCarousel
+  VCarousel,
+  VMenu
 } from 'vuetify'
 
 import { Ripple, Scroll } from 'vuetify/es5/directives'
@@ -46,7 +47,8 @@ Vue.use(Vuetify, {
     VDatePicker,
     VbottomSheet,
     VCheckbox,
-    VCarousel
+    VCarousel,
+    VMenu
   },
   theme: {
     primary: '#8bc271',

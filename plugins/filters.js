@@ -34,3 +34,25 @@ Vue.filter('formatCreateTime', function(value) {
   // if (value > 999) return Math.round((value / 1000) * 100) / 100 + 'km'
   return value
 })
+
+// function (type, day) {
+//   try {
+//   //月结
+//   if(type==GlobalEnumType.WAGE_CLEARING_MONTH.value){
+//       return '每月'+day+'日';
+//   }
+//   //周结
+//   else if(type==GlobalEnumType.WAGE_CLEARING_WEEK.value){
+//       var week=['','星期一','星期二','星期三','星期四','星期五','星期六','星期日'];
+//       return '每周'+week[day];
+//   }
+//   //日结
+//   else if(type==GlobalEnumType.WAGE_CLEARING_DAY.value){
+//       return '日结'
+//   }
+//   }
+//   catch(e) {
+//       console.error(e);
+//       return type+':'+day;
+//   }
+// },

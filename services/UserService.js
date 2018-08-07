@@ -22,7 +22,7 @@ export default {
   fetchCollections: (data = DEFAULT_PAGESIZE) => Api.post('jobuser/collection', data),
 
   // 删除收藏
-  deleteCollection: (data = DEFAULT_PAGESIZE) => Api.post('jobuser/collection/delete', data),
+  deleteCollection: data => Api.post('jobuser/collection/delete', data),
 
   // 浏览记录
   fetchHistory: (data = DEFAULT_PAGESIZE) => Api.post('jobuser/history', data),

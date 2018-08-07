@@ -62,7 +62,6 @@
     </div>
     <v-flex>
       <v-tabs v-model="active"
-              light
               grow
               slider-color="primary"
               class="my-mission-tabs">

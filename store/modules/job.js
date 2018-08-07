@@ -24,7 +24,19 @@ export const actions = {
   fetchJob({ commit, state }, payload) {
     return JobService.fetchJob(payload)
   },
-  addToCollection({ commit, state }, payload) {
-    return JobService.addToCollection(payload)
+  addToJobCollection({ commit, state }, payload) {
+    return JobService.addToJobCollection(payload)
+  },
+  addToCorpCollection({ commit, state }, payload) {
+    return JobService.addToCorpCollection(payload)
+  },
+  fetchRecommendJobs({ commit, state }, payload) {
+    return JobService.fetchRecommendJobs(payload)
+  },
+  fetchCompanyInfo({ commit, state }, payload) {
+    return JobService.fetchCompanyInfo(payload)
+  },
+  applyJob({ commit, state }, payload) {
+    return JobService.applyJob(payload)
   }
 }

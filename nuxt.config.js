@@ -22,7 +22,7 @@ module.exports = {
       },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_755131_auoj5u3mmyg.css'
+        href: '//at.alicdn.com/t/font_755131_kb2sxxoeiij.css'
       }
     ]
   },
@@ -93,6 +93,7 @@ module.exports = {
       config.resolve.alias['@pages'] = path.join(this.options.rootDir, 'pages')
       config.resolve.alias['@img'] = path.join(this.options.rootDir, 'static/img/')
       config.resolve.alias['@svg'] = path.join(this.options.rootDir, 'static/svg/')
+      config.resolve.alias['@mixins'] = path.join(this.options.rootDir, 'mixins')
 
       const svgRule = config.module.rules.find(rule => {
         if (rule.test.test('a.svg')) {
