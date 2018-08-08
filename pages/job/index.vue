@@ -38,7 +38,8 @@
     <job-filter></job-filter>
     <div class="job-list">
       <job-item :items="jobs"></job-item>
-      <base-infinite @infinite="getMoreData"></base-infinite>
+      <base-infinite @infinite="getMoreData"
+                     v-if="currentLocation"></base-infinite>
     </div>
 
     <!-- <no-ssr v-if="!currentLocation">
@@ -56,7 +57,7 @@ import JobFilter from '@/components/JobFilter'
 import JobSearsh from '@/components/JobSearsh'
 import JobItem from '@/components/JobItem'
 import Location from '@/components/Location'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 import { page } from '@mixins'
 
 export default {
@@ -73,31 +74,39 @@ export default {
       { icon: 'svg-fun', title: '趣味体验', href: '/job/fun' },
       { icon: 'svg-recommend', title: '组合推荐', href: '/job/recommend' },
       { icon: 'svg-reward', title: '领取奖励', href: '/job/reward' }
-    ],
-    currentLocation: null,
-    pagination: {}
+    ]
   }),
   mixins: [page],
   computed: {
     ...mapGetters({
-      jobs: 'job/jobs'
+      jobs: 'job/jobs',
+      currentLocation: 'common/currentLocation'
     })
   },
   methods: {
     ...mapActions({
       fetchJobs: 'job/fetchJobs'
     }),
+    ...mapMutations({
+      setLocation: 'common/UPDATE_CURRENT_LOCATION'
+    }),
     getMoreData($state) {
-      this.pagination = this.getPage(this.pagination)
-      this.fetchJobs(this.pagination).then(res => {
+      let opts = {}
+      if (!this.currentLocation) return
+      console.log(1)
+
+      opts.longitude = this.currentLocation.position.lng
+      opts.latitude = this.currentLocation.position.lat
+      this.getPage(this.page, opts)
+      this.fetchJobs(this.page).then(res => {
         $state.loaded()
-        if (res.length < this.pagination.pagesize || res.length === 0) {
+        if (res.length < this.page.pagesize || res.length === 0) {
           $state.complete()
         }
       })
     },
     onLocated(location) {
-      console.log(location)
+      this.setLocation(location)
     }
     // gotLocation({ BMap, map }) {
     //   var geolocation = new BMap.Geolocation()

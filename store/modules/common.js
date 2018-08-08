@@ -1,7 +1,7 @@
 import CommonService from '@/services/CommonService'
 import { unionBy } from 'lodash'
 export const state = {
-  currentLocation: {},
+  currentLocation: null,
   areas: [],
   positions: [],
   metroPlatforms: [],
