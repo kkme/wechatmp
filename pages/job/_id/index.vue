@@ -64,22 +64,30 @@
           <div>
             <div class="job-detail-title subheading border-bottom py-2 px-3">工作地点</div>
             <div class="py-3"
-                 v-if="!detail.anyaddress">
+                 v-if="!detail.anyaddress && detail.longitude && detail.latitude">
               <no-ssr placeholder="地图加载中...">
-                <baidu-map class="bm-view"
+                <!-- <baidu-map class="map-view"
                            :center="{ lng: detail.longitude, lat: detail.latitude }"
                            :zoom="15">
                   <bm-marker :position="{ lng: detail.longitude, lat: detail.latitude }"
                              :icon="mapIcon"
                              :offset="mapIconOffset">
                   </bm-marker>
-                </baidu-map>
+                </baidu-map> -->
+
+                <div class="map-view"
+                     @touchstart.stop="handleTouch">
+                  <el-amap :center="center"
+                           :zoom="15">
+                    <el-amap-marker :position="center"></el-amap-marker>
+                  </el-amap>
+                </div>
               </no-ssr>
-              <v-divider></v-divider>
+              <v-divider class="mt-2"></v-divider>
             </div>
             <div class="px-3 py-2">
               <v-icon class="icon--text mr-0">iconfont icon-location</v-icon>
-              详细地址：{{detail.anyaddress ? '不限地址' : detail.address}}
+              详细地址：{{detail.anyaddress ? '不限地址' : (!!detail.longitude && !!detail.latitude) ? detail.address : '地址不明确,请联系发布方确认地址'}}
             </div>
           </div>
           <base-divider></base-divider>
@@ -104,7 +112,7 @@
               <v-icon class="mx-1">iconfont icon-dot</v-icon>
             </v-layout>
             <job-item :items="recommend"></job-item>
-            <base-infinite v-show="!recommend.length"></base-infinite>
+            <base-infinite @infinite="handleInfinite"></base-infinite>
           </div>
           <div class="job-detail-action">
             <bottom-btns>
@@ -174,6 +182,7 @@ import BottomBtns from '@/components/BottomBtns'
 import constant from '@const/public'
 import { eduList } from '@const'
 import { mapActions } from 'vuex'
+import { bdDecrypt } from '@helper'
 export default {
   components: {
     CorpItem,
@@ -198,6 +207,12 @@ export default {
     companyInfo: null,
     id: null
   }),
+  computed: {
+    center() {
+      return bdDecrypt(104.070093, 30.662956)
+      // return bdEncrypt(this.detail.longitude, this.detail.latitude)
+    }
+  },
   methods: {
     ...mapActions({
       fetchJob: 'job/fetchJob',
@@ -239,7 +254,16 @@ export default {
             this.companyInfo = res
           })
         })
-    }
+    },
+    handleInfinite($infinite) {
+      if (!this.detail.id) return
+      this.fetchRecommendJobs({ checkSign: this.detail.id, id: this.detail.positionid }).then(res => {
+        this.recommend = res.filter(job => job.recruitmentId !== this.detail.id)
+        $infinite.loaded()
+        $infinite.complete()
+      })
+    },
+    handleTouch() {}
   },
   mounted() {
     this.id = this.fetchData()

@@ -97,19 +97,39 @@
 </template>
 
 <script>
-export default {
+import { mapGetters, mapActions } from 'vuex'
 
+export default {
+  computed: {
+    ...mapGetters({
+      positions: 'common/positions',
+      metroes: 'common/metroPlatforms',
+      districts: 'common/districts'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchPositions: 'common/fetchPositions',
+      fetchMetroes: 'common/fetchMetroPlatforms',
+      fetchDistricts: 'common/fetchDistricts'
+    })
+  },
+  mounted() {
+    this.fetchPositions({})
+    this.fetchMetroes({})
+    this.fetchDistricts({})
+  }
 }
 </script>
 
 <style lang="scss">
 .job-regions {
-    position: absolute;
-    left: 0;
-    top: calc(100%);
-    width: 100vw;
-    text-align: left;
-    .job-regions-items {
-    }
+  position: absolute;
+  left: 0;
+  top: calc(100%);
+  width: 100vw;
+  text-align: left;
+  .job-regions-items {
+  }
 }
 </style>

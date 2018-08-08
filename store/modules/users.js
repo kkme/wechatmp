@@ -11,6 +11,7 @@ export const state = {
   collections: [],
   jobCollections: [],
   corpCollections: [],
+  histories: [],
   comments: [],
   resume: {}
 }
@@ -29,6 +30,7 @@ export const getters = {
   collections: state => state.collections,
   jobCollections: state => state.jobCollections,
   corpCollections: state => state.corpCollections,
+  commhistoriesents: state => state.histories,
   comments: state => state.comments,
   resume: state => state.resume
 }
@@ -38,13 +40,13 @@ export const mutations = {
     state.baseInfo = info
   },
   UPDATE_SCORE_LOG(state, scoreLog) {
-    state.scoreLog = scoreLog
+    state.scoreLog = unionBy(scoreLog, state.scoreLog, 'id')
   },
   UPDATE_POINTS_LOG(state, pointsLog) {
-    state.pointsLog = pointsLog
+    state.pointsLog = unionBy(pointsLog, state.pointsLog, 'id')
   },
   UPDATE_WALLET_LOG(state, walletLog) {
-    state.walletLog = walletLog
+    state.walletLog = unionBy(walletLog, state.walletLog, 'id')
   },
   UPDATE_JOB_COLLECTIONS(state, jobCollections) {
     state.jobCollections = unionBy(jobCollections, state.jobCollections, 'collectionId')
@@ -52,8 +54,11 @@ export const mutations = {
   UPDATE_CORP_COLLECTIONS(state, corpCollections) {
     state.corpCollections = unionBy(corpCollections, state.corpCollections, 'comId')
   },
+  UPDATE_HISTORIES(state, histories) {
+    state.histories = unionBy(histories, state.histories, 'id')
+  },
   UPDATE_COMMENTS(state, comments) {
-    state.comments = comments
+    state.comments = unionBy(comments, state.comments, 'id')
   },
   UPDATE_RESUME(state, resume) {
     state.resume = resume
@@ -83,29 +88,35 @@ export const actions = {
     })
   },
 
-  fetchBaseInfo({ commit }) {
-    return UserService.fetchBaseInfo().then(res => {
+  fetchBaseInfo({ commit }, payload) {
+    return UserService.fetchBaseInfo(payload).then(res => {
+      console.log(res.length)
+
       commit('UPDATE_BASE_INFO', res)
       return res
     })
   },
 
-  fetchScoreLog({ commit }) {
-    return UserService.fetchScoreLog().then(res => {
+  fetchScoreLog({ commit }, payload) {
+    return UserService.fetchScoreLog(payload).then(res => {
+      console.log(res.length)
+
       commit('UPDATE_SCORE_LOG', res)
       return res
     })
   },
 
-  fetchPointsLog({ commit }) {
-    return UserService.fetchPointsLog().then(res => {
+  fetchPointsLog({ commit }, payload) {
+    return UserService.fetchPointsLog(payload).then(res => {
+      console.log(res.length)
+
       commit('UPDATE_POINTS_LOG', res)
       return res
     })
   },
 
-  fetchWalletLog({ commit }) {
-    return UserService.fetchWalletLog().then(res => {
+  fetchWalletLog({ commit }, payload) {
+    return UserService.fetchWalletLog(payload).then(res => {
       commit('UPDATE_WALLET_LOG', res)
       return res
     })
@@ -122,14 +133,20 @@ export const actions = {
       return res
     })
   },
-  deleteJobCollection({ commit }, payload) {
-    return UserService.deleteJobCollection(payload).then(res => {
+  deleteCollection({ commit }, payload) {
+    return UserService.deleteCollection(payload).then(res => {
       // commit('UPDATE_COLLECTIONS', res)
       return res
     })
   },
-  fetchComments({ commit }) {
-    return UserService.fetchComments().then(res => {
+  fetchHistories({ commit }, payload) {
+    return UserService.fetchHistories(payload).then(res => {
+      commit('UPDATE_HISTORIES', res)
+      return res
+    })
+  },
+  fetchComments({ commit }, payload) {
+    return UserService.fetchComments(payload).then(res => {
       commit('UPDATE_COMMENTS', res)
       return res
     })

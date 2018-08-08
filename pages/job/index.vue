@@ -41,11 +41,13 @@
       <base-infinite @infinite="getMoreData"></base-infinite>
     </div>
 
-    <no-ssr v-if="!currentLocation">
+    <!-- <no-ssr v-if="!currentLocation">
       <baidu-map class="d-none"
                  @ready="gotLocation">
       </baidu-map>
-    </no-ssr>
+    </no-ssr> -->
+    <location location-only
+              @located="onLocated"></location>
   </div>
 </template>
 
@@ -53,6 +55,7 @@
 import JobFilter from '@/components/JobFilter'
 import JobSearsh from '@/components/JobSearsh'
 import JobItem from '@/components/JobItem'
+import Location from '@/components/Location'
 import { mapGetters, mapActions } from 'vuex'
 import { page } from '@mixins'
 
@@ -60,7 +63,8 @@ export default {
   components: {
     JobFilter,
     JobSearsh,
-    JobItem
+    JobItem,
+    Location
   },
   data: () => ({
     items: [{ src: require('@img/slider0.jpg') }, { src: require('@img/slider1.jpg') }],
@@ -92,64 +96,67 @@ export default {
         }
       })
     },
-    gotLocation({ BMap, map }) {
-      var geolocation = new BMap.Geolocation()
-      let self = this
-      geolocation.getCurrentPosition(
-        function(r) {
-          console.log(r)
-
-          if (r.point) self.currentLocation = r.point
-        },
-        { enableHighAccuracy: true }
-      )
+    onLocated(location) {
+      console.log(location)
     }
+    // gotLocation({ BMap, map }) {
+    //   var geolocation = new BMap.Geolocation()
+    //   let self = this
+    //   geolocation.getCurrentPosition(
+    //     function(r) {
+    //       console.log(r)
+
+    //       if (r.point) self.currentLocation = r.point
+    //     },
+    //     { enableHighAccuracy: true }
+    //   )
+    // }
   }
 }
 </script>
 
 <style lang="scss">
 .job {
-    position: relative;
-    .job-carousel_wrap {
-        .fade {
-            &-enter-active,
-            &-leave-active,
-            &-leave-to {
-                transition: 0.3s ease-out;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-            &-enter,
-            &-leave,
-            &-leave-to {
-                opacity: 0;
-            }
-        }
-        .job-carousel {
-            height: 210px;
-            .v-carousel__controls {
-                background: transparent;
-                button {
-                    margin: 0 !important;
-                    i.iconfont {
-                        font-size: 12px;
-                    }
-                }
-            }
-            img {
-                width: 100%;
-            }
-        }
+  position: relative;
+  .job-carousel_wrap {
+    .fade {
+      &-enter-active,
+      &-leave-active,
+      &-leave-to {
+        transition: 0.3s ease-out;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      &-enter,
+      &-leave,
+      &-leave-to {
+        opacity: 0;
+      }
     }
-    .job-title {
-        i.iconfont {
+    .job-carousel {
+      height: 210px;
+      .v-carousel__controls {
+        background: transparent;
+        button {
+          margin: 0 !important;
+          i.iconfont {
             font-size: 12px;
-            vertical-align: middle;
-            padding: 3px;
-            transform: scale(0.5);
+          }
         }
+      }
+      img {
+        width: 100%;
+      }
     }
+  }
+  .job-title {
+    i.iconfont {
+      font-size: 12px;
+      vertical-align: middle;
+      padding: 3px;
+      transform: scale(0.5);
+    }
+  }
 }
 </style>

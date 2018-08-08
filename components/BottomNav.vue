@@ -56,7 +56,7 @@ export default {
       fill: #8bc271;
     }
   }
-  .simple-svg-wrapper {
+  svg {
     width: 24px;
     height: 24px;
     path.st0 {

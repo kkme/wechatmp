@@ -1,5 +1,5 @@
 <template>
-  <div v-if="info">
+  <div v-if="info && info.comId">
     <base-divider></base-divider>
     <v-layout class="px-3 pt-2"
               column>
@@ -10,16 +10,18 @@
         </v-layout>
       </v-flex>
       <v-flex class="pt-2 caption text-muted">
-        <v-icon class="iconfont icon-location icon--text"></v-icon>四川省成都市青羊区青羊工业园D区28栋
+        <v-icon class="iconfont icon-location icon--text"></v-icon>{{info.address}} {{isCollected}}
       </v-flex>
       <v-flex class="caption text-muted mt-1 pb-1">
         <v-layout align-center>
           <v-icon class="iconfont icon-corp icon--text"></v-icon>{{info.nature}}
-          <base-tag v-if="info.businessLicenseFile"></base-tag>
+          <base-tag v-if="info.businessLevel">{{info.businessLevel}}</base-tag>
           <v-spacer></v-spacer>
-          <v-btn icon
-                 @click="onAddToCorpCollection(info.comId)">
-            <v-icon color="accent">iconfont icon-collection</v-icon>
+          <v-btn flat
+                 @click="onAddToCorpCollection(info.comId, info.collectionId)"
+                 class="ma-0 px-0">
+            <v-icon color="accent"
+                    class="mr-2">iconfont icon-collection</v-icon> 已收藏
           </v-btn>
         </v-layout>
       </v-flex>
@@ -52,12 +54,26 @@ export default {
     },
     info: Object
   },
+  data: () => ({
+    collected: false
+  }),
   methods: {
     ...mapActions({
-      addToCorpCollection: 'job/addToCorpCollection'
+      addToCorpCollection: 'job/addToCorpCollection',
+      deleteCollection: 'job/deleteCollection'
     }),
-    onAddToCorpCollection(id) {
-      this.addToCorpCollection({ id })
+    onAddToCorpCollection(id, added) {
+      if (added) {
+        this.deleteCollection({ id })
+      } else {
+        this.addToCorpCollection({ id })
+      }
+    }
+  },
+  computed: {
+    isCollected() {
+      if (!this.info) return false
+      return this.info.collectionId || this.collected
     }
   }
 }

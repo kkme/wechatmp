@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex">
     <component :is="'svg-corp-level'"
-               v-for="n in 5"
+               v-for="n in level"
                :key="n"
                class="svg-sm"
                :class="{ 'svg-grey': n > +level}"></component>

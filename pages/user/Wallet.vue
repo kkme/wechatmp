@@ -45,6 +45,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { page } from '@mixins'
 
 export default {
   head: () => ({
@@ -53,6 +54,7 @@ export default {
   meta: {
     title: '我的钱包'
   },
+  mixins: [page],
   computed: {
     ...mapGetters({
       walletLog: 'users/walletLog',
@@ -64,11 +66,12 @@ export default {
       fetchBaseInfo: 'users/fetchBaseInfo',
       fetchWalletLog: 'users/fetchWalletLog'
     }),
-    getMoreData($state) {
-      this.fetchWalletLog().then(res => {
-        $state.loaded()
-        if (res.length < 20 || res.length === 0) {
-          $state.complete()
+    getMoreData($infinite) {
+      this.getPage(this.page)
+      this.fetchWalletLog(this.page).then(res => {
+        $infinite.loaded()
+        if (res.length < this.page.pagesize || res.length === 0) {
+          $infinite.complete()
         }
       })
     }
@@ -86,7 +89,7 @@ export default {
   .wallet-balance {
     background: url('~@svg/wallet_bg.svg') no-repeat center bottom;
     background-size: 100%;
-    height: 26.98vh;
+    height: 27vh;
     & > div {
       height: 48px;
     }

@@ -1,6 +1,6 @@
 export default {
-  BASE_URL: 'https://local.sapi.s-cout.com/job-api/',
-  // BASE_URL: 'http://192.168.0.103:8080/',
+  // BASE_URL: 'https://local.sapi.s-cout.com/job-api/',
+  BASE_URL: 'http://192.168.0.99:8080/',
   // BASE_URL: 'http://192.168.1.107:8080/',
   BAIDU_MAP_KEY: 'lFHuTGOo6EQ23oLo0KTckFWmKy2yxbLx',
   BAIDU_MAP_POSITION_ICON: {
@@ -18,5 +18,5 @@ export default {
     pagesize: 20,
     pageindex: 1
   },
-  DEFAULT_PAGE_SIZE: 20
+  DEFAULT_PAGE_SIZE: 5
 }

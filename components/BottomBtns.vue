@@ -6,7 +6,7 @@
                 'bottom-btns-rounded': rounded !== false,
                 'bottom-btns-border': border !== false,
               }">
-      <v-flex>
+      <v-flex xs6>
         <slot name="no">
           <v-btn color="white"
                  class="ma-0 elevation-0"
@@ -15,7 +15,7 @@
                  @click="$emit('no')">拒绝</v-btn>
         </slot>
       </v-flex>
-      <v-flex>
+      <v-flex xs6>
         <slot name="yes">
           <v-btn color="primary"
                  class="ma-0 elevation-0"
@@ -53,6 +53,7 @@ export default {
   bottom: 0;
   left: 0;
   width: 100%;
+  z-index: 200;
   .bottom-btns {
     position: relative;
 

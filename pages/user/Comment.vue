@@ -1,13 +1,16 @@
 <template>
-  <div>
-    <comment-item v-for="n in 10"
-                  :key="n"></comment-item>
+  <div class="white">
+    <comment-item v-for="item in comments"
+                  :key="item.id"
+                  :items="item"></comment-item>
+    <base-infinite @infinite="getMoreData"></base-infinite>
   </div>
 </template>
 
 <script>
 import CommentItem from '@/components/CommentItem'
 import { mapGetters, mapActions } from 'vuex'
+import { page } from '@mixins'
 export default {
   components: {
     CommentItem
@@ -18,10 +21,7 @@ export default {
   meta: {
     title: '我的评价'
   },
-
-  data: () => ({
-    tabs: null
-  }),
+  mixins: [page],
   computed: {
     ...mapGetters({
       comments: 'users/comments'
@@ -30,13 +30,16 @@ export default {
   methods: {
     ...mapActions({
       fetchComments: 'users/fetchComments'
-    })
-  },
-  mounted() {
-    this.fetchComments()
+    }),
+    getMoreData($infinite) {
+      this.getPage(this.page)
+      this.fetchComments(this.page).then(res => {
+        $infinite.loaded()
+        if (!res || res.length < this.page.pagesize || res.length === 0) {
+          $infinite.complete()
+        }
+      })
+    }
   }
 }
 </script>
-
-<style lang="scss">
-</style>

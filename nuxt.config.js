@@ -33,8 +33,8 @@ module.exports = {
     '~/plugins/filters.js',
     '~/plugins/svgicons.js',
     { src: '~/plugins/scrollto.js', ssr: false },
-    { src: '~/plugins/baidumap.js', ssr: false }
-    // { src: '~/plugins/vue-amap.js', ssr: false }
+    { src: '~/plugins/baidumap.js', ssr: false },
+    { src: '~/plugins/vue-amap.js', ssr: false }
   ],
   css: ['~/assets/style/app.styl', '~/assets/style/scss/app.scss'],
   modules: [['nuxt-sass-resources-loader', ['@/assets/style/scss/_variables.scss']]],
@@ -64,7 +64,8 @@ module.exports = {
       '~/plugins/simpleSvg.js',
       '~/plugins/svgicons.js',
       '~/plugins/scrollto.js',
-      '~/plugins/baidumap.js'
+      '~/plugins/baidumap.js',
+      '~/plugins/vue-amap.js'
     ],
     extractCSS: true,
     cssSourceMap: false,

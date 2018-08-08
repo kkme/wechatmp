@@ -10,13 +10,13 @@
                  class="text-muted body-1"
                  color="primary"></v-radio>
       </v-radio-group>
-      <v-textarea outline
-                  solo
-                  flat
-                  v-model="note"
-                  label="请描述你的问题"
-                  counter="200"
-                  class="feedback-note body-1"></v-textarea>
+      <base-textarea outline
+                     solo
+                     flat
+                     v-model="note"
+                     label="请描述你的问题"
+                     counter="200"
+                     class="feedback-note body-1"></base-textarea>
     </div>
     <base-divider></base-divider>
     <div class="px-3">

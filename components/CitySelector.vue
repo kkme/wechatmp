@@ -38,16 +38,19 @@
                         v-model="inputValue"
                         class="mx-3"></base-input>
           </div>
-          <div class="d-flex px-3 py-2 border-bottom">
+          <v-layout class="px-3 py-2 border-bottom"
+                    align-center>
             当前位置：
-            <span class="primary--text">成都</span>
+            <span class="primary--text">
+              <location></location>
+            </span>
             <v-spacer></v-spacer>
             <a href="#"
                v-scroll-to="{
                     el: '#province64',
                     container: '.city-selector-main-provinces',
                 }">刷新</a>
-          </div>
+          </v-layout>
         </div>
         <v-layout class="city-selector-main">
           <v-list class="city-selector-main-provinces secondary">
@@ -94,8 +97,10 @@
 </template>
 
 <script>
+import Location from '@/components/Location'
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  components: { Location },
   props: {
     disableCity: {
       type: [String, Boolean],
@@ -129,16 +134,12 @@ export default {
     },
     currentCities() {
       if (!this.currentProvince) return []
-      let cities = this.areas.filter(
-        area => +area.pid === +this.currentProvince.id
-      )
+      let cities = this.areas.filter(area => +area.pid === +this.currentProvince.id)
       return cities
     },
     currentCounties() {
       if (!this.currentCity) return []
-      let counties = this.areas.filter(
-        area => +area.pid === +this.currentCity.id
-      )
+      let counties = this.areas.filter(area => +area.pid === +this.currentCity.id)
       return counties
     },
     currentLocation() {
@@ -190,9 +191,7 @@ export default {
       if (region.length) {
         if (region[0]) {
           this.fetchCities().then(() => {
-            this.currentProvince = this.areas.find(
-              area => +area.id === +region[0]
-            )
+            this.currentProvince = this.areas.find(area => +area.id === +region[0])
             setTimeout(() => {
               this.$nextTick(
                 this.$scrollTo('#province64', 1000, {
@@ -213,9 +212,7 @@ export default {
         }
         if (region[2]) {
           this.fetchCities({ id: region[1] }).then(() => {
-            this.currentCounty = this.areas.find(
-              area => +area.id === +region[2]
-            )
+            this.currentCounty = this.areas.find(area => +area.id === +region[2])
           })
         }
       } else this.fetchCities()

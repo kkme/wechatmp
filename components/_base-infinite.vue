@@ -2,7 +2,8 @@
   <no-ssr>
     <infinite-loading v-bind="$attrs"
                       v-on="$listeners"
-                      :spinner="spinner">
+                      :spinner="spinner"
+                      :distance="distance">
       <div slot="no-more"
            class="caption text-muted">
         没有更多数据了
@@ -23,6 +24,10 @@ export default {
     spinner: {
       type: String,
       default: 'bubbles'
+    },
+    distance: {
+      type: Number,
+      default: 10
     }
   },
   components: {

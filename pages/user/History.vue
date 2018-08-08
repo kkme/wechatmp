@@ -1,30 +1,45 @@
 <template>
-  <div>
-    <job-item />
-    <job-item />
-    <job-item />
-    <job-item />
+  <div class="white">
+    <job-item v-for="item in histories"
+              :key="item.id"
+              :items="item"></job-item>
+    <base-infinite @infinite="getMoreData"></base-infinite>
   </div>
 </template>
 
 <script>
 import JobItem from '@/components/JobItem'
+import { mapGetters, mapActions } from 'vuex'
+import { page } from '@mixins'
 export default {
-  asyncData(context) {
-    // called every time before loading the component
-    return { name: 'World' }
-  },
-  head: () => ({
-    title: '浏览记录'
-  }),
-  meta: {
-    title: '浏览记录'
-  },
   components: {
     JobItem
+  },
+  head: () => ({
+    title: '我的足迹'
+  }),
+  meta: {
+    title: '我的足迹'
+  },
+  mixins: [page],
+  computed: {
+    ...mapGetters({
+      histories: 'users/histories'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchHistories: 'users/fetchHistories'
+    }),
+    getMoreData($infinite) {
+      this.getPage(this.page)
+      this.fetchHistories(this.page).then(res => {
+        $infinite.loaded()
+        if (res.length < this.page.pagesize || res.length === 0) {
+          $infinite.complete()
+        }
+      })
+    }
   }
 }
 </script>
-
-<style>
-</style>

@@ -72,10 +72,10 @@
       <template v-for="(item, index) in items">
         <v-list-tile :class="{'border-top': index !== 0}"
                      v-bind="{
-                        ['nuxt']: item.icon !== 'contactus',
-                        ['to']: item.icon !== 'contactus' ? item.href : '',
-                        ['href']: item.icon === 'contactus' ?  item.href : '',
-                        ['rel']: item.icon === 'contactus' ?  'nofollow' : '',
+                        ['nuxt']: item.icon !== 'svg-contactus',
+                        ['to']: item.icon !== 'svg-contactus' ? item.href : '',
+                        ['href']: item.icon === 'svg-contactus' ?  item.href : '',
+                        ['rel']: item.icon === 'svg-contactus' ?  'nofollow' : '',
                      }"
                      :key="index">
 
@@ -109,7 +109,7 @@ export default {
   data: () => ({
     items: [
       { icon: 'svg-collection', title: '我的收藏', href: '/user/collection' },
-      { icon: 'svg-history', title: '浏览记录', href: '/user/history' },
+      { icon: 'svg-history', title: '我的足迹', href: '/user/history' },
       { icon: 'svg-comment', title: '我的评价', href: '/user/comment' },
       { icon: 'svg-safety', title: '账户安全', href: '/user/account' },
       {

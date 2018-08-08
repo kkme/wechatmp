@@ -22,10 +22,16 @@ export default {
 
 <style lang="scss">
 .base-textarea {
+  &:not(.v-input--is-focused) {
+    &.v-text-field--outline .v-input__slot {
+      border-color: $border-color;
+    }
+  }
   &.v-text-field--outline .v-input__slot {
     border-width: 1px;
   }
   &.v-text-field--outline:not(.v-input--is-focused) .v-input__slot:hover {
+    border-color: $border-color;
     border-width: 1px;
   }
 }
