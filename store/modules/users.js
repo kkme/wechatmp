@@ -21,11 +21,7 @@ export const getters = {
   scoreLog: state => state.scoreLog,
   groupedScoreLog: state => groupByMonth(state.scoreLog),
   pointsLog: state => state.pointsLog,
-  groupedPointsLog: state => {
-    let list = groupByMonth(state.pointsLog)
-    // console.log(JSON.stringify(list, null, 2))
-    return list
-  },
+  groupedPointsLog: state => groupByMonth(state.pointsLog),
   walletLog: state => state.walletLog,
   collections: state => state.collections,
   jobCollections: state => state.jobCollections,

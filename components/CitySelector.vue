@@ -167,12 +167,12 @@ export default {
       this.currentProvince = province
       this.currentCity = {}
       this.currentCounty = {}
-      this.fetchCities({ id: province.id })
+      this.fetchCities({ pid: province.id })
     },
     setCurrentCity(city) {
       this.currentCity = city
       this.currentCounty = {}
-      this.fetchCities({ id: city.id })
+      this.fetchCities({ pid: city.id })
     },
     setCurrentCounty(county) {
       this.currentCounty = county
@@ -206,12 +206,12 @@ export default {
           })
         }
         if (region[1]) {
-          this.fetchCities({ id: region[0] }).then(() => {
+          this.fetchCities({ pid: region[0] }).then(() => {
             this.currentCity = this.areas.find(area => +area.id === +region[1])
           })
         }
         if (region[2]) {
-          this.fetchCities({ id: region[1] }).then(() => {
+          this.fetchCities({ pid: region[1] }).then(() => {
             this.currentCounty = this.areas.find(area => +area.id === +region[2])
           })
         }

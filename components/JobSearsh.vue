@@ -29,6 +29,7 @@
             <city-selector>
               <v-btn flat
                      large
+                     :loading="!currentCity.areaname"
                      class="ma-0 px-3 body-1">
                 <span class="cart">请选择城市</span>
               </v-btn>
@@ -59,7 +60,7 @@
                   class="mt-2">
           <span class="subheading">历史搜索</span>
           <v-spacer />
-          <v-icon>iconfont icon-delete</v-icon>
+          <v-icon class="icon--text">iconfont icon-delete</v-icon>
           <v-flex xs12>
             <base-tag height="24px">包吃</base-tag>
             <base-tag height="24px">包住</base-tag>
@@ -71,7 +72,8 @@
                   class="mt-2">
           <span class="subheading">热门搜索</span>
           <v-spacer />
-          <v-icon>iconfont icon-hot</v-icon>
+          <v-icon class="icon--text"
+                  color="accent">iconfont icon-hot</v-icon>
           <v-flex xs12>
             <base-tag height="24px">包吃</base-tag>
             <base-tag height="24px">包住</base-tag>
@@ -86,6 +88,7 @@
 
 <script>
 import CitySelector from '@/components/CitySelector'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     CitySelector
@@ -95,6 +98,11 @@ export default {
     active: false,
     formBg: false
   }),
+  computed: {
+    ...mapGetters({
+      currentCity: 'common/currentCity'
+    })
+  },
   methods: {
     prevent(event) {
       console.log('something happened')

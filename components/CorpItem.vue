@@ -10,7 +10,7 @@
         </v-layout>
       </v-flex>
       <v-flex class="pt-2 caption text-muted">
-        <v-icon class="iconfont icon-location icon--text"></v-icon>{{info.address}} {{isCollected}}
+        <v-icon class="iconfont icon-location icon--text"></v-icon>{{info.address}}
       </v-flex>
       <v-flex class="caption text-muted mt-1 pb-1">
         <v-layout align-center>

@@ -599,12 +599,20 @@ const eduList = [
   { label: '硕士研究生', name: 'EDUCATION_LEVEL_6', value: 316 },
   { label: '博士及以上', name: 'EDUCATION_LEVEL_7', value: 317 }
 ]
-const identity = [
-  { label: '学生', value: 'IDENTITY_STUDENT' },
-  { label: '其他', value: 'IDENTITY_OTHER' }
-]
+const identity = [{ label: '学生', value: 'IDENTITY_STUDENT' }, { label: '其他', value: 'IDENTITY_OTHER' }]
 const collectionTypes = [
   { label: '兼职', name: 'job', value: 'COLLECTION_TYPE_PARTTIME' },
   { label: '企业', name: 'corp', value: 'COLLECTION_TYPE_COMPANY' }
 ]
-export { gender, eduList, identity, collectionTypes }
+const jobTypes = [
+  { label: '兼职', name: 'parttime', value: 'RECRUITMENT_PARTTIME' },
+  { label: '实习', name: 'train', value: 'RECRUITMENT_PRACTICE' }
+]
+const jobOrderBy = [
+  { label: 'default', name: '默认发布', value: 'default' },
+  { label: 'newest', name: '最新发布', value: 'newest' },
+  { label: 'salary', name: '工资最高', value: 'salary' },
+  { label: 'distance', name: '距离最近', value: 'distance' },
+  { label: 'integral', name: '积分最高', value: 'integral' }
+]
+export { gender, eduList, identity, collectionTypes, jobTypes, jobOrderBy }

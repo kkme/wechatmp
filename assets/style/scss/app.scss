@@ -33,7 +33,7 @@
 }
 .border-right__list {
   position: relative;
-  &:not(:last-child):after {
+  &::after {
     content: '';
     position: absolute;
     height: 100%;

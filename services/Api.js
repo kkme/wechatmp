@@ -18,7 +18,7 @@ instance.interceptors.response.use(
     if (data) {
       return data
     } else {
-      return response.data
+      return Promise.reject(response.data)
     }
   },
   error => {

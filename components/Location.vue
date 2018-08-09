@@ -41,6 +41,7 @@ export default {
                 if (result && result.position) {
                   let address = result.addressComponent
                   self.$emit('located', {
+                    adcode: address.adcode,
                     province: address.province,
                     city: address.city,
                     district: address.district,

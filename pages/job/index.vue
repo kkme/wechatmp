@@ -39,10 +39,10 @@
     <div class="job-list">
       <job-item :items="jobs"></job-item>
       <base-infinite @infinite="getMoreData"
-                     v-if="currentLocation"></base-infinite>
+                     v-if="currentLocation.position"></base-infinite>
     </div>
 
-    <!-- <no-ssr v-if="!currentLocation">
+    <!-- <no-ssr v-if="!currentCity.id">
       <baidu-map class="d-none"
                  @ready="gotLocation">
       </baidu-map>
@@ -80,33 +80,44 @@ export default {
   computed: {
     ...mapGetters({
       jobs: 'job/jobs',
-      currentLocation: 'common/currentLocation'
+      currentLocation: 'common/currentLocation',
+      currentCity: 'common/currentCity'
     })
   },
   methods: {
     ...mapActions({
-      fetchJobs: 'job/fetchJobs'
+      fetchJobs: 'job/fetchJobs',
+      fetchCities: 'common/fetchCities'
     }),
     ...mapMutations({
-      setLocation: 'common/UPDATE_CURRENT_LOCATION'
+      updateCurrentLocation: 'common/UPDATE_CURRENT_LOCATION',
+      updateCurrentCity: 'common/UPDATE_CURRENT_CITY'
     }),
     getMoreData($state) {
       let opts = {}
-      if (!this.currentLocation) return
-      console.log(1)
-
+      if (!this.currentLocation.position) return
       opts.longitude = this.currentLocation.position.lng
       opts.latitude = this.currentLocation.position.lat
       this.getPage(this.page, opts)
-      this.fetchJobs(this.page).then(res => {
-        $state.loaded()
-        if (res.length < this.page.pagesize || res.length === 0) {
+      this.fetchJobs(this.page)
+        .then(res => {
+          $state.loaded()
+          if (res.length < this.page.pagesize || res.length === 0) {
+            $state.complete()
+          }
+        })
+        .catch(error => {
           $state.complete()
-        }
-      })
+          throw error.msg
+        })
     },
     onLocated(location) {
-      this.setLocation(location)
+      this.updateCurrentLocation(location)
+      this.updateCurrentCity({
+        areaname: location.city,
+        id: location.adcode.substr(0, 4),
+        pid: location.adcode.substr(0, 2)
+      })
     }
     // gotLocation({ BMap, map }) {
     //   var geolocation = new BMap.Geolocation()
@@ -120,6 +131,9 @@ export default {
     //     { enableHighAccuracy: true }
     //   )
     // }
+  },
+  mounted() {
+    this.fetchCities({ pid: 0 })
   }
 }
 </script>

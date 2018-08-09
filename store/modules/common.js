@@ -1,7 +1,8 @@
 import CommonService from '@/services/CommonService'
-import { unionBy } from 'lodash'
+import { unionBy, groupBy } from 'lodash'
 export const state = {
-  currentLocation: null,
+  currentLocation: {},
+  currentCity: {},
   areas: [],
   positions: [],
   metroPlatforms: [],
@@ -10,9 +11,15 @@ export const state = {
 
 export const getters = {
   currentLocation: state => state.currentLocation,
+  currentCity: state => state.currentCity,
   areas: state => state.areas,
   positions: state => state.positions,
-  metroPlatformss: state => state.metroPlatforms,
+  groupedPositions: state => {
+    let list = groupPosition(state.positions)
+    // console.log(JSON.stringify(list, null, 2))
+    return list
+  },
+  metroPlatforms: state => state.metroPlatforms,
   districts: state => state.districts
 }
 
@@ -20,24 +27,27 @@ export const mutations = {
   UPDATE_CURRENT_LOCATION(state, location) {
     state.currentLocation = location
   },
-  UPDATE_CITIES(state, areas) {
-    state.areas = unionBy(areas, state.areas, 'id')
+  UPDATE_CURRENT_CITY(state, city) {
+    state.currentCity = city
   },
-  UPDATE_POSITIONS(state, areas) {
-    state.positions = unionBy(areas, state.positions, 'id')
+  UPDATE_CITIES(state, cities) {
+    state.areas = unionBy(cities, state.areas, 'id')
   },
-  UPDATE_METRO_PLATFORMS(state, areas) {
-    state.metroPlatformss = unionBy(areas, state.metroPlatformss, 'id')
+  UPDATE_POSITIONS(state, positions) {
+    state.positions = unionBy(positions, state.positions, 'id')
   },
-  UPDATE_DISTRICTS(state, areas) {
-    state.districts = unionBy(areas, state.districts, 'id')
+  UPDATE_METRO_PLATFORMS(state, metroPlatforms) {
+    state.metroPlatforms = unionBy(metroPlatforms, state.metroPlatforms, 'id')
+  },
+  UPDATE_DISTRICTS(state, districts) {
+    state.districts = unionBy(districts, state.districts, 'id')
   }
 }
 
 export const actions = {
   fetchCities({ commit, state }, payload) {
     if (payload) {
-      let exist = state.areas.find(area => +area.pid === +payload.id)
+      let exist = state.areas.find(area => +area.pid === +payload.pid)
       if (exist) return
     }
     return CommonService.fetchCities(payload).then(res => {
@@ -79,4 +89,19 @@ export const actions = {
   uploadFile({ commit }, payload) {
     return CommonService.uploadFile(payload)
   }
+}
+
+const groupPosition = data => {
+  if (!(data && data.length)) return []
+  let group = Object.entries(groupBy(data, ele => ele.pid))
+  let headers = group.find(ele => ele[0] === '0')[1]
+  if (!headers) return []
+  let groupedList = headers.map(header => {
+    let list = group.find(ele => ele[0] === header.id)
+    return {
+      header,
+      list: list ? list[1] : []
+    }
+  })
+  return groupedList
 }
