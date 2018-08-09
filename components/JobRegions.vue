@@ -117,11 +117,4 @@ export default {
 </script>
 
 <style lang="scss">
-.job-regions {
-  position: absolute;
-  left: 0;
-  top: 100%;
-  width: 100vw;
-  text-align: left;
-}
 </style>

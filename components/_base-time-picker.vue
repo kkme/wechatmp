@@ -1,34 +1,23 @@
 <template>
   <v-dialog ref="dialog"
+            class="time-picker"
             v-model="modal"
-            :return-value.sync="date"
+            :return-value.sync="time"
             persistent
             lazy
             full-width
-            width="290px"
-            class="data-picker-dialog">
-    <!-- <v-text-field slot="activator"
-                  v-model="date"
-                  label="Picker in dialog"
-                  prepend-icon="event"
-                  readonly></v-text-field> -->
+            width="290px">
     <base-input slot="activator"
-                v-model="date"
+                v-model="time"
                 readonly
                 class="px-0"
-                :class="{'input-rtl': ltr === false}"
                 :placeholder="$attrs.placeholder"
                 :bordered="$attrs.bordered"
                 ref="activator"></base-input>
-    <v-date-picker v-model="date"
-                   v-bind="$attrs"
-                   locale="zh-cn"
-                   :min="min"
-                   :max="max"
-                   :day-format="date => date.split('-')[2]"
-                   scrollable
-                   color="primary"
-                   class="data-picker">
+    <v-time-picker v-if="modal"
+                   v-model="time"
+                   format="24hr"
+                   scrollable>
       <v-spacer></v-spacer>
       <v-btn flat
              color="primary"
@@ -36,7 +25,7 @@
       <v-btn flat
              color="primary"
              @click="onClick">确定</v-btn>
-    </v-date-picker>
+    </v-time-picker>
   </v-dialog>
 </template>
 
@@ -56,7 +45,7 @@ export default {
     }
   },
   data: () => ({
-    date: null,
+    time: null,
     modal: false
   }),
   methods: {
@@ -64,15 +53,15 @@ export default {
       this.$refs.activator.click()
     },
     onClick() {
-      this.$refs.dialog.save(this.date)
-      this.$emit('input', this.date)
+      this.$refs.dialog.save(this.time)
+      this.$emit('input', this.time)
     }
   }
 }
 </script>
 
 <style lang="scss">
-.data-picker {
+.time-picker {
     .v-date-picker-years {
         -webkit-overflow-scrolling: touch;
         user-select: none;

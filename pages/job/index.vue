@@ -1,5 +1,5 @@
 <template>
-  <div class="job">
+  <div class="job min-h-100">
     <div class="job-carousel_wrap">
       <v-carousel hide-controls
                   interval="3000"
@@ -140,46 +140,50 @@ export default {
 
 <style lang="scss">
 .job {
-  position: relative;
-  .job-carousel_wrap {
-    .fade {
-      &-enter-active,
-      &-leave-active,
-      &-leave-to {
-        transition: 0.3s ease-out;
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-      &-enter,
-      &-leave,
-      &-leave-to {
-        opacity: 0;
-      }
-    }
-    .job-carousel {
-      height: 210px;
-      .v-carousel__controls {
-        background: transparent;
-        button {
-          margin: 0 !important;
-          i.iconfont {
-            font-size: 12px;
-          }
+    position: relative;
+    .job-carousel_wrap {
+        .fade {
+            &-enter-active,
+            &-leave-active,
+            &-leave-to {
+                transition: 0.3s ease-out;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            &-enter,
+            &-leave,
+            &-leave-to {
+                opacity: 0;
+            }
         }
-      }
-      img {
-        width: 100%;
-      }
+        .job-carousel {
+            height: 210px;
+            .v-carousel__controls {
+                background: transparent;
+                button {
+                    margin: 0 !important;
+                    i.iconfont {
+                        font-size: 12px;
+                    }
+                }
+            }
+            img {
+                width: 100%;
+            }
+        }
     }
-  }
-  .job-title {
-    i.iconfont {
-      font-size: 12px;
-      vertical-align: middle;
-      padding: 3px;
-      transform: scale(0.5);
+    .job-title {
+        i.iconfont {
+            font-size: 12px;
+            vertical-align: middle;
+            padding: 3px;
+            transform: scale(0.5);
+        }
     }
-  }
+
+    .job-list {
+        min-height: 100vh;
+    }
 }
 </style>

@@ -10,7 +10,8 @@
                :loading="!currentCity.areaname"
                @click="onClickTab(0)">{{currentCity.areaname}}</v-btn>
         <transition>
-          <job-regions v-if="active === 0"></job-regions>
+          <job-regions class="job-filter-item-regions"
+                       v-show="active === 0"></job-regions>
         </transition>
       </v-flex>
       <v-flex xs3
@@ -20,7 +21,8 @@
                class="job-filter-item-title ma-0 border-right__list"
                @click="onClickTab(1)">职位类型</v-btn>
         <transition>
-          <job-positions v-if="active === 1"></job-positions>
+          <job-positions class="job-filter-item-positions"
+                         v-show="active === 1"></job-positions>
         </transition>
       </v-flex>
       <v-flex xs3
@@ -30,7 +32,8 @@
                class="job-filter-item-title ma-0 border-right__list"
                @click="onClickTab(2)">智能排序</v-btn>
         <transition>
-          <job-orderby v-if="active === 2"></job-orderby>
+          <job-orderby class="job-filter-item-orderby"
+                       v-show="active === 2"></job-orderby>
         </transition>
       </v-flex>
       <v-flex xs3
@@ -39,6 +42,10 @@
                block
                class="job-filter-item-title ma-0"
                @click="onClickTab(3)">筛选</v-btn>
+        <transition>
+          <job-conditions class="job-filter-item-conditions"
+                          v-show="active === 3"></job-conditions>
+        </transition>
       </v-flex>
     </v-layout>
   </div>
@@ -49,12 +56,14 @@
 import JobRegions from '@/components/JobRegions'
 import JobPositions from '@/components/JobPositions'
 import JobOrderby from '@/components/JobOrderby'
+import JobConditions from '@/components/JobConditions'
 import { mapGetters } from 'vuex'
 export default {
   components: {
     JobRegions,
     JobPositions,
-    JobOrderby
+    JobOrderby,
+    JobConditions
   },
   data: () => ({
     active: -1
@@ -82,16 +91,27 @@ export default {
 
 <style lang="scss">
 .job-filter {
-  position: sticky;
-  top: $top-nav-height;
-  z-index: 1;
-  .job-filter-wrap {
-    position: relative;
-    .job-filter-item {
-      .job-filter-item-title.border-right__list::after {
-        transform: scaleY(0.5);
-      }
+    position: sticky;
+    top: $top-nav-height;
+    z-index: 1;
+    .job-filter-wrap {
+        position: relative;
+        z-index: 2;
+        .job-filter-item {
+            .job-filter-item-title.border-right__list::after {
+                transform: scaleY(0.5);
+            }
+            .job-filter-item-regions,
+            .job-filter-item-positions,
+            .job-filter-item-orderby,
+            .job-filter-item-conditions {
+                position: absolute;
+                left: 0;
+                top: 100%;
+                width: 100vw;
+                text-align: left;
+            }
+        }
     }
-  }
 }
 </style>

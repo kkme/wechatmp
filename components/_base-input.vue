@@ -1,6 +1,7 @@
 <template>
   <v-layout class="base-input"
-            align-center>
+            align-center
+            :class="{'base-input-bordered': bordered !== false }">
     <v-flex>
       <v-text-field single-line
                     full-width
@@ -35,7 +36,11 @@ export default {
       type: String,
       default: null
     },
-    value: String
+    value: String,
+    bordered: {
+      type: [String, Boolean],
+      default: false
+    }
   },
   watch: {
     value: {
@@ -85,21 +90,31 @@ export default {
 
 <style lang="scss">
 .base-input {
-  position: relative;
-  .v-text-field.v-text-field--solo .v-input__control {
-    min-height: 35px;
-    background-color: transparent;
-  }
-  .base-input-btn {
-    position: absolute;
-    right: 16px;
-    top: 8px;
-  }
-  input:focus {
-    font-size: 16px;
-  }
-  input::placeholder {
-    font-size: 14px;
-  }
+    position: relative;
+    .v-text-field.v-text-field--solo .v-input__control {
+        min-height: 35px;
+        background-color: transparent;
+    }
+    &.base-input-bordered {
+        .v-text-field input {
+            padding: 4px 0 4px;
+        }
+        .v-text-field.v-text-field--solo .v-input__control {
+            min-height: 28px;
+            border: 1px solid $border-color-dark;
+            border-radius: $border-radius;
+        }
+    }
+    .base-input-btn {
+        position: absolute;
+        right: 16px;
+        top: 8px;
+    }
+    input:focus {
+        font-size: 16px;
+    }
+    input::placeholder {
+        font-size: 14px;
+    }
 }
 </style>
