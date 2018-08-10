@@ -67,5 +67,8 @@ export default {
       fill: #292828;
     }
   }
+  &.v-bottom-nav .v-btn {
+    min-width: unset;
+  }
 }
 </style>

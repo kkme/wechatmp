@@ -15,7 +15,7 @@ instance.interceptors.response.use(
   response => {
     // TODO: some auth stuff
     let data = response.data.data
-    if (data) {
+    if (data || data === '') {
       return data
     } else {
       return Promise.reject(response.data)

@@ -59,7 +59,49 @@
       </v-layout>
     </div>
     <div class="py-1 px-3">
-      <div class="body-2">工资模式</div>
+      <div class="body-2">工资模式{{condition.wageMode}}</div>
+      <div class="d-flex">
+        <base-tag height="24px"
+                  :color="condition.wageMode === '' ? 'primary' : 'grey'"
+                  @click="condition.wageMode = ''">不限</base-tag>
+        <base-tag height="24px"
+                  v-for="salaryType of salaryTypes"
+                  :key="salaryType.label"
+                  :color="condition.wageMode === salaryType.value ? 'primary' : 'grey'"
+                  @click="condition.wageMode = salaryType.value">{{salaryType.name}}</base-tag>
+      </div>
+    </div>
+    <div class="py-1 px-3">
+      工资范围
+      <v-layout align-center>
+        <div class="job-conditions-input">
+          <base-input placeholder="最低薪资"
+                      v-model="condition.wageBegin"
+                      bordered></base-input>
+        </div>
+        <span class="px-3">-</span>
+        <div class="job-conditions-input">
+          <base-input placeholder="最高薪资"
+                      v-model="condition.wageEnd"
+                      bordered></base-input>
+        </div>
+      </v-layout>
+    </div>
+    <div class="py-1 px-3">
+      <div class="body-2">结算方式{{condition.wageClearing}}</div>
+      <div class="d-flex">
+        <base-tag height="24px"
+                  :color="condition.wageClearing === '' ? 'primary' : 'grey'"
+                  @click="condition.wageClearing = ''">不限</base-tag>
+        <base-tag height="24px"
+                  v-for="paymentType of paymentTypes"
+                  :key="paymentType.label"
+                  :color="condition.wageClearing === paymentType.value ? 'primary' : 'grey'"
+                  @click="onPaymentTypeSelected(paymentType)">{{paymentType.name}}</base-tag>
+      </div>
+    </div>
+    <div class="py-1 px-3">
+      <div class="body-2">特色兼职</div>
       <div class="d-flex">
         <base-tag height="24px">不限</base-tag>
         <base-tag height="24px">不限</base-tag>
@@ -68,21 +110,7 @@
       </div>
     </div>
     <div class="py-1 px-3">
-      工资范围
-      <v-layout align-center>
-        <div class="job-conditions-input">
-          <base-input placeholder="最低薪资"
-                      bordered></base-input>
-        </div>
-        <span class="px-3">-</span>
-        <div class="job-conditions-input">
-          <base-input placeholder="最高薪资"
-                      bordered></base-input>
-        </div>
-      </v-layout>
-    </div>
-    <div class="py-1 px-3">
-      <div class="body-2">结算方式</div>
+      <div class="body-2">特色兼职</div>
       <div class="d-flex">
         <base-tag height="24px">不限</base-tag>
         <base-tag height="24px">不限</base-tag>
@@ -103,6 +131,7 @@
 </template>
 
 <script>
+import { salaryTypes, paymentTypes } from '@const'
 export default {
   data: () => ({
     condition: {
@@ -116,20 +145,34 @@ export default {
       wageEnd: '',
       wageMode: '', // 工资模式
       wageClearing: '', // 结算方式
-      featuresId: ''// 特色兼职
+      featuresId: '' // 特色兼职
+    },
+    salaryTypes,
+    paymentTypes
+  }),
+  methods: {
+    onSalaryTypeSelected(salaryType) {
+      console.log(salaryType)
+
+      this.condition.wageMode = salaryType.value
+    },
+    onPaymentTypeSelected(paymentType) {
+      console.log(paymentType)
+
+      this.condition.wageClearing = paymentType.value
     }
-  })
+  }
 }
 </script>
 
 <style lang="scss">
 .job-conditions {
-    .job-conditions-input {
-        width: 8em;
-    }
-    .job-conditions-special-item {
-        display: inherit;
-        margin-left: $tag-space;
-    }
+  .job-conditions-input {
+    width: 8em;
+  }
+  .job-conditions-special-item {
+    display: inherit;
+    margin-left: $tag-space;
+  }
 }
 </style>

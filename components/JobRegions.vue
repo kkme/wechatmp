@@ -1,7 +1,8 @@
 <template>
-  <v-layout class="job-regions white border-bottom border-top">
+  <v-layout class="job-regions white border-bottom border-top"
+            v-on="$listeners">
     <v-flex xs4
-            class="job-regions-item border-right__list">
+            class="job-regions-item border-right">
       <v-list dense>
         <v-list-tile @click="levelOne = 'metro'"
                      :class="{'primary': levelOne === 'metro' }"
@@ -20,7 +21,7 @@
       </v-list>
     </v-flex>
     <v-flex xs4
-            class="job-regions-item border-right__list">
+            class="job-regions-item border-right">
       <v-list dense>
         <v-list-tile @click="handleLevelTwo(item)"
                      ripple
@@ -108,13 +109,26 @@ export default {
       }
     }
   },
+  watch: {
+    currentCity(newLocation) {
+      if (newLocation.id) {
+        this.fetchMetroes({ areaid: this.currentCity.id, metroid: 0 })
+        this.fetchArea({ pid: this.currentCity.id })
+      }
+    }
+  },
   mounted() {
-    this.fetchMetroes({ areaid: this.currentCity.id, metroid: 0 })
-    // this.fetchDistricts({})
-    this.fetchArea({ pid: this.currentCity.id })
+    // this.fetchMetroes({ areaid: this.currentCity.id, metroid: 0 })
+    // // this.fetchDistricts({})
+    // this.fetchArea({ pid: this.currentCity.id })
   }
 }
 </script>
 
 <style lang="scss">
+.job-regions {
+  .job-regions-item {
+    overflow: auto;
+  }
+}
 </style>

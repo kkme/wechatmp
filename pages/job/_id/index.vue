@@ -20,10 +20,10 @@
               <span class="body-2">{{detail.wagebegin}} - {{detail.wageend}}</span>元/天
             </div>
             <v-flex xs12>
-              <base-tag>{{detail.wageclearing}}</base-tag>
+              <base-tag>{{detail.wageclearing | valueToLabel(paymentTypes)}}</base-tag>
               <base-tag color="primary">
-                <v-icon class="icon--text mr-0">iconfont icon-safety</v-icon>{{detail.wagegeneration}}</base-tag>
-              <base-tag>{{detail.wagemode}}</base-tag>
+                <v-icon class="icon--text mr-0">iconfont icon-safety</v-icon>{{detail.wagegeneration | valueToLabel(paymentPlatfroms)}}</base-tag>
+              <base-tag>{{detail.wagemode | valueToLabel(salaryTypes)}}</base-tag>
             </v-flex>
           </v-layout>
           <v-divider class="mx-3"></v-divider>
@@ -51,13 +51,13 @@
             <div class="job-detail-title subheading border-bottom py-2 px-3">薪资福利</div>
             <div class="pt-3 px-3">
               <p class="mb-0">
-                <span class="text-muted">工资模式：</span>{{detail.wagemode}}</p>
+                <span class="text-muted">工资模式：</span>{{detail.wagemode | valueToLabel(salaryTypes)}}</p>
               <p class="mb-0">
                 <span class="text-muted">基本底薪：</span>{{detail.wagebase}}元</p>
               <p class="mb-0">
                 <span class="text-muted">提成工资：</span>{{detail.wagecommission}}元/单</p>
               <p class="mb-0">
-                <span class="text-muted">工资结算：</span>{{detail.wageclearing}}</p>
+                <span class="text-muted">工资结算：</span>{{detail.wageclearing | valueToLabel(paymentTypes)}}</p>
             </div>
           </div>
           <base-divider></base-divider>
@@ -142,33 +142,30 @@
       <v-tab-item class="job-detail-item">
         <corp-item disableStatus
                    class="white"
-                   :info="companyInfo"></corp-item>
-        <base-divider></base-divider>
-        <v-list dense
-                flat
-                class="py-0">
-          <v-list-tile nuxt
-                       :to="`/job/${$route.params.id}/recruiting`">
-            <v-list-tile-content class="pl-2">
-              <v-list-tile-title>公司在招职位</v-list-tile-title>
-            </v-list-tile-content>
-            <svg-right class="svg-sm" />
-          </v-list-tile>
-          <v-divider></v-divider>
-          <v-list-tile nuxt
-                       :to="`/job/${$route.params.id}/recruited`">
-            <v-list-tile-content class="pl-2">
-              <v-list-tile-title>已完成的招聘</v-list-tile-title>
-            </v-list-tile-content>
-            <svg-right class="svg-sm" />
-          </v-list-tile>
-        </v-list>
+                   :info="companyInfo.companyInfo"
+                   v-if="companyInfo"></corp-item>
         <base-divider></base-divider>
         <div class="pb-3"
              v-if="companyInfo">
           <div class="job-detail-title subheading border-bottom py-2 px-3">公司介绍</div>
           <p class="pa-3 mb-0 rich-text"
-             v-html="companyInfo.introduce"></p>
+             v-html="companyInfo.companyInfo.introduce"></p>
+        </div>
+        <base-divider></base-divider>
+        <div class="pb-3"
+             v-if="companyInfo && companyInfo.inRecruit">
+          <div class="job-detail-title subheading border-bottom py-2 px-3">公司在招职位</div>
+          <p class="py-3 mb-0">
+            <job-item :items="companyInfo.inRecruit"></job-item>
+          </p>
+        </div>
+        <base-divider></base-divider>
+        <div class="pb-3"
+             v-if="companyInfo && companyInfo.finished">
+          <div class="job-detail-title subheading border-bottom py-2 px-3">已完成的招聘</div>
+          <p class="py-3 mb-0">
+            <job-item :items="companyInfo.finished"></job-item>
+          </p>
         </div>
       </v-tab-item>
     </v-tabs>
@@ -180,7 +177,7 @@ import CorpItem from '@/components/CorpItem'
 import JobItem from '@/components/JobItem'
 import BottomBtns from '@/components/BottomBtns'
 import constant from '@const/public'
-import { eduList } from '@const'
+import { eduList, paymentTypes, salaryTypes, paymentPlatfroms } from '@const'
 import { mapActions } from 'vuex'
 import { bdDecrypt } from '@helper'
 export default {
@@ -199,6 +196,9 @@ export default {
     mapIcon: constant.BAIDU_MAP_POSITION_ICON,
     mapIconOffset: constant.BAIDU_MAP_POSITION_ICON_OFFSET,
     eduList,
+    paymentTypes,
+    salaryTypes,
+    paymentPlatfroms,
     active: 0,
     detail: null,
     marked: null,

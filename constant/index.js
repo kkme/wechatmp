@@ -609,10 +609,27 @@ const jobTypes = [
   { label: '实习', name: 'train', value: 'RECRUITMENT_PRACTICE' }
 ]
 const jobOrderBy = [
-  { label: 'default', name: '默认发布', value: 'default' },
-  { label: 'newest', name: '最新发布', value: 'newest' },
-  { label: 'salary', name: '工资最高', value: 'salary' },
-  { label: 'distance', name: '距离最近', value: 'distance' },
-  { label: 'integral', name: '积分最高', value: 'integral' }
+  { name: 'default', label: '默认发布', value: 'default' },
+  { name: 'newest', label: '最新发布', value: 'newest' },
+  { name: 'salary', label: '工资最高', value: 'salary' },
+  { name: 'distance', label: '距离最近', value: 'distance' },
+  { name: 'integral', label: '积分最高', value: 'integral' }
 ]
-export { gender, eduList, identity, collectionTypes, jobTypes, jobOrderBy }
+
+const salaryTypes = [
+  { name: 'basic', label: '基本工资', value: 'WAGE_MODE_BASIC' },
+  { name: 'bonus', label: '提成', value: 'WAGE_MODE_COMMISSION' },
+  { name: 'both', label: '底薪加提成', value: 'WAGE_MODE_BASICCOMMISSION' }
+]
+
+const paymentTypes = [
+  { name: 'day', label: '日结', value: 'WAGE_CLEARING_DAY' },
+  { name: 'week', label: '周结', value: 'WAGE_CLEARING_WEEK' },
+  { name: 'month', label: '月结', value: 'WAGE_CLEARING_MONTH' }
+]
+
+const paymentPlatfroms = [
+  { name: 'platform', label: '平台代发', value: 'WAGE_GIVE_PLATFORM' },
+  { name: 'company', label: '公司发放', value: 'WAGE_GIVE_COMPANY' }
+]
+export { gender, eduList, identity, collectionTypes, jobTypes, jobOrderBy, salaryTypes, paymentTypes, paymentPlatfroms }

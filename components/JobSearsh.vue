@@ -1,7 +1,7 @@
 <template>
   <div class="job-search"
        :class="{ 'active': active }"
-       @touchmove="prevent">
+       @touchmove="preventWindowScroll">
     <v-toolbar flat
                dense
                clipped-left
@@ -88,6 +88,7 @@
 
 <script>
 import CitySelector from '@/components/CitySelector'
+import { preventWindowScroll } from '@mixins'
 import { mapGetters } from 'vuex'
 export default {
   components: {
@@ -95,32 +96,17 @@ export default {
   },
   data: () => ({
     inputValue: null,
-    active: false,
     formBg: false
   }),
+  mixins: [preventWindowScroll],
   computed: {
     ...mapGetters({
       currentCity: 'common/currentCity'
     })
   },
   methods: {
-    prevent(event) {
-      console.log('something happened')
-      event.preventDefault()
-      event.stopPropagation()
-    },
     onClose() {
       this.formBg = false
-    }
-  },
-  watch: {
-    active(isActive) {
-      if (isActive) {
-        document.documentElement.style.overflow = 'hidden'
-        this.formBg = true
-      } else {
-        document.documentElement.style.overflow = 'auto'
-      }
     }
   }
 }

@@ -11,6 +11,7 @@
          :ripple="false"
          class="base-tag"
          v-bind="$attrs"
+         v-on="$listeners"
          :style="height ? style : ''">
     <slot>已认证</slot>
   </v-btn>
@@ -44,16 +45,16 @@ export default {
 
 <style lang="scss">
 .base-tag {
-    border-radius: 2px;
-    color: $primary;
-    font-size: $size1;
-    height: $size2 + 2px;
-    line-height: $size2 + 2px;
-    min-width: $size1 * 3;
-    margin-left: 0;
-    margin-right: 0;
-    + .base-tag {
-        margin-left: $tag-space;
-    }
+  border-radius: 2px;
+  color: $primary;
+  font-size: $size1;
+  height: $size2 + 2px;
+  line-height: $size2 + 2px;
+  min-width: $size1 * 3;
+  margin-left: 0;
+  margin-right: 0;
+  + .base-tag {
+    margin-left: $tag-space;
+  }
 }
 </style>

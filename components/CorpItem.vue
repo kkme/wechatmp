@@ -19,9 +19,11 @@
           <v-spacer></v-spacer>
           <v-btn flat
                  @click="onAddToCorpCollection(info.comId, info.collectionId)"
-                 class="ma-0 px-0">
-            <v-icon color="accent"
-                    class="mr-2">iconfont icon-collection</v-icon> 已收藏
+                 class="ma-0 px-0"
+                 :loading="loading"
+                 :disabled="loading">
+            <v-icon :color="isCollected ? 'accent' : 'grey'"
+                    class="mr-2">iconfont icon-collection</v-icon> {{ isCollected ? '已' : '' }}收藏
           </v-btn>
         </v-layout>
       </v-flex>
@@ -55,25 +57,42 @@ export default {
     info: Object
   },
   data: () => ({
-    collected: false
+    collected: null,
+    loading: false
   }),
+  watch: {
+    info(newValue) {
+      if (newValue && newValue.collectionId) {
+        this.collected = !!newValue.collected
+      }
+    }
+  },
   methods: {
     ...mapActions({
       addToCorpCollection: 'job/addToCorpCollection',
-      deleteCollection: 'job/deleteCollection'
+      deleteCollection: 'users/deleteCollection'
     }),
     onAddToCorpCollection(id, added) {
-      if (added) {
-        this.deleteCollection({ id })
+      this.loading = true
+      if (this.collected) {
+        this.deleteCollection({ id }).then(() => {
+          this.loading = false
+          this.collected = false
+        })
       } else {
-        this.addToCorpCollection({ id })
+        this.addToCorpCollection({ id }).then(() => {
+          this.loading = false
+          this.collected = true
+        })
       }
     }
   },
   computed: {
     isCollected() {
       if (!this.info) return false
-      return this.info.collectionId || this.collected
+      if (this.collected === null) {
+        return !!this.info.collectionId
+      } else return this.collected
     }
   }
 }

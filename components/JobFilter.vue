@@ -8,10 +8,11 @@
                block
                class="job-filter-item-title ma-0 border-right__list"
                :loading="!currentCity.areaname"
-               @click="onClickTab(0)">{{currentCity.areaname}}</v-btn>
+               @click="onClickTab(1)">{{currentCity.areaname}}</v-btn>
         <transition>
           <job-regions class="job-filter-item-regions"
-                       v-show="active === 0"></job-regions>
+                       v-show="active === 1"
+                       @touchmove="preventWindowScroll"></job-regions>
         </transition>
       </v-flex>
       <v-flex xs3
@@ -19,10 +20,10 @@
         <v-btn flat
                block
                class="job-filter-item-title ma-0 border-right__list"
-               @click="onClickTab(1)">职位类型</v-btn>
+               @click="onClickTab(2)">职位类型</v-btn>
         <transition>
           <job-positions class="job-filter-item-positions"
-                         v-show="active === 1"></job-positions>
+                         v-show="active === 2"></job-positions>
         </transition>
       </v-flex>
       <v-flex xs3
@@ -30,10 +31,10 @@
         <v-btn flat
                block
                class="job-filter-item-title ma-0 border-right__list"
-               @click="onClickTab(2)">智能排序</v-btn>
+               @click="onClickTab(3)">智能排序</v-btn>
         <transition>
           <job-orderby class="job-filter-item-orderby"
-                       v-show="active === 2"></job-orderby>
+                       v-show="active === 3"></job-orderby>
         </transition>
       </v-flex>
       <v-flex xs3
@@ -41,10 +42,10 @@
         <v-btn flat
                block
                class="job-filter-item-title ma-0"
-               @click="onClickTab(3)">筛选</v-btn>
+               @click="onClickTab(4)">筛选</v-btn>
         <transition>
           <job-conditions class="job-filter-item-conditions"
-                          v-show="active === 3"></job-conditions>
+                          v-show="active === 4"></job-conditions>
         </transition>
       </v-flex>
     </v-layout>
@@ -58,6 +59,7 @@ import JobPositions from '@/components/JobPositions'
 import JobOrderby from '@/components/JobOrderby'
 import JobConditions from '@/components/JobConditions'
 import { mapGetters } from 'vuex'
+import { preventWindowScroll } from '@mixins'
 export default {
   components: {
     JobRegions,
@@ -68,6 +70,7 @@ export default {
   data: () => ({
     active: -1
   }),
+  mixins: [preventWindowScroll],
   computed: {
     ...mapGetters({
       currentCity: 'common/currentCity'
@@ -91,27 +94,39 @@ export default {
 
 <style lang="scss">
 .job-filter {
-    position: sticky;
-    top: $top-nav-height;
-    z-index: 1;
-    .job-filter-wrap {
-        position: relative;
-        z-index: 2;
-        .job-filter-item {
-            .job-filter-item-title.border-right__list::after {
-                transform: scaleY(0.5);
-            }
-            .job-filter-item-regions,
-            .job-filter-item-positions,
-            .job-filter-item-orderby,
-            .job-filter-item-conditions {
-                position: absolute;
-                left: 0;
-                top: 100%;
-                width: 100vw;
-                text-align: left;
-            }
+  position: sticky;
+  top: $top-nav-height;
+  z-index: 1;
+  .job-filter-wrap {
+    position: relative;
+    z-index: 2;
+    .job-filter-item {
+      .job-filter-item-title.border-right__list::after {
+        transform: scaleY(0.5);
+      }
+      .job-filter-item-regions,
+      .job-filter-item-positions,
+      .job-filter-item-orderby,
+      .job-filter-item-conditions {
+        position: absolute;
+        left: 0;
+        top: 100%;
+        width: 100vw;
+        text-align: left;
+        max-height: calc(100vh - #{$top-nav-height + $bottom-nav-height + 36px});
+        &::before {
+          content: '';
+          display: block;
+          position: absolute;
+          width: 100vw;
+          left: 0;
+          top: 0;
+          height: calc(100vh - #{$top-nav-height + $bottom-nav-height + 36px});
+          background-color: rgba(0, 0, 0, 0.3);
+          z-index: -1;
         }
+      }
     }
+  }
 }
 </style>

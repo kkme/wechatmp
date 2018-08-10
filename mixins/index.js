@@ -34,4 +34,26 @@ const page = {
   }
 }
 
-export { page }
+const preventWindowScroll = {
+  data: () => ({
+    active: false
+  }),
+  methods: {
+    preventWindowScroll(event) {
+      console.log('something happened')
+      // event.preventDefault()
+      // event.stopPropagation()
+    }
+  },
+  watch: {
+    active(isActive) {
+      if (isActive) {
+        document.documentElement.style.overflow = 'hidden'
+        this.formBg = true
+      } else {
+        document.documentElement.style.overflow = 'auto'
+      }
+    }
+  }
+}
+export { page, preventWindowScroll }

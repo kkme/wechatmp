@@ -85,7 +85,11 @@ export const actions = {
       return res
     })
   },
-
+  duibaLogin({ commit, state }) {
+    return CommonService.duibaLogin().then(res => {
+      return res
+    })
+  },
   uploadFile({ commit }, payload) {
     return CommonService.uploadFile(payload)
   }
