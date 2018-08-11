@@ -6,7 +6,9 @@ export const state = {
   areas: [],
   positions: [],
   metroPlatforms: [],
-  districts: []
+  districts: [],
+  today: '',
+  now: ''
 }
 
 export const getters = {
@@ -20,7 +22,9 @@ export const getters = {
     return list
   },
   metroPlatforms: state => state.metroPlatforms,
-  districts: state => state.districts
+  districts: state => state.districts,
+  today: state => state.today,
+  now: state => state.now
 }
 
 export const mutations = {
@@ -41,6 +45,12 @@ export const mutations = {
   },
   UPDATE_DISTRICTS(state, districts) {
     state.districts = unionBy(districts, state.districts, 'id')
+  },
+
+  UPDATE_DATETIME(state, datetime) {
+    let datetimeArr = datetime.trim().split(' ')
+    state.today = datetimeArr[0]
+    state.now = datetimeArr[1]
   }
 }
 
@@ -82,6 +92,12 @@ export const actions = {
     }
     return CommonService.fetchDistricts(payload).then(res => {
       commit('UPDATE_DISTRICTS', res)
+      return res
+    })
+  },
+  fetchDateTime({ commit, state }) {
+    return CommonService.fetchDateTime().then(res => {
+      commit('UPDATE_DATETIME', res)
       return res
     })
   },

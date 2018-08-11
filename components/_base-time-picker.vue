@@ -15,6 +15,8 @@
                 :bordered="$attrs.bordered"
                 ref="activator"></base-input>
     <v-time-picker v-if="modal"
+                   v-bind="$attrs"
+                   v-on="$listeners"
                    v-model="time"
                    format="24hr"
                    scrollable>
@@ -30,24 +32,29 @@
 </template>
 
 <script>
-import constant from '@const/public'
 export default {
   inheritAttrs: false,
   props: {
-    min: {
-      type: String,
-      defalut: constant.DATA_PICKER_MIN_DATE
-    },
-    max: String,
     ltr: {
       type: [String, Boolean],
       defalut: false
-    }
+    },
+    value: String
   },
   data: () => ({
     time: null,
     modal: false
   }),
+  watch: {
+    value: {
+      handler(newValue) {
+        if (newValue) {
+          this.time = newValue
+        }
+      },
+      immediate: true
+    }
+  },
   methods: {
     active() {
       this.$refs.activator.click()
@@ -62,15 +69,15 @@ export default {
 
 <style lang="scss">
 .time-picker {
-    .v-date-picker-years {
-        -webkit-overflow-scrolling: touch;
-        user-select: none;
-        li:hover {
-            background: unset;
-        }
+  .v-date-picker-years {
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+    li:hover {
+      background: unset;
     }
-    .v-btn:hover:before {
-        background: unset;
-    }
+  }
+  .v-btn:hover:before {
+    background: unset;
+  }
 }
 </style>

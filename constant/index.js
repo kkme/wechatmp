@@ -632,4 +632,22 @@ const paymentPlatfroms = [
   { name: 'platform', label: '平台代发', value: 'WAGE_GIVE_PLATFORM' },
   { name: 'company', label: '公司发放', value: 'WAGE_GIVE_COMPANY' }
 ]
-export { gender, eduList, identity, collectionTypes, jobTypes, jobOrderBy, salaryTypes, paymentTypes, paymentPlatfroms }
+
+const applyTypes = [
+  { name: 'user', label: '用户申请', value: 'DELIVER_TYPE_USER' },
+  { name: 'team', label: '战队报名', value: 'DELIVER_TYPE_TEAM' },
+  { name: 'company', label: '企业邀请', value: 'DELIVER_TYPE_COM' },
+  { name: 'match', label: '任务搭配', value: 'DELIVER_TYPE_MATCH' }
+]
+export {
+  gender,
+  eduList,
+  identity,
+  collectionTypes,
+  jobTypes,
+  jobOrderBy,
+  salaryTypes,
+  paymentTypes,
+  paymentPlatfroms,
+  applyTypes
+}

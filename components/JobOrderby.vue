@@ -6,7 +6,7 @@
                      ripple
                      :key="item.label">
           <v-list-tile-content>
-            <v-list-tile-title>{{item.name}}</v-list-tile-title>
+            <v-list-tile-title>{{item.label}}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-divider v-if="index !== jobOrderBy.length - 1"

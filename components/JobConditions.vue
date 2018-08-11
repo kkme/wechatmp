@@ -68,7 +68,7 @@
                   v-for="salaryType of salaryTypes"
                   :key="salaryType.label"
                   :color="condition.wageMode === salaryType.value ? 'primary' : 'grey'"
-                  @click="condition.wageMode = salaryType.value">{{salaryType.name}}</base-tag>
+                  @click="condition.wageMode = salaryType.value">{{salaryType.label}}</base-tag>
       </div>
     </div>
     <div class="py-1 px-3">
@@ -97,25 +97,7 @@
                   v-for="paymentType of paymentTypes"
                   :key="paymentType.label"
                   :color="condition.wageClearing === paymentType.value ? 'primary' : 'grey'"
-                  @click="onPaymentTypeSelected(paymentType)">{{paymentType.name}}</base-tag>
-      </div>
-    </div>
-    <div class="py-1 px-3">
-      <div class="body-2">特色兼职</div>
-      <div class="d-flex">
-        <base-tag height="24px">不限</base-tag>
-        <base-tag height="24px">不限</base-tag>
-        <base-tag height="24px">不限</base-tag>
-        <base-tag height="24px">不限</base-tag>
-      </div>
-    </div>
-    <div class="py-1 px-3">
-      <div class="body-2">特色兼职</div>
-      <div class="d-flex">
-        <base-tag height="24px">不限</base-tag>
-        <base-tag height="24px">不限</base-tag>
-        <base-tag height="24px">不限</base-tag>
-        <base-tag height="24px">不限</base-tag>
+                  @click="onPaymentTypeSelected(paymentType)">{{paymentType.label}}</base-tag>
       </div>
     </div>
     <div class="py-1 px-3">

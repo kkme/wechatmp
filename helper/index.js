@@ -39,5 +39,50 @@ const bdEncrypt = (ggLng, ggLat, returnObj) => {
   let bdLat = z * Math.sin(theta) + 0.006
   return returnObj ? { lat: bdLat, lng: bdLng } : [bdLng, bdLat]
 }
+const formatTime = (date, fmt = 'yyyy-MM-dd', appendZero = true) => {
+  date = new Date(date)
+  const o = {
+    'M+': date.getMonth() + 1, // 月份
+    'd+': date.getDate(), // 日
+    'h+': date.getHours(), // 小时
+    'm+': date.getMinutes(), // 分
+    's+': date.getSeconds(), // 秒
+    'q+': Math.floor((date.getMonth() + 3) / 3), // 季度
+    S: date.getMilliseconds() // 毫秒
+  }
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, `${date.getFullYear()}`.substr(4 - RegExp.$1.length))
+  }
+  for (const k in o) {
+    if (new RegExp(`(${k})`).test(fmt)) {
+      if (appendZero) {
+        fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? o[k] : `00${o[k]}`.substr(`${o[k]}`.length))
+      } else {
+        fmt = fmt.replace(RegExp.$1, o[k])
+      }
+    }
+  }
 
-export { fileReader, readFiles, labelToValue, bdDecrypt, bdEncrypt }
+  return fmt
+}
+const addDays = (date, days) => {
+  let newDate = new Date(date)
+  newDate.setDate(newDate.getDate() + days)
+  return formatTime(newDate)
+}
+
+const addHour = (time, hours) => {
+  time = time.split(':')
+  let hour = +time[0] + hours
+  if (hour > 24) {
+    hour -= 24
+  } else if (hour < 0) {
+    hour += 24
+  }
+  time[0] = hour < 10 ? '0' + hour : hour
+  return time.join(':')
+}
+
+const dateGreater = (date1, date2) => (date1.replace(/-/g, '') > date2.replace(/-/g, '') ? date1 : date2)
+
+export { fileReader, readFiles, labelToValue, bdDecrypt, bdEncrypt, formatTime, addDays, addHour, dateGreater }

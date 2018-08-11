@@ -74,7 +74,7 @@ export default {
     }),
     onAddToCorpCollection(id, added) {
       this.loading = true
-      if (this.collected) {
+      if (this.isCollected) {
         this.deleteCollection({ id }).then(() => {
           this.loading = false
           this.collected = false

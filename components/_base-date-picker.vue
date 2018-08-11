@@ -1,7 +1,6 @@
 <template>
   <v-dialog ref="dialog"
             v-model="modal"
-            :return-value.sync="date"
             persistent
             lazy
             full-width
@@ -22,6 +21,7 @@
                 ref="activator"></base-input>
     <v-date-picker v-model="date"
                    v-bind="$attrs"
+                   v-on="$listeners"
                    locale="zh-cn"
                    :min="min"
                    :max="max"
@@ -53,12 +53,23 @@ export default {
     ltr: {
       type: [String, Boolean],
       defalut: false
-    }
+    },
+    value: String
   },
   data: () => ({
     date: null,
     modal: false
   }),
+  watch: {
+    value: {
+      handler(newValue) {
+        if (newValue) {
+          this.date = newValue
+        }
+      },
+      immediate: true
+    }
+  },
   methods: {
     active() {
       this.$refs.activator.click()
@@ -73,15 +84,15 @@ export default {
 
 <style lang="scss">
 .data-picker {
-    .v-date-picker-years {
-        -webkit-overflow-scrolling: touch;
-        user-select: none;
-        li:hover {
-            background: unset;
-        }
+  .v-date-picker-years {
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+    li:hover {
+      background: unset;
     }
-    .v-btn:hover:before {
-        background: unset;
-    }
+  }
+  .v-btn:hover:before {
+    background: unset;
+  }
 }
 </style>
