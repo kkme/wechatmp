@@ -56,7 +56,10 @@ const formatTime = (date, fmt = 'yyyy-MM-dd', appendZero = true) => {
   for (const k in o) {
     if (new RegExp(`(${k})`).test(fmt)) {
       if (appendZero) {
-        fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? o[k] : `00${o[k]}`.substr(`${o[k]}`.length))
+        fmt = fmt.replace(
+          RegExp.$1,
+          RegExp.$1.length === 1 ? o[k] : `00${o[k]}`.substr(`${o[k]}`.length)
+        )
       } else {
         fmt = fmt.replace(RegExp.$1, o[k])
       }
@@ -83,6 +86,17 @@ const addHour = (time, hours) => {
   return time.join(':')
 }
 
-const dateGreater = (date1, date2) => (date1.replace(/-/g, '') > date2.replace(/-/g, '') ? date1 : date2)
+const dateGreater = (date1, date2) =>
+  date1.replace(/-/g, '') > date2.replace(/-/g, '') ? date1 : date2
 
-export { fileReader, readFiles, labelToValue, bdDecrypt, bdEncrypt, formatTime, addDays, addHour, dateGreater }
+export {
+  fileReader,
+  readFiles,
+  labelToValue,
+  bdDecrypt,
+  bdEncrypt,
+  formatTime,
+  addDays,
+  addHour,
+  dateGreater
+}

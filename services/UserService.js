@@ -1,11 +1,11 @@
 import Api from '@/services/Api'
 
 export default {
-  // signIn: ((data)) => Api.post('../Login/login', data),
+  signIn: data => Api.post('jobuser/login', data),
   //
-  // signUp: ((data)) => Api.post('../Login/register', data),
+  signUp: data => Api.post('jobuser/register', data),
   //
-  // logout: ((data)) => Api.post('loginOut', data),
+  logOut: () => Api.post('jobuser/logout', {}),
 
   // center页面信息
   fetchBaseInfo: data => Api.post('jobuser/center', data),

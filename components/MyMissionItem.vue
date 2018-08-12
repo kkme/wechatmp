@@ -1,16 +1,17 @@
 <template>
   <v-list flat
-          two-line>
-    <v-list-tile v-for="n of 30"
-                 :key="n"
+          two-line
+          v-if="items">
+    <v-list-tile v-for="(item, index) of items"
+                 :key="index"
                  class="border-bottom"
                  nuxt
-                 :to="`/job/mission/${$route.params.id}`">
+                 :to="`/job/mission/${item.deliveryId}`">
       <v-list-tile-content>
         <v-list-tile-title>
           <v-layout align-center>
-            <span class="subheading">我Hitler!打钱!</span>
-            <slot :item="n">
+            <span class="subheading">{{item.title}}</span>
+            <slot :item="item">
               <v-spacer></v-spacer>
               <base-tag outline
                         color="accent"
@@ -22,9 +23,9 @@
         <v-list-tile-sub-title class="pt-2">
           <v-layout class="caption"
                     align-center>
-            <span>武侯区/7km 5月16日-7月21日</span>
+            <span>{{item.county}}/{{item.distance | formatDistance}} {{item.jobBeginTime}} - {{item.jobEndTime}}</span>
             <v-spacer></v-spacer>
-            <span>2018-09-09 15:30</span>
+            <span>{{item.createTime}}</span>
           </v-layout>
         </v-list-tile-sub-title>
       </v-list-tile-content>
@@ -33,7 +34,11 @@
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    items: Array
+  }
+}
 </script>
 
 <style>

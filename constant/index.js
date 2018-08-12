@@ -599,7 +599,10 @@ const eduList = [
   { label: '硕士研究生', name: 'EDUCATION_LEVEL_6', value: 316 },
   { label: '博士及以上', name: 'EDUCATION_LEVEL_7', value: 317 }
 ]
-const identity = [{ label: '学生', value: 'IDENTITY_STUDENT' }, { label: '其他', value: 'IDENTITY_OTHER' }]
+const identity = [
+  { name: 'student', label: '学生', value: 'IDENTITY_STUDENT' },
+  { name: 'other', label: '其他', value: 'IDENTITY_OTHER' }
+]
 const collectionTypes = [
   { label: '兼职', name: 'job', value: 'COLLECTION_TYPE_PARTTIME' },
   { label: '企业', name: 'corp', value: 'COLLECTION_TYPE_COMPANY' }
@@ -639,6 +642,18 @@ const applyTypes = [
   { name: 'company', label: '企业邀请', value: 'DELIVER_TYPE_COM' },
   { name: 'match', label: '任务搭配', value: 'DELIVER_TYPE_MATCH' }
 ]
+
+const loginTypes = [
+  { name: 'account', label: '密码登录', value: 'LOGIN_PASSWORD' },
+  { name: 'mobile', label: '手机登录', value: 'LOGIN_TELCODE' },
+  { name: 'signature', label: '签名登录', value: 'LOGIN_SIGNATURE' }
+]
+
+const smsTypes = [
+  { name: 'signup', label: '注册', value: 'SMS_CODE_REGISTER' },
+  { name: 'update', label: '修改新手机验证', value: 'SMS_SETNEWTEL' },
+  { name: 'reset', label: '重置密码/修改手机号', value: 'SMS_TELVELID_CODE' }
+]
 export {
   gender,
   eduList,
@@ -649,5 +664,7 @@ export {
   salaryTypes,
   paymentTypes,
   paymentPlatfroms,
-  applyTypes
+  applyTypes,
+  loginTypes,
+  smsTypes
 }

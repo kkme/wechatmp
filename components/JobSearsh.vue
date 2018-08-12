@@ -29,7 +29,7 @@
             <city-selector>
               <v-btn flat
                      large
-                     :loading="!currentCity.areaname"
+                     :loading="!currentCity.position"
                      class="ma-0 px-3 body-1">
                 <span class="cart">请选择城市</span>
               </v-btn>
@@ -114,62 +114,62 @@ export default {
 
 <style lang="scss">
 .job-search {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-
-  &.active {
-    position: fixed;
-    z-index: 5;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.36);
-  }
-  .job-search-form {
-    position: relative;
-    z-index: 2;
-    &:not(.active) {
-      transition: background 800ms;
-    }
-    .job-search-content {
-      position: relative;
-      border-radius: $border-radius * 2;
-      .job-search-input {
-        position: relative;
-        &::before {
-          content: '';
-          height: 100%;
-          border-left: 2px solid $border-color;
-          position: absolute;
-          left: 0;
-          top: 0;
-          z-index: 1;
-          transform: scale(0.6);
-        }
-      }
-    }
-    .job-search-btn {
-      min-width: unset;
-    }
-  }
-  .job-search-shortcut {
-    position: relative;
-    z-index: 1;
-    transform: translateY(0%);
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    flex: 1;
-  }
 
-  .fall-enter-active,
-  .fall-leave-active {
-    transition: transform 300ms;
-    transform: translateY(0%);
-  }
-  .fall-enter,
-  .fall-leave-to {
-    transform: translateY(-100%);
-  }
+    &.active {
+        position: fixed;
+        z-index: 5;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.36);
+    }
+    .job-search-form {
+        position: relative;
+        z-index: 2;
+        &:not(.active) {
+            transition: background 800ms;
+        }
+        .job-search-content {
+            position: relative;
+            border-radius: $border-radius * 2;
+            .job-search-input {
+                position: relative;
+                &::before {
+                    content: '';
+                    height: 100%;
+                    border-left: 2px solid $border-color;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    z-index: 1;
+                    transform: scale(0.6);
+                }
+            }
+        }
+        .job-search-btn {
+            min-width: unset;
+        }
+    }
+    .job-search-shortcut {
+        position: relative;
+        z-index: 1;
+        transform: translateY(0%);
+        width: 100%;
+        flex: 1;
+    }
+
+    .fall-enter-active,
+    .fall-leave-active {
+        transition: transform 300ms;
+        transform: translateY(0%);
+    }
+    .fall-enter,
+    .fall-leave-to {
+        transform: translateY(-100%);
+    }
 }
 </style>

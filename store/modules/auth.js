@@ -1,5 +1,7 @@
+import UserService from '@/services/UserService'
 import axios from 'axios'
-
+import Cookie from 'js-cookie'
+import cookieparser from 'cookieparser'
 export const state = {
   currentUser: getSavedState('auth.currentUser')
 }
@@ -28,19 +30,22 @@ export const actions = {
   },
 
   // Logs in the current user.
-  logIn({ commit, dispatch, getters }, { username, password } = {}) {
-    if (getters.loggedIn) return dispatch('validate')
+  logIn({ commit, dispatch, getters }, payload = {}) {
+    // if (getters.loggedIn) {
+    //   return dispatch('validate')
+    // }
 
-    return axios.post('/api/session', { username, password }).then(response => {
-      const user = response.data
-      commit('SET_CURRENT_USER', user)
-      return user
+    return UserService.signIn(payload).then(res => {
+      console.log(res)
+      commit('SET_CURRENT_USER', res)
+      return res
     })
   },
 
   // Logs out the current user.
   logOut({ commit }) {
-    commit('SET_CURRENT_USER', null)
+    commit('SET_CURRENT_USER', '')
+    UserService.logOut()
   },
 
   // Validates the current user's token and refreshes it
@@ -48,19 +53,27 @@ export const actions = {
   validate({ commit, state }) {
     if (!state.currentUser) return Promise.resolve(null)
 
-    return axios
-      .get('/api/session')
-      .then(response => {
-        const user = response.data
-        commit('SET_CURRENT_USER', user)
-        return user
-      })
-      .catch(error => {
-        if (error.response.status === 401) {
-          commit('SET_CURRENT_USER', null)
-        }
-        return null
-      })
+    // return axios
+    //   .get('/api/session')
+    //   .then(response => {
+    //     const user = response.data
+    //     commit('SET_CURRENT_USER', user)
+    //     return user
+    //   })
+    //   .catch(error => {
+    //     if (error.response.status === 401) {
+    //       commit('SET_CURRENT_USER', null)
+    //     }
+    //     return null
+    //   })
+  },
+  nuxtServerInit({ commit }, { req }) {
+    let accessToken = null
+    if (req.headers.cookie) {
+      let parsed = cookieparser.parse(req.headers.cookie)
+      accessToken = JSON.parse(parsed.auth)
+    }
+    commit('SET_CURRENT_USER', accessToken)
   }
 }
 
@@ -69,15 +82,18 @@ export const actions = {
 // ===
 
 function getSavedState(key) {
-  // return JSON.parse(window.localStorage.getItem(key))
+  if (process.browser) {
+    return JSON.parse(window.localStorage.getItem(key))
+  } else return 'asd'
 }
 
 function saveState(key, state) {
+  Cookie.set('auth', state)
   window.localStorage.setItem(key, JSON.stringify(state))
 }
 
 function setDefaultAuthHeaders(state) {
-  axios.defaults.headers.common.Authorization = state.currentUser
-    ? state.currentUser.token
-    : ''
+  console.log(state.currentUser)
+
+  axios.defaults.headers.common.user_author = state.currentUser ? state.currentUser : ''
 }

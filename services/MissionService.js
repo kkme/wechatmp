@@ -2,9 +2,9 @@ import Api from '@/services/Api'
 export default {
   feedback: data => Api.post('/feedback/company/add', data), // 任务反馈
   fetchCountInfo: data => Api.post('/myDelivery/countInfo', data), // 我的任务首页count信息
-  fetchMyMissions: data => Api.post('/myDelivery/verify/idcard', data), // 已领取任务列表
+  fetchMyMissions: data => Api.post('myDelivery/catched', data), // 已领取任务列表
   fetchInvitations: data => Api.post('/myDelivery/inviteMe', data), // 收到的邀请
-  fetchApplyList: data => Api.post('/myDelivery/applyList', data), // 申请列表
+  fetchApplications: data => Api.post('/myDelivery/applyList', data), // 申请列表
   fetchCompletedMissions: data => Api.post('/myDelivery/finish', data), // 已完成和取消的任务列表
   postComment: data => Api.post('/myDelivery/jobuser/add', data), // 添加评论
   handleInvitation: data => Api.post('/myDelivery/inviteMe/deal', data), // 处理邀请

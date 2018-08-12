@@ -2,12 +2,12 @@ import MissionService from '@/services/MissionService'
 import { unionBy } from 'lodash'
 export const state = {
   countInfo: {},
-  missions: [],
+  myMissions: [],
   invitations: [],
-  applyList: [],
+  applications: [],
   completedMissions: [],
   detail: {},
-  missionLog: [],
+  myMissionLog: [],
   orders: [],
   salaryLog: [],
   checkInOutLog: []
@@ -15,12 +15,12 @@ export const state = {
 
 export const getters = {
   countInfo: state => state.countInfo,
-  missions: state => state.missions,
+  myMissions: state => state.myMissions,
   invitations: state => state.invitations,
-  applyList: state => state.applyList,
+  applications: state => state.applications,
   completedMissions: state => state.completedMissions,
   detail: state => state.detail,
-  missionLog: state => state.missionLog,
+  myMissionLog: state => state.myMissionLog,
   orders: state => state.orders,
   salaryLog: state => state.salaryLog,
   checkInOutLog: state => state.checkInOutLog
@@ -28,34 +28,36 @@ export const getters = {
 
 export const mutations = {
   UPDATE_COUNT_INFO(state, countInfo) {
-    state.currentLocation = countInfo
+    console.log(countInfo)
+
+    state.countInfo = countInfo
   },
-  UPDATE_MISSIONS(state, missions) {
-    state.currentLocation = unionBy(missions, state.missions)
+  UPDATE_MISSIONS(state, myMissions) {
+    state.myMissions = unionBy(myMissions, state.myMissions, 'deliveryId')
   },
   UPDATE_INVITATIONS(state, invitations) {
-    state.currentLocation = unionBy(invitations, state.invitations)
+    state.invitations = unionBy(invitations, state.invitations, 'deliveryId')
   },
-  UPDATE_APPLY_LIST(state, applyList) {
-    state.currentLocation = unionBy(applyList, state.applyList)
+  UPDATE_APPLICATIONS(state, applications) {
+    state.applications = unionBy(applications, state.applications, 'deliveryId')
   },
   UPDATE_COMPLETED_MISSIONS(state, completedMissions) {
-    state.currentLocation = unionBy(completedMissions, state.completedMissions)
+    state.completedMissions = unionBy(completedMissions, state.completedMissions, 'deliveryId')
   },
   UPDATE_DETAIL(state, detail) {
-    state.currentLocation = detail
+    state.detail = detail
   },
-  UPDATE_MISSION_LOG(state, missionLog) {
-    state.currentLocation = unionBy(missionLog, state.missionLog)
+  UPDATE_MISSION_LOG(state, myMissionLog) {
+    state.myMissionLog = unionBy(myMissionLog, state.myMissionLog)
   },
   UPDATE_ORDERS(state, orders) {
-    state.currentLocation = unionBy(orders, state.orders)
+    state.orders = unionBy(orders, state.orders)
   },
   UPDATE_SALARY_LOG(state, salaryLog) {
-    state.currentLocation = unionBy(salaryLog, state.salaryLog)
+    state.salaryLog = unionBy(salaryLog, state.salaryLog)
   },
   UPDATE_CHECK_IN_OUT_LOG(state, checkInOutLog) {
-    state.currentLocation = unionBy(checkInOutLog, state.checkInOutLog)
+    state.checkInOutLog = unionBy(checkInOutLog, state.checkInOutLog)
   }
 }
 
@@ -81,9 +83,9 @@ export const actions = {
       return res
     })
   },
-  fetchApplyList({ commit, state }, payload) {
-    return MissionService.fetchApplyList(payload).then(res => {
-      commit('UPDATE_APPLY_LIST', res)
+  fetchApplications({ commit, state }, payload) {
+    return MissionService.fetchApplications(payload).then(res => {
+      commit('UPDATE_APPLICATIONS', res)
       return res
     })
   },

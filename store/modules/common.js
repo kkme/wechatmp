@@ -108,9 +108,11 @@ export const actions = {
   },
   uploadFile({ commit }, payload) {
     return CommonService.uploadFile(payload)
+  },
+  sendSmsCode({ commit }, payload) {
+    return CommonService.sendSmsCode(payload)
   }
 }
-
 const groupPosition = data => {
   if (!(data && data.length)) return []
   let group = Object.entries(groupBy(data, ele => ele.pid))

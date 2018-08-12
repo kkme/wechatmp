@@ -86,13 +86,13 @@ export default {
 
 <style lang="scss">
 .wallet {
-  .wallet-balance {
-    background: url('~@svg/wallet_bg.svg') no-repeat center bottom;
-    background-size: 100%;
-    height: 27vh;
-    & > div {
-      height: 48px;
+    .wallet-balance {
+        background: url('~@svg/wallet_bg.svg') no-repeat center bottom;
+        background-size: 100%;
+        height: 27vh;
+        & > div {
+            height: 48px;
+        }
     }
-  }
 }
 </style>

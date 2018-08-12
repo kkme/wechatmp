@@ -42,7 +42,7 @@
                     align-center>
             当前位置：
             <span class="primary--text">
-              <location></location>
+              <base-location></base-location>
             </span>
             <v-spacer></v-spacer>
             <a href="#"
@@ -97,10 +97,8 @@
 </template>
 
 <script>
-import Location from '@/components/Location'
 import { mapGetters, mapActions } from 'vuex'
 export default {
-  components: { Location },
   props: {
     disableCity: {
       type: [String, Boolean],
@@ -226,54 +224,54 @@ export default {
 
 <style lang="scss">
 .city-selector-main {
-  height: calc(100vh - 138px);
-  display: flex;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-  user-select: none;
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-  .city-selector-main-provinces {
-    flex: 0 0 25%;
-    width: 25%;
-    height: 100%;
+    height: calc(100vh - 138px);
+    display: flex;
     overflow: auto;
-    .city-selector-main-province {
-      position: relative;
-      &.active {
-        background-color: #ffffff;
-        &::before {
-          content: '';
-          position: absolute;
-          border-left: 2px solid $primary;
-          border-radius: 4px;
-          height: 100%;
-          top: 0;
-          left: 0.5em;
-          transform: scaleY(0.5);
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+    .city-selector-main-provinces {
+        flex: 0 0 25%;
+        width: 25%;
+        height: 100%;
+        overflow: auto;
+        .city-selector-main-province {
+            position: relative;
+            &.active {
+                background-color: #ffffff;
+                &::before {
+                    content: '';
+                    position: absolute;
+                    border-left: 2px solid $primary;
+                    border-radius: 4px;
+                    height: 100%;
+                    top: 0;
+                    left: 0.5em;
+                    transform: scaleY(0.5);
+                }
+            }
         }
-      }
     }
-  }
-  .city-selector-main-cities {
-    overflow: auto;
-    height: 100%;
-    flex: 1;
-    .city-selector-main-city span {
-      border-radius: $border-radius;
-      cursor: pointer;
-      &:hover,
-      &.active {
-        background-color: lighten($primary, 15%);
-      }
+    .city-selector-main-cities {
+        overflow: auto;
+        height: 100%;
+        flex: 1;
+        .city-selector-main-city span {
+            border-radius: $border-radius;
+            cursor: pointer;
+            &:hover,
+            &.active {
+                background-color: lighten($primary, 15%);
+            }
+        }
     }
-  }
-  .body-1 {
-    line-height: 1.2;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
+    .body-1 {
+        line-height: 1.2;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
 }
 </style>

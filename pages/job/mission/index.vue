@@ -19,11 +19,13 @@
           <v-flex class="py-3">
             <v-layout class="text-xs-center">
               <v-flex>
-                <div class="primary--text">254</div>
+                <div class="primary--text"
+                     v-if="countInfo.finishRank">{{countInfo.finishRank.name}}</div>
                 <div class="text-muted caption">领取任务</div>
               </v-flex>
               <v-flex>
-                <div class="primary--text">254</div>
+                <div class="primary--text"
+                     v-if="countInfo.levelRank">{{countInfo.levelRank.name}}</div>
                 <div class="text-muted caption">完成任务</div>
               </v-flex>
               <v-flex>
@@ -70,43 +72,51 @@
         <v-tab ripple>申请列表</v-tab>
         <v-tab ripple>已完成</v-tab>
         <v-tab-item>
-          <my-mission-item />
+          <my-mission-item :items="myMissions" />
+          <base-infinite @infinite="getMoreMyMissions"
+                         v-if="active === 0"></base-infinite>
         </v-tab-item>
         <v-tab-item>
-          <my-mission-item>
+          <my-mission-item :items="invitations">
             <template slot-scope="slotProps">
               <base-tag outline
                         color="accent"
                         height="20px"
-                        class="my-0">战队</base-tag>
+                        class="my-0 ml-2">战队</base-tag>
               <v-spacer></v-spacer>
               <span class="caption text-muted">已拒绝</span>
             </template>
           </my-mission-item>
+          <base-infinite @infinite="getMoreMyInvitations"
+                         v-if="active === 1"></base-infinite>
         </v-tab-item>
         <v-tab-item>
-          <my-mission-item>
+          <my-mission-item :items="applications">
             <template slot-scope="slotProps">
               <base-tag outline
                         color="accent"
                         height="20px"
-                        class="my-0">战队</base-tag>
+                        class="my-0 ml-2">战队</base-tag>
               <v-spacer></v-spacer>
               <span class="caption text-muted">等待确认</span>
             </template>
           </my-mission-item>
+          <base-infinite @infinite="getMoreMyApplication"
+                         v-if="active === 2"></base-infinite>
         </v-tab-item>
         <v-tab-item>
-          <my-mission-item>
+          <my-mission-item :items="completedMissions">
             <template slot-scope="slotProps">
               <base-tag outline
                         color="accent"
                         height="20px"
-                        class="my-0">战队</base-tag>
+                        class="my-0 ml-2">战队</base-tag>
               <v-spacer></v-spacer>
               <span class="caption text-muted">点击评价</span>
             </template>
           </my-mission-item>
+          <base-infinite @infinite="getMoreCompletedMissions"
+                         v-if="active === 3"></base-infinite>
         </v-tab-item>
       </v-tabs>
     </v-flex>
@@ -115,6 +125,8 @@
 
 <script>
 import MyMissionItem from '@/components/MyMissionItem'
+import { page } from '@mixins'
+import {mapGetters, mapActions} from 'vuex'
 export default {
   components: {
     MyMissionItem
@@ -125,20 +137,61 @@ export default {
   meta: {
     title: '我的任务'
   },
+  mixins: [page],
   data: () => ({
-    active: 1
-  })
+    active: 1,
+    missionsPage: {},
+    invitationsPage: {},
+    applyListPage: {},
+    completedMissionsPage: {}
+  }),
+  computed: {
+    ...mapGetters({
+      countInfo: 'mission/countInfo',
+      myMissions: 'mission/myMissions',
+      invitations: 'mission/invitations',
+      applications: 'mission/applications',
+      completedMissions: 'mission/completedMissions'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchCountInfo: 'mission/fetchCountInfo',
+      fetchMyMissions: 'mission/fetchMyMissions',
+      fetchInvitations: 'mission/fetchInvitations',
+      fetchApplications: 'mission/fetchApplications',
+      fetchCompletedMissions: 'mission/fetchCompletedMissions'
+    }),
+    getMoreMyMissions($infinite) {
+      this.infiniteLoading($infinite, this.fetchMyMissions, 'myMissionsPage')
+    },
+    getMoreMyInvitations($infinite) {
+      this.infiniteLoading($infinite, this.fetchInvitations, 'invitationsPage')
+    },
+    getMoreMyApplication($infinite) {
+      this.infiniteLoading($infinite, this.fetchApplications, 'applyListPage')
+    },
+    getMoreCompletedMissions($infinite) {
+      this.infiniteLoading($infinite, this.fetchCompletedMissions, 'completedMissionsPage')
+    }
+  },
+  mounted() {
+    this.fetchCountInfo()
+    // this.fetchInvitations()
+    // this.fetchApplyList()
+    // this.fetchCompletedMissions()
+  }
 }
 </script>
 
 <style lang="scss">
 .job-my-mission {
-  .my-mission-tabs {
-    .v-tabs__bar {
-      position: sticky;
-      top: 48px;
-      z-index: 2;
+    .my-mission-tabs {
+        .v-tabs__bar {
+            position: sticky;
+            top: 48px;
+            z-index: 2;
+        }
     }
-  }
 }
 </style>

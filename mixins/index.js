@@ -6,7 +6,7 @@ const page = {
     page: null
   }),
   methods: {
-    getPage(newPage, opts) {
+    getPage(newPage, opts, property = 'page') {
       let page = null
       if (!newPage) newPage = {}
       if (!newPage.pageindex) {
@@ -17,15 +17,14 @@ const page = {
         newPage.pageindex += 1
         page = newPage
       }
-      this.page = page
+      this[property] = page
       return page
     },
-    infiniteLoading($infinite, apiCall) {
-      this.getPage(this.page)
-      return apiCall(this.page).then(res => {
-        console.log($infinite)
+    infiniteLoading($infinite, apiCall, property) {
+      this.getPage(this[property], null, property)
+      return apiCall(this[property]).then(res => {
         $infinite.loaded()
-        if (res.length < this.page.pagesize || res.length === 0) {
+        if (res.length < this[property].pagesize || res.length === 0 || !res) {
           $infinite.complete()
         }
         return res

@@ -47,8 +47,8 @@
                  @ready="gotLocation">
       </baidu-map>
     </no-ssr> -->
-    <location location-only
-              @located="onLocated"></location>
+    <base-location location-only
+                   @located="onLocated"></base-location>
   </div>
 </template>
 
@@ -56,7 +56,6 @@
 import JobFilter from '@/components/JobFilter'
 import JobSearsh from '@/components/JobSearsh'
 import JobItem from '@/components/JobItem'
-import Location from '@/components/Location'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import { page } from '@mixins'
 
@@ -64,8 +63,7 @@ export default {
   components: {
     JobFilter,
     JobSearsh,
-    JobItem,
-    Location
+    JobItem
   },
   data: () => ({
     items: [{ src: require('@img/slider0.jpg') }, { src: require('@img/slider1.jpg') }],
@@ -113,11 +111,13 @@ export default {
         })
     },
     onLocated(location) {
+      console.log(location)
       this.updateCurrentLocation(location)
       this.updateCurrentCity({
-        areaname: location.city,
+        areaname: location.city || location.province,
         id: location.adcode.substr(0, 4),
-        pid: location.adcode.substr(0, 2)
+        pid: location.adcode.substr(0, 2),
+        position: location.position
       })
     }
     // gotLocation({ BMap, map }) {
@@ -142,50 +142,50 @@ export default {
 
 <style lang="scss">
 .job {
-  position: relative;
-  .job-carousel_wrap {
-    .fade {
-      &-enter-active,
-      &-leave-active,
-      &-leave-to {
-        transition: 0.3s ease-out;
-        position: absolute;
-        top: 0;
-        left: 0;
-      }
-      &-enter,
-      &-leave,
-      &-leave-to {
-        opacity: 0;
-      }
-    }
-    .job-carousel {
-      height: 210px;
-      .v-carousel__controls {
-        background: transparent;
-        button {
-          margin: 0 !important;
-          i.iconfont {
-            font-size: 12px;
-          }
+    position: relative;
+    .job-carousel_wrap {
+        .fade {
+            &-enter-active,
+            &-leave-active,
+            &-leave-to {
+                transition: 0.3s ease-out;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            &-enter,
+            &-leave,
+            &-leave-to {
+                opacity: 0;
+            }
         }
-      }
-      img {
-        width: 100%;
-      }
+        .job-carousel {
+            height: 210px;
+            .v-carousel__controls {
+                background: transparent;
+                button {
+                    margin: 0 !important;
+                    i.iconfont {
+                        font-size: 12px;
+                    }
+                }
+            }
+            img {
+                width: 100%;
+            }
+        }
     }
-  }
-  .job-title {
-    i.iconfont {
-      font-size: 12px;
-      vertical-align: middle;
-      padding: 3px;
-      transform: scale(0.5);
+    .job-title {
+        i.iconfont {
+            font-size: 12px;
+            vertical-align: middle;
+            padding: 3px;
+            transform: scale(0.5);
+        }
     }
-  }
 
-  .job-list {
-    min-height: 100vh;
-  }
+    .job-list {
+        min-height: 100vh;
+    }
 }
 </style>

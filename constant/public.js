@@ -1,7 +1,9 @@
+const BASE_URL = 'https://local.sapi.s-cout.com/job-api/'
+// const BASE_URL = 'http://192.168.0.99:8080/',
+// const BASE_URL = 'http://192.168.1.107:8080/',
 export default {
-  // BASE_URL: 'https://local.sapi.s-cout.com/job-api/',
-  BASE_URL: 'http://192.168.0.99:8080/',
-  // BASE_URL: 'http://192.168.1.107:8080/',
+  BASE_URL,
+  BASE_URL_CAPTCHA: BASE_URL + 'jobuser/getVerifyCode',
   BAIDU_MAP_KEY: 'lFHuTGOo6EQ23oLo0KTckFWmKy2yxbLx',
   BAIDU_MAP_POSITION_ICON: {
     url: 'https://api.map.baidu.com/images/marker_red_sprite.png',

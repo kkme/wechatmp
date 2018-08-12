@@ -83,7 +83,12 @@ export const actions = {
       return user
     })
   },
-
+  signUp({ commit }, payload) {
+    return UserService.signUp(payload).then(res => {
+      commit('auth/SET_CURRENT_USER', res)
+      return res
+    })
+  },
   fetchBaseInfo({ commit }, payload) {
     return UserService.fetchBaseInfo(payload).then(res => {
       console.log(res.length)
@@ -147,7 +152,6 @@ export const actions = {
       return res
     })
   },
-
   fetchResume({ commit }) {
     return UserService.fetchResume().then(res => {
       commit('UPDATE_RESUME', res)

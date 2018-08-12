@@ -22,7 +22,8 @@ import {
   VbottomSheet,
   VCheckbox,
   VCarousel,
-  VMenu
+  VMenu,
+  VForm
 } from 'vuetify'
 
 import { Ripple, Scroll } from 'vuetify/es5/directives'
@@ -50,7 +51,8 @@ Vue.use(Vuetify, {
     VbottomSheet,
     VCheckbox,
     VCarousel,
-    VMenu
+    VMenu,
+    VForm
   },
   theme: {
     primary: '#8bc271',

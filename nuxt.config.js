@@ -22,7 +22,7 @@ module.exports = {
       },
       {
         rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_755131_kb2sxxoeiij.css'
+        href: '//at.alicdn.com/t/font_755131_ms7pjw5b3sb.css'
       }
     ]
   },
@@ -36,6 +36,9 @@ module.exports = {
     { src: '~/plugins/baidumap.js', ssr: false },
     { src: '~/plugins/vue-amap.js', ssr: false }
   ],
+  router: {
+    middleware: 'auth'
+  },
   css: ['~/assets/style/app.styl', '~/assets/style/scss/app.scss'],
   modules: [['nuxt-sass-resources-loader', ['@/assets/style/scss/_variables.scss']]],
   /*
