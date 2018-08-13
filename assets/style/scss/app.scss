@@ -80,25 +80,22 @@
     fill: #cccccc;
   }
 }
+
 .svg-xs {
   width: $svg-icon-width * 0.75;
   height: $svg-icon-width * 0.75;
-  display: inherit;
 }
 .svg-sm {
   width: $svg-icon-width;
   height: $svg-icon-width;
-  display: inherit;
 }
 .svg {
   width: $svg-icon-width * 1.5;
   height: $svg-icon-width * 1.5;
-  display: inherit;
 }
 .svg-lg {
   width: $svg-icon-width * 2;
   height: $svg-icon-width * 2;
-  display: inherit;
 }
 .svg-grey {
   opacity: 0.47;
@@ -210,4 +207,7 @@ button img {
     top: $top-nav-height;
     z-index: 3;
   }
+}
+.iconfont {
+  vertical-align: middle;
 }

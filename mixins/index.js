@@ -19,19 +19,25 @@ const page = {
         page = newPage
       }
       this[property] = page
-
       return page
     },
     infiniteLoading($infinite, apiCall, property, opts) {
       this.getPage(this[property], opts, property)
       return apiCall(this[property]).then(res => {
-        $infinite.loaded()
-        if (res.length < this[property].pagesize || res.length === 0 || !res) {
+        if (res.length) {
+          $infinite.loaded()
+          if (res.length < this[property].pagesize) {
+            $infinite.complete()
+            this[property] = null
+          }
+        } else {
           $infinite.complete()
-          this[property] = null
         }
         return res
       })
+    },
+    infinite($infinite, apiCall, opts, property = 'page') {
+      this.infiniteLoading($infinite, apiCall, property, opts)
     }
   }
 }

@@ -11,7 +11,7 @@
           <base-date-picker type="month"
                             v-model="pickedMonth"
                             :max="today">
-            <svg-calender class="svg-sm" />
+            <svg-calender class="svg-sm d-flex" />
           </base-date-picker>
         </div>
       </v-layout>
@@ -79,10 +79,14 @@
               grow
               slider-color="primary"
               class="my-mission-tabs sticky-to-top">
-        <v-tab ripple>已领取</v-tab>
-        <v-tab ripple>收到邀请</v-tab>
-        <v-tab ripple>申请列表</v-tab>
-        <v-tab ripple>已完成</v-tab>
+        <v-tab ripple
+               :class="{'primary--text': active === 0}">已领取</v-tab>
+        <v-tab ripple
+               :class="{'primary--text': active === 1}">收到邀请</v-tab>
+        <v-tab ripple
+               :class="{'primary--text': active === 2}">申请列表</v-tab>
+        <v-tab ripple
+               :class="{'primary--text': active === 3}">已完成</v-tab>
         <v-tab-item>
           <my-mission-item :items="currentMonthMyMissions" />
           <base-infinite @infinite="getMoreMyMissions"
@@ -97,8 +101,32 @@
                         height="20px"
                         class="my-0 ml-2">{{slotProps.item.deliveryType | valueToLabel(applyTypes,'label2')}}</base-tag>
               <v-spacer></v-spacer>
-              <span class="caption text-muted">{{slotProps.item.deliveryStatus | valueToLabel(applyStatuses)}}</span>
+              <span class="caption text-muted"></span>
+              <div @click.stop.prevent="stopPop">
+                <v-menu bottom
+                        :disabled="getApplyStatusName(slotProps.item.deliveryStatus) !== 'comfirm'"
+                        left>
+                  <v-btn slot="activator"
+                         flat
+                         :color="getBtnColor(slotProps.item.deliveryStatus)"
+                         class="ma-0 body-1">
+                    {{slotProps.item.deliveryStatus | valueToLabel(applyStatuses)}}
+                    <v-icon>iconfont icon-more</v-icon>
+                  </v-btn>
+                  <v-list dense>
+                    <v-list-tile class="px-0"
+                                 @click="handleInvitation(slotProps.item.deliveryId, true)">
+                      <v-list-tile-title class="text-xs-center primary--text">同意</v-list-tile-title>
+                    </v-list-tile>
+                    <v-list-tile class="px-0"
+                                 @click="handleInvitation(slotProps.item.deliveryId, false)">
+                      <v-list-tile-title class="text-xs-center error--text">拒绝</v-list-tile-title>
+                    </v-list-tile>
+                  </v-list>
+                </v-menu>
+              </div>
             </template>
+
           </my-mission-item>
           <base-infinite @infinite="getMoreMyInvitations"
                          ref="myInvitationsInfinite"
@@ -112,7 +140,7 @@
                         height="20px"
                         class="my-0 ml-2">{{slotProps.item.deliveryType | valueToLabel(applyTypes,'label2')}}</base-tag>
               <v-spacer></v-spacer>
-              <span class="caption text-muted">{{slotProps.item.deliveryStatus | valueToLabel(applyStatuses)}}</span>
+              <span class="body-1 text-muted">{{slotProps.item.deliveryStatus | valueToLabel(applyStatuses)}}</span>
             </template>
           </my-mission-item>
           <base-infinite @infinite="getMoreMyApplication"
@@ -127,7 +155,14 @@
                         height="20px"
                         class="my-0 ml-2">{{slotProps.item.deliveryType | valueToLabel(applyTypes,'label2')}}</base-tag>
               <v-spacer></v-spacer>
-              <span class="caption text-muted">点击评价</span>
+              <div @click.stop.prevent="stopPop">
+                <v-btn flat
+                       color="primary"
+                       :disabled="getApplyStatusName(slotProps.item.deliveryStatus) !== 'done'"
+                       @click="postComment(slotProps.item.deliveryId)"
+                       class="ma-0">{{getApplyStatusName(slotProps.item.deliveryStatus) === 'done' ? '点击评价' : '已评价'}}</v-btn>
+              </div>
+
             </template>
           </my-mission-item>
           <base-infinite @infinite="getMoreCompletedMissions"
@@ -143,7 +178,7 @@
 import MyMissionItem from '@/components/MyMissionItem'
 import { page } from '@mixins'
 import { mapGetters, mapActions } from 'vuex'
-import { formatTime, getFirstAndLastDay } from '@helper'
+import { formatTime, getFirstAndLastDay, valueToLabel } from '@helper'
 import { applyStatuses, applyTypes } from '@const'
 
 export default {
@@ -158,7 +193,7 @@ export default {
   },
   mixins: [page],
   data: () => ({
-    active: 0,
+    active: 3,
     missionsPage: {},
     invitationsPage: {},
     applyListPage: {},
@@ -168,7 +203,8 @@ export default {
     pickedMonth: '',
     prevMonthLoading: false,
     nextMonthLoading: false,
-    disableBtn: false
+    disableBtn: false,
+    commentDialog: false
   }),
   computed: {
     ...mapGetters({
@@ -242,7 +278,8 @@ export default {
       fetchInvitations: 'mission/fetchInvitations',
       fetchApplications: 'mission/fetchApplications',
       fetchCompletedMissions: 'mission/fetchCompletedMissions',
-      fetchDateTime: 'common/fetchDateTime'
+      fetchDateTime: 'common/fetchDateTime',
+      updateInvitation: 'mission/handleInvitation'
     }),
     getMoreMyMissions($infinite) {
       this.infiniteLoading($infinite, this.fetchMyMissions, 'myMissionsPage', this.dateRange).then(() =>
@@ -297,6 +334,23 @@ export default {
       let endMonth = new Date(item.jobEndTime).getMonth() + 1
       let thisMonth = new Date(this.currentMonth).getMonth() + 1
       return endMonth === thisMonth
+    },
+    stopPop() {
+      console.log('stop')
+    },
+    handleInvitation(id, flag) {
+      this.updateInvitation({id, flag})
+    },
+    getBtnColor(val) {
+      if (valueToLabel(val, applyStatuses, 'name') === 'pass') return 'primary'
+      else if (valueToLabel(val, applyStatuses, 'name') === 'reject') return 'error'
+      else return 'accent'
+    },
+    getApplyStatusName(val) {
+      return valueToLabel(val, applyStatuses, 'name')
+    },
+    postComment(id) {
+      this.commentDialog = true
     }
   },
   mounted() {

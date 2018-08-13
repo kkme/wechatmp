@@ -659,7 +659,7 @@ const smsTypes = [
 
 const applyStatuses = [
   { name: 'comfirm', label: '待确认', value: 'DELIVER_STATUS_WAITCONFIRM' },
-  { name: 'rejected', label: '已拒绝', value: 'DELIVER_STATUS_REFUSED' },
+  { name: 'reject', label: '已拒绝', value: 'DELIVER_STATUS_REFUSED' },
   { name: 'pass', label: '已通过', value: 'DELIVER_STATUS_PASS' },
   { name: 'done', label: '已完成', value: 'DELIVER_STATUS_FINISH' },
   { name: 'cancel', label: '已取消', value: 'DELIVER_STATUS_CANCEL' }

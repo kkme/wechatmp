@@ -16,7 +16,11 @@ const labelToValue = (labelOrName, items) => {
   const item = items.find(ele => ele.lable === labelOrName || ele.name === labelOrName)
   return item ? item.value : labelOrName
 }
-
+const valueToLabel = (value, items, property = 'label') => {
+  if (!value || !items) return ''
+  const item = items.find(ele => ele.value === value)
+  return item ? item[property] : value
+}
 // 百度坐标转高德（传入经度、纬度）
 const bdDecrypt = (bdLng, bdLat, returnObj) => {
   let X_PI = (Math.PI * 3000.0) / 180.0
@@ -56,7 +60,10 @@ const formatTime = (date, fmt = 'yyyy-MM-dd', appendZero = true) => {
   for (const k in o) {
     if (new RegExp(`(${k})`).test(fmt)) {
       if (appendZero) {
-        fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? o[k] : `00${o[k]}`.substr(`${o[k]}`.length))
+        fmt = fmt.replace(
+          RegExp.$1,
+          RegExp.$1.length === 1 ? o[k] : `00${o[k]}`.substr(`${o[k]}`.length)
+        )
       } else {
         fmt = fmt.replace(RegExp.$1, o[k])
       }
@@ -99,12 +106,14 @@ const addHour = (time, hours) => {
   return time.join(':')
 }
 
-const dateGreater = (date1, date2) => (date1.replace(/-/g, '') > date2.replace(/-/g, '') ? date1 : date2)
+const dateGreater = (date1, date2) =>
+  date1.replace(/-/g, '') > date2.replace(/-/g, '') ? date1 : date2
 
 export {
   fileReader,
   readFiles,
   labelToValue,
+  valueToLabel,
   bdDecrypt,
   bdEncrypt,
   formatTime,

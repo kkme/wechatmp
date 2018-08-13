@@ -12,7 +12,7 @@
     <div class="body-2 py-2 px-3 grey lighten-3">工资记录</div>
     <div class="my-mission-salary-log">
       <div class="my-mission-salary-log-item"
-           v-for="n of 10"
+           v-for="n of 1"
            :key="n">
         <v-layout align-center
                   class="border-bottom px-3 py-2">
@@ -57,13 +57,23 @@
         </v-layout>
         <base-divider></base-divider>
       </div>
+      <base-infinite @infinite="infinite($event, fetchSalaryLog, {id})"
+                     ref="infiniteLoading"></base-infinite>
     </div>
   </div>
 </template>
 
 <script>
+import { page } from '@mixins'
+import { mapActions } from 'vuex'
 export default {
-
+  props: ['id'],
+  mixins: [page],
+  methods: {
+    ...mapActions({
+      fetchSalaryLog: 'mission/fetchSalaryLog'
+    })
+  }
 }
 </script>
 

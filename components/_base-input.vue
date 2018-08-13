@@ -11,6 +11,7 @@
                     v-on="$listeners"
                     v-bind="$attrs"
                     :value="value"
+                    class="mt-0"
                     v-model="inputValue"></v-text-field>
     </v-flex>
     <div>
@@ -124,35 +125,35 @@ export default {
 
 <style lang="scss">
 .base-input {
-  // position: relative;
-  .v-text-field.v-text-field--solo .v-input__control {
-    min-height: 35px;
-    background-color: transparent;
-  }
-  &.base-input-bordered {
-    .v-text-field input {
-      padding: 4px 0 4px;
-    }
+    // position: relative;
     .v-text-field.v-text-field--solo .v-input__control {
-      min-height: 28px;
-      border: 1px solid $border-color-dark;
-      border-radius: $border-radius;
+        min-height: 35px;
+        background-color: transparent;
     }
-  }
-  .base-input-action {
-    // margin-right: 8em;
-  }
-  .base-input-btn {
-    // position: absolute;
-    // right: 0;
-    // top: auto;
-    // z-index: 1;
-  }
-  input:focus {
-    font-size: 16px;
-  }
-  input::placeholder {
-    font-size: 14px;
-  }
+    &.base-input-bordered {
+        .v-text-field input {
+            padding: 4px 0 4px;
+        }
+        .v-text-field.v-text-field--solo .v-input__control {
+            min-height: 28px;
+            border: 1px solid $border-color-dark;
+            border-radius: $border-radius;
+        }
+    }
+    .base-input-action {
+        // margin-right: 8em;
+    }
+    .base-input-btn {
+        // position: absolute;
+        // right: 0;
+        // top: auto;
+        // z-index: 1;
+    }
+    input:focus {
+        font-size: 16px;
+    }
+    input::placeholder {
+        font-size: 14px;
+    }
 }
 </style>

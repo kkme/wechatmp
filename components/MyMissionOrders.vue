@@ -33,7 +33,7 @@
       <v-layout class="my-mission-orders-log-item mt-2"
                 align-center
                 wrap
-                v-for="n of 10"
+                v-for="n of 1"
                 :key="n">
         <span class="px-3 flex-auto">
           <span class="subheading">502</span>
@@ -72,13 +72,23 @@
           <base-divider></base-divider>
         </v-flex>
       </v-layout>
+      <base-infinite @infinite="infinite($event, fetchOrders, {id})"
+                     ref="infiniteLoading"></base-infinite>
     </div>
   </div>
 </template>
 
 <script>
+import { page } from '@mixins'
+import { mapActions } from 'vuex'
 export default {
-
+  props: ['id'],
+  mixins: [page],
+  methods: {
+    ...mapActions({
+      fetchOrders: 'mission/fetchOrders'
+    })
+  }
 }
 </script>
 

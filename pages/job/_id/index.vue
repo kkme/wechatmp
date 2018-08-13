@@ -164,7 +164,7 @@ import JobDetail from '@/components/JobDetail'
 import constant from '@const/public'
 import { eduList, paymentTypes, salaryTypes, paymentPlatfroms, applyTypes } from '@const'
 import { mapActions, mapGetters } from 'vuex'
-import { bdDecrypt, addDays, addHour, dateGreater, labelToValue } from '@helper'
+import { addDays, addHour, dateGreater, labelToValue } from '@helper'
 export default {
   components: {
     CorpItem,
@@ -207,10 +207,6 @@ export default {
     ...mapGetters({
       today: 'common/today'
     }),
-    center() {
-      // return bdDecrypt(104.070093, 30.662956)
-      return bdDecrypt(this.detail.longitude, this.detail.latitude)
-    },
     minDay() {
       if (!this.detail) return ''
       let begin = this.detail.jobbegintime || ''

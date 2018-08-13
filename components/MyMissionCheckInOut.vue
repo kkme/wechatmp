@@ -1,5 +1,6 @@
 <template>
-  <div class="my-mission-checkinout">
+  <div class="my-mission-checkinout"
+       v-if="id">
     <v-layout class="py-5"
               align-center
               justify-center>
@@ -8,7 +9,8 @@
                fab
                large
                depressed
-               class="ma-0 body-2">上班签到</v-btn>
+               class="ma-0 body-2"
+               @click="onCheckIn">上班签到</v-btn>
       </div>
     </v-layout>
     <v-layout align-center
@@ -78,26 +80,57 @@
         <base-divider v-if="n !== 10"></base-divider>
         <img src="@img/reject.png">
       </div>
+      <base-infinite @infinite="infinite($event, fetchCheckInOutLog, {id})"
+                     ref="infiniteLoading"></base-infinite>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import { page } from '@mixins'
+import { mapActions, mapGetters } from 'vuex'
+export default {
+  props: ['id'],
+  mixins: [page],
+  computed: {
+    ...mapGetters({
+      currentLocation: 'common/currentLocation'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchCheckInOutLog: 'mission/fetchCheckInOutLog',
+      fetchCheckStatus: 'mission/fetchCheckStatus',
+      checkIn: 'mission/checkIn',
+      checkOut: 'mission/checkOut'
+    }),
+    onCheckIn() {
+      this.checkIn({
+        deliveryid: this.$route.params.id,
+        address: this.currentLocation.address,
+        longitude: this.currentLocation.position.lng,
+        latitude: this.currentLocation.position.lat
+      })
+    }
+  },
+  mounted() {
+    this.fetchCheckStatus({id: this.$route.params.id})
+  }
+}
 </script>
 
 <style lang="scss">
 .my-mission-checkinout {
-  .my-mission-checkinout-log-item {
-    position: relative;
-    z-index: 2;
-    img {
-      position: absolute;
-      z-index: 1;
-      right: 2rem;
-      top: 5rem;
-      width: 20vw;
+    .my-mission-checkinout-log-item {
+        position: relative;
+        z-index: 2;
+        img {
+            position: absolute;
+            z-index: 1;
+            right: 2rem;
+            top: 5rem;
+            width: 20vw;
+        }
     }
-  }
 }
 </style>

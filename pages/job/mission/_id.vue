@@ -15,16 +15,20 @@
 
         <v-list dense
                 class="py-0">
-          <v-list-tile class="border-bottom">
+          <v-list-tile class="border-bottom"
+                       @click="onCancelMission">
             <v-list-tile-title>任务取消</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile class="border-bottom">
+          <v-list-tile class="border-bottom"
+                       @click="onEndMission">
             <v-list-tile-title>提前结束任务</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile class="border-bottom">
+          <v-list-tile class="border-bottom"
+                       @click="onDelayMission">
             <v-list-tile-title>延长工作时间</v-list-tile-title>
           </v-list-tile>
-          <v-list-tile class="border-bottom">
+          <v-list-tile class="border-bottom"
+                       @click="overdueCheckIn">
             <v-list-tile-title>任务补签</v-list-tile-title>
           </v-list-tile>
         </v-list>
@@ -63,28 +67,72 @@
       <v-tab ripple>工资</v-tab>
       <v-tab ripple>详情</v-tab>
       <v-tab-item>
-        <my-mission-check-in-out></my-mission-check-in-out>
-        <base-infinite @infinite="getMoreCheckInOutLog"
-                       ref="checkLogInfinite"
-                       v-if="active === 0"></base-infinite>
+        <my-mission-check-in-out :id="detail.id"
+                                 v-if="active === 0" />
       </v-tab-item>
       <v-tab-item>
-        <my-mission-orders></my-mission-orders>
-        <base-infinite @infinite="getMoreOrders"
-                       ref="orderInfinite"
-                       v-if="active === 1"></base-infinite>
+        <my-mission-orders :id="detail.id"
+                           v-if="active === 1" />
       </v-tab-item>
       <v-tab-item>
-        <my-mission-salary></my-mission-salary>
-        <base-infinite @infinite="getMoreSalaryLog"
-                       ref="salaryInfinite"
-                       v-if="active === 2"></base-infinite>
+        <my-mission-salary :id="detail.id"
+                           v-if="active === 2" />
       </v-tab-item>
       <v-tab-item>
         <job-detail :detail="jobDetail"
                     v-if="jobDetail"></job-detail>
       </v-tab-item>
     </v-tabs>
+    <v-dialog v-model="dialog"
+              max-width="500px">
+      <v-card>
+        <v-card-title class="justify-center pt-4">
+          <span class="title">申请{{dialogContent[currentDialog].description}}任务</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form v-model="valid"
+                  class="px-3"
+                  ref="form"
+                  lazy-validation>
+            <v-layout align-center>
+              <div class="flex-auto">任务结束时间：</div>
+              <v-flex>
+                <base-input v-model="username"
+                            :rules="nameRules"
+                            placeholder="任务结束时间"
+                            :flat="false"
+                            :solo="false"
+                            class="mt-0"
+                            required></base-input>
+              </v-flex>
+            </v-layout>
+            <v-layout align-center
+                      class="mt-3">
+              <div class="flex-auto">申请{{dialogContent[currentDialog].description}}：</div>
+              <v-flex>
+                <base-input v-model="username"
+                            :rules="nameRules"
+                            placeholder="申请结束时间"
+                            :flat="false"
+                            :solo="false"
+                            class="mt-0"
+                            required></base-input>
+              </v-flex>
+            </v-layout>
+
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary"
+                 block
+                 class="mx-4 mt-3"
+                 :disabled="!valid"
+                 @click="submit"
+                 :loading="loading">登录</v-btn>
+        </v-card-actions>
+        <div class="py-3 text-xs-center caption error--text">{{dialogContent[currentDialog].textLabel}}</div>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -93,7 +141,6 @@ import MyMissionCheckInOut from '@/components/MyMissionCheckInOut'
 import MyMissionOrders from '@/components/MyMissionOrders'
 import MyMissionSalary from '@/components/MyMissionSalary'
 import JobDetail from '@/components/JobDetail'
-import { page } from '@mixins'
 import { mapActions } from 'vuex'
 export default {
   components: {
@@ -108,34 +155,37 @@ export default {
   meta: {
     title: '任务详情'
   },
-  mixins: [page],
   data: () => ({
     active: 0,
     detail: {},
-    jobDetail: null
+    jobDetail: null,
+    dialog: true,
+    currentDialog: 'cancelMission',
+    dialogContent: {
+      cancelMission: {
+        description: '取消'
+      },
+      endMission: {
+        description: '提前结束',
+        textLabel: '提前结束任务将影响你的信誉值'
+      },
+      delayMission: {
+        description: '延长'
+      }
+    }
   }),
-  computed: {},
+  computed: {
+    ...mapActions({
+      cancelMission: 'mission/cancelMission',
+      applyEndMission: 'mission/applyEndMission'
+    })
+  },
   methods: {
     ...mapActions({
       fetchDetail: 'mission/fetchDetail',
-      fetchJobDetail: 'job/fetchJob',
-      fetchCheckInOutLog: 'mission/fetchCheckInOutLog',
-      fetchOrders: 'mission/fetchOrders',
-      fetchSalaryLog: 'mission/fetchSalaryLog',
-      fetchCheckStatus: 'mission/fetchCheckStatus'
+      fetchJobDetail: 'job/fetchJob'
+
     }),
-    getMoreCheckInOutLog($infinite) {
-      this.infiniteLoading($infinite, this.fetchCheckInOutLog, 'checkInPage', { id: this.detail.id })
-    },
-    getMoreOrders($infinite) {
-      this.infiniteLoading($infinite, this.fetchOrders, 'ordersPage', { id: this.detail.id })
-    },
-    getMoreSalaryLog($infinite) {
-      this.infiniteLoading($infinite, this.fetchSalaryLog, 'salaryPage', { id: this.detail.id })
-    },
-    // getMoreMissionLog($infinite) {
-    //   this.infiniteLoading($infinite, this.fetchMissionLog, 'missionsLogPage')
-    // },
     getDetail() {
       let id = this.$route.params.id
       if (id) {
@@ -158,7 +208,17 @@ export default {
           this.jobDetail = res.parttime
         }
       })
-    }
+    },
+    onCancelMission() {
+      this.currentDialog = 'cancelMission'
+      this.dialog = true
+    },
+    onEndMission() {
+      this.currentDialog = 'endMission'
+      this.dialog = true
+    },
+    onDelayMission() { this.dialog = true },
+    overdueCheckIn() { this.dialog = true }
   },
   mounted() {
     this.getDetail()

@@ -1,4 +1,6 @@
 import MissionService from '@/services/MissionService'
+import { labelToValue } from '@helper'
+import { applyStatuses } from '@const'
 import { unionBy } from 'lodash'
 export const state = {
   countInfo: {},
@@ -35,6 +37,12 @@ export const mutations = {
   },
   UPDATE_INVITATIONS(state, invitations) {
     state.invitations = unionBy(invitations, state.invitations, 'deliveryId')
+  },
+  UPDATE_INVITATION(state, { id, flag }) {
+    let invitation = state.invitations.find(invitation => invitation.deliveryId === id)
+    if (!invitation) return
+    invitation.deliveryStatus = labelToValue(flag ? 'pass' : 'reject', applyStatuses)
+    console.log({ invitation })
   },
   UPDATE_APPLICATIONS(state, applications) {
     state.applications = unionBy(applications, state.applications, 'deliveryId')
@@ -97,7 +105,10 @@ export const actions = {
     return MissionService.postComment(payload)
   },
   handleInvitation({ commit, state }, payload) {
-    return MissionService.handleInvitation(payload)
+    return MissionService.handleInvitation(payload).then(res => {
+      commit('UPDATE_INVITATION', payload)
+      return res
+    })
   },
   fetchDetail({ commit, state }, payload) {
     return MissionService.fetchDetail(payload).then(res => {

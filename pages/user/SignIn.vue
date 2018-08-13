@@ -15,6 +15,7 @@
                     placeholder="手机号"
                     :flat="false"
                     :solo="false"
+                    class="mt-3"
                     prepend-inner-icon="iconfont icon-user"
                     clearable
                     required></base-input>
@@ -35,6 +36,7 @@
                     :solo="false"
                     type="password"
                     placeholder="密码"
+                    class="mt-3"
                     prepend-inner-icon="iconfont icon-lock"
                     clearable
                     required
@@ -46,11 +48,11 @@
                     :flat="false"
                     :solo="false"
                     placeholder="请输入手机验证码"
+                    class="mt-3"
                     prepend-inner-icon="iconfont icon-lock"
                     clearable
                     :sms="username"
                     :smsType="smsType"
-                    class="mt-0"
                     required
                     @keyup.enter="submit"></base-input>
 
@@ -142,19 +144,19 @@ export default {
 
 <style lang="scss">
 .signin {
-  .logo {
-    width: 60vw;
-    max-width: 310px;
-  }
-  .signin-form,
-  .signin-links {
-    width: 80vw;
-    max-width: 300px;
-  }
-  .signin-form {
-    border-radius: $border-radius * 5;
-    box-shadow: 0 2px 10px 0 rgba($primary, 0.2);
-    margin-top: -1rem;
-  }
+    .logo {
+        width: 60vw;
+        max-width: 310px;
+    }
+    .signin-form,
+    .signin-links {
+        width: 80vw;
+        max-width: 300px;
+    }
+    .signin-form {
+        border-radius: $border-radius * 5;
+        box-shadow: 0 2px 10px 0 rgba($primary, 0.2);
+        margin-top: -1rem;
+    }
 }
 </style>

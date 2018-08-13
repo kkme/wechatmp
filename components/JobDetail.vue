@@ -98,6 +98,8 @@
 
 <script>
 import { eduList, paymentTypes, salaryTypes, paymentPlatfroms } from '@const'
+import { bdDecrypt } from '@helper'
+
 export default {
   props: {
     detail: {
@@ -110,7 +112,13 @@ export default {
     paymentPlatfroms,
     salaryTypes,
     eduList
-  })
+  }),
+  computed: {
+    center() {
+      // return bdDecrypt(104.070093, 30.662956)
+      return bdDecrypt(this.detail.longitude, this.detail.latitude)
+    }
+  }
 }
 </script>
 
