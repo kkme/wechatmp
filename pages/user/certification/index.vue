@@ -55,54 +55,54 @@ export default {
   },
   data: () => ({
     tabs: null
-  }),
-  computed: {
-    ...mapGetters({
-      collections: 'users/collections'
-    })
-  },
-  methods: {
-    ...mapActions({
-      fetchCollections: 'users/fetchCollections'
-    })
-  },
-  mounted() {
-    this.fetchCollections()
-  }
+  })
+  // computed: {
+  //   ...mapGetters({
+  //     collections: 'users/collections'
+  //   })
+  // },
+  // methods: {
+  //   ...mapActions({
+  //     fetchCollections: 'users/fetchCollections'
+  //   })
+  // },
+  // mounted() {
+  //   this.fetchCollections({})
+  // }
 }
 </script>
 
 <style lang="scss">
 .user-certification {
-    height: calc(100vh - 48px);
-    .user-certification-action {
-        height: 60vh;
-        flex: 0 0 60vh;
-        > div {
-            border-radius: $border-radius * 1.5;
-        }
+  height: calc(100vh - 48px);
+  .user-certification-action {
+    height: 60vh;
+    flex: 0 0 60vh;
+    > div {
+      border-radius: $border-radius * 1.5;
     }
-    .user-certification-avatar {
-        width: 50px;
-        height: 50px;
-        background-color: #fff;
-        padding: 10px;
-        border-radius: 50%;
-        .simple-svg-wrapper {
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            line-height: 50px;
-        }
+  }
+  .user-certification-avatar {
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 50%;
+    .simple-svg-wrapper {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      line-height: 50px;
     }
-    .user-certification-not-student {
-        background-image: url('~@img/certification_bg_yellow.jpg');
-        svg {
-            width: 100%;
-        }
+  }
+  .user-certification-not-student {
+    background-image: url('~@img/certification_bg_yellow.jpg');
+    svg {
+      width: 100%;
     }
-    .user-certification-student {
-        background-image: url('~@img/certification_bg_blue.jpg');
-    }
+  }
+  .user-certification-student {
+    background-image: url('~@img/certification_bg_blue.jpg');
+  }
 }
 </style>

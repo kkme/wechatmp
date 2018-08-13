@@ -56,10 +56,7 @@ const formatTime = (date, fmt = 'yyyy-MM-dd', appendZero = true) => {
   for (const k in o) {
     if (new RegExp(`(${k})`).test(fmt)) {
       if (appendZero) {
-        fmt = fmt.replace(
-          RegExp.$1,
-          RegExp.$1.length === 1 ? o[k] : `00${o[k]}`.substr(`${o[k]}`.length)
-        )
+        fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? o[k] : `00${o[k]}`.substr(`${o[k]}`.length))
       } else {
         fmt = fmt.replace(RegExp.$1, o[k])
       }
@@ -73,7 +70,23 @@ const addDays = (date, days) => {
   newDate.setDate(newDate.getDate() + days)
   return formatTime(newDate)
 }
-
+const getFirstAndLastDay = day => {
+  if (!day) return null
+  let startDate = formatTime(day, 'yyyy-MM') + '-01'
+  let date = new Date(day)
+  let year = date.getFullYear()
+  let month = date.getMonth() + 2
+  if (month === 13) {
+    month = 1
+    year += 1
+  }
+  let endDate = `${year}-${month}-01` // 获取当天的下一个月的 1 号 在得到这天的前一天
+  endDate = addDays(endDate, -1)
+  return {
+    startDate,
+    endDate
+  }
+}
 const addHour = (time, hours) => {
   time = time.split(':')
   let hour = +time[0] + hours
@@ -86,8 +99,7 @@ const addHour = (time, hours) => {
   return time.join(':')
 }
 
-const dateGreater = (date1, date2) =>
-  date1.replace(/-/g, '') > date2.replace(/-/g, '') ? date1 : date2
+const dateGreater = (date1, date2) => (date1.replace(/-/g, '') > date2.replace(/-/g, '') ? date1 : date2)
 
 export {
   fileReader,
@@ -98,5 +110,6 @@ export {
   formatTime,
   addDays,
   addHour,
-  dateGreater
+  dateGreater,
+  getFirstAndLastDay
 }

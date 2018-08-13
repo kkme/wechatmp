@@ -2,6 +2,7 @@ const nodeExternals = require('webpack-node-externals')
 const path = require('path')
 
 module.exports = {
+  mode: 'spa',
   head: {
     title: '懒虫动动兼职平台',
     titleTemplate: '%s | 懒虫动动兼职平台',
@@ -37,7 +38,8 @@ module.exports = {
     { src: '~/plugins/vue-amap.js', ssr: false }
   ],
   router: {
-    middleware: 'auth'
+    middleware: 'auth',
+    mode: 'hash'
   },
   css: ['~/assets/style/app.styl', '~/assets/style/scss/app.scss'],
   modules: [['nuxt-sass-resources-loader', ['@/assets/style/scss/_variables.scss']]],
@@ -70,6 +72,7 @@ module.exports = {
       '~/plugins/baidumap.js',
       '~/plugins/vue-amap.js'
     ],
+    publicPath: 'https://local.sapi.s-cout.com/job-api/wechatmp/',
     extractCSS: true,
     cssSourceMap: false,
     /*

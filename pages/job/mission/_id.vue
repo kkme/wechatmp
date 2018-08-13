@@ -56,22 +56,33 @@
     <base-divider class="mt-2"></base-divider>
     <v-tabs v-model="active"
             slider-color="primary"
-            grow>
+            grow
+            class="sticky-to-top white">
       <v-tab ripple>签到</v-tab>
       <v-tab ripple>单量</v-tab>
       <v-tab ripple>工资</v-tab>
       <v-tab ripple>详情</v-tab>
       <v-tab-item>
         <my-mission-check-in-out></my-mission-check-in-out>
+        <base-infinite @infinite="getMoreCheckInOutLog"
+                       ref="checkLogInfinite"
+                       v-if="active === 0"></base-infinite>
       </v-tab-item>
       <v-tab-item>
         <my-mission-orders></my-mission-orders>
+        <base-infinite @infinite="getMoreOrders"
+                       ref="orderInfinite"
+                       v-if="active === 1"></base-infinite>
       </v-tab-item>
       <v-tab-item>
         <my-mission-salary></my-mission-salary>
+        <base-infinite @infinite="getMoreSalaryLog"
+                       ref="salaryInfinite"
+                       v-if="active === 2"></base-infinite>
       </v-tab-item>
       <v-tab-item>
-        <job-detail :detail="detail"></job-detail>
+        <job-detail :detail="jobDetail"
+                    v-if="jobDetail"></job-detail>
       </v-tab-item>
     </v-tabs>
   </div>
@@ -82,6 +93,7 @@ import MyMissionCheckInOut from '@/components/MyMissionCheckInOut'
 import MyMissionOrders from '@/components/MyMissionOrders'
 import MyMissionSalary from '@/components/MyMissionSalary'
 import JobDetail from '@/components/JobDetail'
+import { page } from '@mixins'
 import { mapActions } from 'vuex'
 export default {
   components: {
@@ -96,22 +108,56 @@ export default {
   meta: {
     title: '任务详情'
   },
+  mixins: [page],
   data: () => ({
-    active: 2,
-    detail: {}
+    active: 0,
+    detail: {},
+    jobDetail: null
   }),
   computed: {},
   methods: {
     ...mapActions({
-      fetchDetail: 'mission/fetchDetail'
+      fetchDetail: 'mission/fetchDetail',
+      fetchJobDetail: 'job/fetchJob',
+      fetchCheckInOutLog: 'mission/fetchCheckInOutLog',
+      fetchOrders: 'mission/fetchOrders',
+      fetchSalaryLog: 'mission/fetchSalaryLog',
+      fetchCheckStatus: 'mission/fetchCheckStatus'
     }),
+    getMoreCheckInOutLog($infinite) {
+      this.infiniteLoading($infinite, this.fetchCheckInOutLog, 'checkInPage', { id: this.detail.id })
+    },
+    getMoreOrders($infinite) {
+      this.infiniteLoading($infinite, this.fetchOrders, 'ordersPage', { id: this.detail.id })
+    },
+    getMoreSalaryLog($infinite) {
+      this.infiniteLoading($infinite, this.fetchSalaryLog, 'salaryPage', { id: this.detail.id })
+    },
+    // getMoreMissionLog($infinite) {
+    //   this.infiniteLoading($infinite, this.fetchMissionLog, 'missionsLogPage')
+    // },
     getDetail() {
       let id = this.$route.params.id
       if (id) {
-        this.fetchDetail({id}).then(res => {
-          this.detail = res
-        })
+        this.fetchDetail({ id })
+          .then(res => {
+            this.detail = res
+            return res
+          })
+          .then(detail => {
+            let jobId = detail.recruitmentId
+            if (jobId) {
+              this.getJobDetial(jobId)
+            }
+          })
       }
+    },
+    getJobDetial(id) {
+      this.fetchJobDetail({ id }).then(res => {
+        if (res) {
+          this.jobDetail = res.parttime
+        }
+      })
     }
   },
   mounted() {

@@ -28,7 +28,8 @@
                     clearable
                     required
                     :sms="username"></base-input> -->
-        <base-input v-model="password"
+        <base-input v-if="currentLoginType === 'account'"
+                    v-model="password"
                     :rules="passwordRules"
                     :flat="false"
                     :solo="false"
@@ -36,16 +37,31 @@
                     placeholder="密码"
                     prepend-inner-icon="iconfont icon-lock"
                     clearable
-                    required></base-input>
+                    required
+                    @keyup.enter="submit"></base-input>
 
-        <base-input v-model="captcha"
+        <base-input v-if="currentLoginType === 'mobile'"
+                    v-model="password"
+                    :rules="smsRules"
+                    :flat="false"
+                    :solo="false"
+                    placeholder="请输入手机验证码"
+                    prepend-inner-icon="iconfont icon-lock"
+                    clearable
+                    :sms="username"
+                    :smsType="smsType"
+                    class="mt-0"
+                    required
+                    @keyup.enter="submit"></base-input>
+
+        <!-- <base-input v-model="captcha"
                     :rules="captchaRules"
                     :flat="false"
                     :solo="false"
                     placeholder="验证码"
                     prepend-inner-icon="iconfont icon-lock"
                     captcha
-                    required></base-input>
+                    required></base-input> -->
         <v-btn color="primary"
                block
                class="mt-5"
@@ -72,7 +88,7 @@
 <script>
 // import rules from '@const/rules'
 import { mapActions } from 'vuex'
-import { loginTypes } from '@const'
+import { loginTypes, smsTypes } from '@const'
 import { labelToValue } from '@helper'
 export default {
   head: () => ({
@@ -88,23 +104,16 @@ export default {
     valid: false,
     loading: false,
     currentLoginType: 'account',
-    nameRules: [
-      v => !!v || '',
-      v => (v && v.length >= 11) || ''
-    ],
-    passwordRules: [
-      v => !!v || '',
-      v => (v && v.length >= 6) || ''
-    ],
-    captchaRules: [
-      v => !!v || '',
-      v => (v && v.length >= 4) || ''
-    ]
+    nameRules: [v => !!v || '', v => (v && v.length >= 11) || ''],
+    passwordRules: [v => !!v || '', v => (v && v.length >= 6) || ''],
+    captchaRules: [v => !!v || '', v => (v && v.length >= 4) || ''],
+    smsRules: [v => !!v || '', v => (v && v.length >= 4) || '']
   }),
   computed: {
     loginType() {
       return labelToValue(this.currentLoginType, loginTypes)
-    }
+    },
+    smsType: () => labelToValue('signin', smsTypes)
   },
   methods: {
     ...mapActions({
@@ -113,7 +122,7 @@ export default {
     changeLoginType() {
       this.currentLoginType = this.currentLoginType === 'account' ? 'mobile' : 'account'
     },
-    submit () {
+    submit() {
       if (this.$refs.form.validate()) {
         this.loading = true
         this.logIn({
@@ -123,6 +132,7 @@ export default {
           loginType: this.loginType
         }).then(res => {
           this.loading = false
+          this.$router.push('/job')
         })
       }
     }
@@ -132,19 +142,19 @@ export default {
 
 <style lang="scss">
 .signin {
-    .logo {
-        width: 60vw;
-        max-width: 310px;
-    }
-    .signin-form,
-    .signin-links {
-        width: 80vw;
-        max-width: 300px;
-    }
-    .signin-form {
-        border-radius: $border-radius * 5;
-        box-shadow: 0 2px 10px 0 rgba($primary, 0.2);
-        margin-top: -1rem;
-    }
+  .logo {
+    width: 60vw;
+    max-width: 310px;
+  }
+  .signin-form,
+  .signin-links {
+    width: 80vw;
+    max-width: 300px;
+  }
+  .signin-form {
+    border-radius: $border-radius * 5;
+    box-shadow: 0 2px 10px 0 rgba($primary, 0.2);
+    margin-top: -1rem;
+  }
 }
 </style>

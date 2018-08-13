@@ -83,18 +83,22 @@
 .svg-xs {
   width: $svg-icon-width * 0.75;
   height: $svg-icon-width * 0.75;
+  display: inherit;
 }
 .svg-sm {
   width: $svg-icon-width;
   height: $svg-icon-width;
+  display: inherit;
 }
 .svg {
   width: $svg-icon-width * 1.5;
   height: $svg-icon-width * 1.5;
+  display: inherit;
 }
 .svg-lg {
   width: $svg-icon-width * 2;
   height: $svg-icon-width * 2;
+  display: inherit;
 }
 .svg-grey {
   opacity: 0.47;
@@ -193,8 +197,17 @@ button img {
   height: 200px;
 }
 .btn-fancy {
-    border: 0;
-    background-color: $primary;
-    box-shadow: 0 0 0 6px rgba($primary, 0.6), 0 0 0 12px rgba($primary, 0.3);
-    border-radius: 50%;
+  border: 0;
+  background-color: $primary;
+  box-shadow: 0 0 0 6px rgba($primary, 0.6), 0 0 0 12px rgba($primary, 0.3);
+  border-radius: 50%;
+}
+.sticky-to-top {
+  position: relative;
+  z-index: 1;
+  .v-tabs__bar {
+    position: sticky;
+    top: $top-nav-height;
+    z-index: 3;
+  }
 }

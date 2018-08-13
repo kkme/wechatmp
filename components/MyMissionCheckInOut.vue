@@ -38,7 +38,7 @@
     </v-layout>
     <div class="body-2 py-2 px-3 grey lighten-3">签到记录</div>
     <div class="my-mission-checkinout-log">
-      <div v-for="n of 10"
+      <div v-for="n of 1"
            :key="n"
            class="my-mission-checkinout-log-item">
         <v-layout class="border-bottom px-3 py-2 body-2 grey--text text--darken-2">2018-02-05 星期五
@@ -83,23 +83,21 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style lang="scss">
 .my-mission-checkinout {
-    .my-mission-checkinout-log-item {
-        position: relative;
-        z-index: 2;
-        img {
-            position: absolute;
-            z-index: 1;
-            right: 2rem;
-            top: 5rem;
-            width: 20vw;
-        }
+  .my-mission-checkinout-log-item {
+    position: relative;
+    z-index: 2;
+    img {
+      position: absolute;
+      z-index: 1;
+      right: 2rem;
+      top: 5rem;
+      width: 20vw;
     }
+  }
 }
 </style>

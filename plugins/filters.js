@@ -6,10 +6,10 @@ Vue.filter('capitalize', function(value) {
   return value.charAt(0).toUpperCase() + value.slice(1)
 })
 
-Vue.filter('valueToLabel', function(value, items) {
+Vue.filter('valueToLabel', function(value, items, property = 'label') {
   if (!value || !items) return ''
   const item = items.find(ele => ele.value === value)
-  return item ? item.label : value
+  return item ? item[property] : value
 })
 
 Vue.filter('monthToCh', function(value) {

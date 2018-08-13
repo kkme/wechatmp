@@ -16,7 +16,7 @@
               <base-tag outline
                         color="accent"
                         height="20px"
-                        class="my-0">战队1</base-tag>
+                        class="my-0">{{item.deliveryType | valueToLabel(applyTypes,'label2')}}</base-tag>
             </slot>
           </v-layout>
         </v-list-tile-title>
@@ -34,10 +34,15 @@
 </template>
 
 <script>
+import { applyStatuses, applyTypes } from '@const'
 export default {
   props: {
     items: Array
-  }
+  },
+  data: () => ({
+    applyStatuses,
+    applyTypes
+  })
 }
 </script>
 

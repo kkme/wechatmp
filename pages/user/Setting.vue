@@ -7,7 +7,7 @@
     <div class="px-5 w-100">
       <v-btn color="error"
              block
-             @click="logOut">退出登录</v-btn>
+             @click="onLogOut">退出登录</v-btn>
     </div>
   </v-layout>
 </template>
@@ -18,7 +18,12 @@ export default {
   methods: {
     ...mapActions({
       logOut: 'auth/logOut'
-    })
+    }),
+    onLogOut() {
+      this.logOut().then(res => {
+        this.$router.push('/user/signin')
+      })
+    }
   }
 }
 </script>

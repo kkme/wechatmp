@@ -3,7 +3,8 @@
     <infinite-loading v-bind="$attrs"
                       v-on="$listeners"
                       :spinner="spinner"
-                      :distance="distance">
+                      :distance="distance"
+                      ref="infiniteLoading">
       <div slot="no-more"
            class="caption text-muted">
         没有更多数据了

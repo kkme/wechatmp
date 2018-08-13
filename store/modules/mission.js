@@ -28,8 +28,6 @@ export const getters = {
 
 export const mutations = {
   UPDATE_COUNT_INFO(state, countInfo) {
-    console.log(countInfo)
-
     state.countInfo = countInfo
   },
   UPDATE_MISSIONS(state, myMissions) {
@@ -107,8 +105,8 @@ export const actions = {
       return res
     })
   },
-  fetchMissionLog({ commit, state }, payload) {
-    return MissionService.fetchMissionLog(payload).then(res => {
+  fetchCheckStatus({ commit, state }, payload) {
+    return MissionService.fetchCheckStatus(payload).then(res => {
       commit('UPDATE_MISSION_LOG', res)
       return res
     })
@@ -125,18 +123,19 @@ export const actions = {
       return res
     })
   },
+  fetchCheckInOutLog({ commit, state }, payload) {
+    return MissionService.fetchCheckInOutLog(payload).then(res => {
+      commit('UPDATE_CHECK_IN_OUT_LOG', res)
+      return res
+    })
+  },
   checkIn({ commit, state }, payload) {
     return MissionService.checkIn(payload)
   },
   checkOut({ commit, state }, payload) {
     return MissionService.checkOut(payload)
   },
-  fetchCheckLog({ commit, state }, payload) {
-    return MissionService.fetchCheckLog(payload).then(res => {
-      commit('UPDATE_CHECK_IN_OUT_LOG', res)
-      return res
-    })
-  },
+
   addOrder({ commit, state }, payload) {
     return MissionService.addOrder(payload)
   },

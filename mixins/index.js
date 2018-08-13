@@ -8,6 +8,7 @@ const page = {
   methods: {
     getPage(newPage, opts, property = 'page') {
       let page = null
+      // console.log({ newPage }, { opts }, { property })
       if (!newPage) newPage = {}
       if (!newPage.pageindex) {
         newPage.pagesize = this.DEFAULT_PAGE_SIZE
@@ -18,14 +19,16 @@ const page = {
         page = newPage
       }
       this[property] = page
+
       return page
     },
-    infiniteLoading($infinite, apiCall, property) {
-      this.getPage(this[property], null, property)
+    infiniteLoading($infinite, apiCall, property, opts) {
+      this.getPage(this[property], opts, property)
       return apiCall(this[property]).then(res => {
         $infinite.loaded()
         if (res.length < this[property].pagesize || res.length === 0 || !res) {
           $infinite.complete()
+          this[property] = null
         }
         return res
       })

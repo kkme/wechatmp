@@ -11,17 +11,20 @@
                   label="Picker in dialog"
                   prepend-icon="event"
                   readonly></v-text-field> -->
-    <base-input slot="activator"
-                v-model="date"
-                readonly
-                class="px-0"
-                :class="{'input-rtl': ltr === false}"
-                :placeholder="$attrs.placeholder"
-                :bordered="$attrs.bordered"
-                ref="activator"></base-input>
-    <v-date-picker v-model="date"
+
+    <div slot="activator">
+      <slot>
+        <base-input v-model="date"
+                    readonly
+                    class="px-0"
+                    :class="{'input-rtl': ltr === false}"
+                    :placeholder="$attrs.placeholder"
+                    :bordered="$attrs.bordered"
+                    ref="activator"></base-input>
+      </slot>
+    </div>
+    <v-date-picker v-model="pickedDate"
                    v-bind="$attrs"
-                   v-on="$listeners"
                    locale="zh-cn"
                    :min="min"
                    :max="max"
@@ -58,6 +61,7 @@ export default {
   },
   data: () => ({
     date: null,
+    pickedDate: null,
     modal: false
   }),
   watch: {
@@ -75,8 +79,9 @@ export default {
       this.$refs.activator.click()
     },
     onClick() {
-      this.$refs.dialog.save(this.date)
-      this.$emit('input', this.date)
+      this.$refs.dialog.save(this.pickedDate)
+      this.date = this.pickedDate
+      this.$emit('input', this.pickedDate)
     }
   }
 }

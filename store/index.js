@@ -8,7 +8,7 @@ Vue.use(Vuex)
 const store = () => {
   return new Vuex.Store({
     modules,
-    strict: process.env.NODE_ENV !== 'production'
+    strict: false
   })
 }
 
