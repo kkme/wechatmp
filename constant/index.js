@@ -664,6 +664,17 @@ const applyStatuses = [
   { name: 'done', label: '已完成', value: 'DELIVER_STATUS_FINISH' },
   { name: 'cancel', label: '已取消', value: 'DELIVER_STATUS_CANCEL' }
 ]
+const missionCheckTypes = [
+  { name: 'checkin', label: '上班签到', value: 'UP_SIGNIN' },
+  { name: 'checkout', label: '下班签到', value: 'DOWN_SIGNIN' }
+]
+const orderStatuses = [
+  { name: 'confrim', label: '等待验收', value: 'ACCEPTANCE_STATUS_WAITING' },
+  { name: 'pass', label: '验收通过', value: 'ACCEPTANCE_STATUS_PASS' },
+  { name: 'reject', label: '验收未通过', value: 'ACCEPTANCE_STATUS_DENY' },
+  { name: 'done', label: '已生成工资', value: 'ACCEPTANCE_STATUS_SALARY' }
+]
+
 export {
   gender,
   eduList,
@@ -677,5 +688,7 @@ export {
   applyTypes,
   loginTypes,
   smsTypes,
-  applyStatuses
+  applyStatuses,
+  missionCheckTypes,
+  orderStatuses
 }

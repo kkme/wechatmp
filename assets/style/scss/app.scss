@@ -198,6 +198,10 @@ button img {
   background-color: $primary;
   box-shadow: 0 0 0 6px rgba($primary, 0.6), 0 0 0 12px rgba($primary, 0.3);
   border-radius: 50%;
+  &.btn-fancy-disabled {
+    background-color: $secondary;
+    box-shadow: 0 0 0 6px rgba($secondary, 0.6), 0 0 0 12px rgba($secondary, 0.3);
+  }
 }
 .sticky-to-top {
   position: relative;
@@ -207,6 +211,9 @@ button img {
     top: $top-nav-height;
     z-index: 3;
   }
+}
+.v-tabs__item.v-tabs__item--active {
+  color: $primary
 }
 .iconfont {
   vertical-align: middle;

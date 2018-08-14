@@ -1,5 +1,6 @@
 <template>
-  <div class="my-mission-orders">
+  <div class="my-mission-orders"
+       v-if="id">
     <v-layout class="py-4"
               align-center
               justify-center>
@@ -8,7 +9,8 @@
                fab
                large
                flat
-               class="ma-0 body-2">单量</v-btn>
+               class="ma-0 body-2"
+               @click="dialog = true">单量</v-btn>
       </div>
     </v-layout>
     <v-layout align-center
@@ -16,15 +18,15 @@
               pb-3
               class="text-xs-center">
       <div class="px-4">
-        <div class="title primary--text pb-2">286</div>
+        <div class="title primary--text pb-2">{{orders.orderNum || 0}}</div>
         <div>总单量</div>
       </div>
       <div class="px-4">
-        <div class="title primary--text pb-2">286</div>
+        <div class="title primary--text pb-2">{{orders.orderConfirmNum || 0}}</div>
         <div>已确认</div>
       </div>
       <div class="px-4">
-        <div class="title primary--text pb-2">286</div>
+        <div class="title primary--text pb-2">{{orders.orderDenyNum || 0}}</div>
         <div>已驳回</div>
       </div>
     </v-layout>
@@ -33,40 +35,36 @@
       <v-layout class="my-mission-orders-log-item mt-2"
                 align-center
                 wrap
-                v-for="n of 1"
-                :key="n">
+                v-if="orders.list.length"
+                v-for="order of orders.list"
+                :key="order.orderid">
         <span class="px-3 flex-auto">
-          <span class="subheading">502</span>
+          <span class="subheading">{{order.number || 0}}</span>
           <span class="grey--text">单</span>
         </span>
         <v-flex>
-          <div>提交时间：
-            <span class="caption">2018-08-08 05:05</span>
+          <div>
+            <span class="caption">提交时间:{{order.createtime}}</span>
           </div>
           <div class="mt-2"
-               v-if="n%4===0 || n%3===0">确认时间：
-            <span class="caption">2018-08-08 05:05</span>
+               v-if="order.checkTime">
+            <span class="caption">确认时间:{{order.checkTime}}</span>
           </div>
         </v-flex>
-        <span class="subheading primary--text pr-3 flex-auto">待确认</span>
+        <span class="primary--text pr-3 flex-auto">
+          {{order.acceptanceStatus | valueToLabel(orderStatus)}}
+        </span>
         <v-flex xs12
                 class="mt-2"
-                v-if="n%3 === 0">
+                v-if="order.directions">
           <v-divider></v-divider>
           <div class="grey--text px-3 mt-2 caption">
-            驳回原因：啊大家快来睡觉奥点开链接阿斯加德卡拉手机打开链接阿斯顿就上课了静安寺打卡拉斯的快乐撒娇的快乐卡死打卡拉斯打卡机按时
-            <v-divider class="mt-2"></v-divider>
-            <v-layout>
-              <v-spacer></v-spacer>
-              <v-btn outline
-                     small
-                     color="primary"
-                     class="mb-0">申述</v-btn>
-            </v-layout>
+            备注：{{order.directions}}
+
           </div>
         </v-flex>
         <img src="@img/reject.png"
-             v-if="n%3 === 0">
+             v-if="getStatusName(order.acceptanceStatus) === 'reject'">
         <v-flex xs12
                 class="mt-2">
           <base-divider></base-divider>
@@ -75,39 +73,121 @@
       <base-infinite @infinite="infinite($event, fetchOrders, {id})"
                      ref="infiniteLoading"></base-infinite>
     </div>
+    <v-dialog v-model="dialog"
+              max-width="500px">
+      <v-card>
+        <v-card-title class="justify-center pt-4">
+          <span class="title">上传单量</span>
+        </v-card-title>
+        <v-card-text>
+          <v-form v-model="valid"
+                  class="px-3"
+                  ref="form"
+                  lazy-validation>
+            <v-layout align-end>
+              <div class="flex-auto">数量：</div>
+              <v-flex>
+                <base-input placeholder="数量"
+                            v-model="order.number"
+                            :rules="numberRules"
+                            :flat="false"
+                            :solo="false"
+                            class="mt-0"
+                            type="number"
+                            required></base-input>
+              </v-flex>
+            </v-layout>
+            <v-layout align-top
+                      class="mt-3">
+              <div class="flex-auto">说明：</div>
+              <v-flex>
+                <base-textarea outline
+                               solo
+                               flat
+                               :rules="noteRules"
+                               v-model="order.directions"
+                               label="说明情况"
+                               counter="200"
+                               class="body-1"></base-textarea>
+              </v-flex>
+            </v-layout>
+
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary"
+                 block
+                 class="ma-4"
+                 :disabled="!valid"
+                 @click="submit"
+                 :loading="loading">上传</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import { page } from '@mixins'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import { orderStatuses } from '@const'
+import { valueToLabel } from '@helper'
 export default {
   props: ['id'],
   mixins: [page],
+  data: () => ({
+    orderStatuses,
+    dialog: false,
+    loading: false,
+    valid: false,
+    order: {},
+    numberRules: [v => !!v || '', v => (v && v > 0) || ''],
+    noteRules: [v => !!v || '', v => (v && v.length >= 6) || '']
+  }),
+  computed: {
+    ...mapGetters({
+      orders: 'mission/orders'
+    })
+  },
   methods: {
     ...mapActions({
-      fetchOrders: 'mission/fetchOrders'
-    })
+      fetchOrders: 'mission/fetchOrders',
+      addOrder: 'mission/addOrder'
+    }),
+    submit() {
+      if (this.$refs.form.validate()) {
+        this.loading = true
+        this.order.deliveryid = this.id
+        this.addOrder(this.order).then(res => {
+          this.loading = false
+          this.dialog = false
+          this.order = {}
+        })
+      }
+    },
+    getStatusName(val) {
+      return valueToLabel(val, orderStatuses)
+    }
   }
 }
 </script>
 
 <style lang="scss">
 .my-mission-orders {
-    .my-mission-orders-btn {
-        border: 3px solid $primary;
-        border-radius: 50%;
+  .my-mission-orders-btn {
+    border: 3px solid $primary;
+    border-radius: 50%;
+  }
+  .my-mission-orders-log-item {
+    position: relative;
+    z-index: 2;
+    img {
+      position: absolute;
+      z-index: 1;
+      right: 2rem;
+      top: 0.5rem;
+      width: 20vw;
     }
-    .my-mission-orders-log-item {
-        position: relative;
-        z-index: 2;
-        img {
-            position: absolute;
-            z-index: 1;
-            right: 2rem;
-            top: 0.5rem;
-            width: 20vw;
-        }
-    }
+  }
 }
 </style>

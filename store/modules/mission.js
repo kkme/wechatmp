@@ -12,7 +12,8 @@ export const state = {
   myMissionLog: [],
   orders: [],
   salaryLog: [],
-  checkInOutLog: []
+  checkInOutLog: [],
+  checkStatus: {}
 }
 
 export const getters = {
@@ -25,7 +26,8 @@ export const getters = {
   myMissionLog: state => state.myMissionLog,
   orders: state => state.orders,
   salaryLog: state => state.salaryLog,
-  checkInOutLog: state => state.checkInOutLog
+  checkInOutLog: state => state.checkInOutLog,
+  checkStatus: state => state.checkStatus
 }
 
 export const mutations = {
@@ -42,7 +44,6 @@ export const mutations = {
     let invitation = state.invitations.find(invitation => invitation.deliveryId === id)
     if (!invitation) return
     invitation.deliveryStatus = labelToValue(flag ? 'pass' : 'reject', applyStatuses)
-    console.log({ invitation })
   },
   UPDATE_APPLICATIONS(state, applications) {
     state.applications = unionBy(applications, state.applications, 'deliveryId')
@@ -56,14 +57,28 @@ export const mutations = {
   UPDATE_MISSION_LOG(state, myMissionLog) {
     state.myMissionLog = unionBy(myMissionLog, state.myMissionLog)
   },
-  UPDATE_ORDERS(state, orders) {
-    state.orders = unionBy(orders, state.orders)
+  UPDATE_ORDERS(state, payload) {
+    let orders = Object.assign({}, payload)
+    orders.list = unionBy(orders.list, state.orders.list, 'orderid')
+    state.orders = orders
   },
-  UPDATE_SALARY_LOG(state, salaryLog) {
-    state.salaryLog = unionBy(salaryLog, state.salaryLog)
+  ADD_ORDER(state, order) {
+    state.orders.list.push(order)
+    // salaryLog.list = unionBy([salaryLog], state.salaryLog.list, 'id')
+    // state.salaryLog = salaryLog
   },
-  UPDATE_CHECK_IN_OUT_LOG(state, checkInOutLog) {
-    state.checkInOutLog = unionBy(checkInOutLog, state.checkInOutLog)
+  UPDATE_SALARY_LOG(state, payload) {
+    let salaryLog = Object.assign({}, payload)
+    salaryLog.list = unionBy(salaryLog.list, state.salaryLog.list, 'id')
+    state.salaryLog = salaryLog
+  },
+  UPDATE_CHECK_IN_OUT_LOG(state, payload) {
+    let checkInOutLog = Object.assign({}, payload)
+    checkInOutLog.list = unionBy(checkInOutLog.list, state.checkInOutLog.list, 'signinId')
+    state.checkInOutLog = checkInOutLog
+  },
+  UPDATE_CHECK_STATUS(state, checkStatus) {
+    state.checkStatus = checkStatus
   }
 }
 
@@ -116,12 +131,6 @@ export const actions = {
       return res
     })
   },
-  fetchCheckStatus({ commit, state }, payload) {
-    return MissionService.fetchCheckStatus(payload).then(res => {
-      commit('UPDATE_MISSION_LOG', res)
-      return res
-    })
-  },
   fetchOrders({ commit, state }, payload) {
     return MissionService.fetchOrders(payload).then(res => {
       commit('UPDATE_ORDERS', res)
@@ -146,14 +155,32 @@ export const actions = {
   checkOut({ commit, state }, payload) {
     return MissionService.checkOut(payload)
   },
-
+  fetchCheckStatus({ commit, state }, payload) {
+    return MissionService.fetchCheckStatus(payload).then(res => {
+      commit('UPDATE_CHECK_STATUS', res)
+      return res
+    })
+  },
   addOrder({ commit, state }, payload) {
-    return MissionService.addOrder(payload)
+    return MissionService.addOrder(payload).then(res => {
+      payload.id = res
+      commit('ADD_ORDER', payload)
+      return res
+    })
   },
   cancelMission({ commit, state }, payload) {
     return MissionService.cancelMission(payload)
   },
-  applyEndMission({ commit, state }, payload) {
-    return MissionService.applyEndMission(payload)
+  endMission({ commit, state }, payload) {
+    return MissionService.endMission(payload)
+  },
+  delayMission({ commit, state }, payload) {
+    return MissionService.delayMission(payload)
+  },
+  patchOrder({ commit, state }, payload) {
+    return MissionService.patchOrder(payload)
+  },
+  overdueCheckInOut({ commit, state }, payload) {
+    return MissionService.overdueCheckInOut(payload)
   }
 }

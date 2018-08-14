@@ -111,7 +111,6 @@ export default {
         })
     },
     onLocated(location) {
-      console.log(location)
       this.updateCurrentLocation(location)
       this.updateCurrentCity({
         areaname: location.city || location.province,
@@ -142,50 +141,50 @@ export default {
 
 <style lang="scss">
 .job {
-    position: relative;
-    .job-carousel_wrap {
-        .fade {
-            &-enter-active,
-            &-leave-active,
-            &-leave-to {
-                transition: 0.3s ease-out;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-            &-enter,
-            &-leave,
-            &-leave-to {
-                opacity: 0;
-            }
-        }
-        .job-carousel {
-            height: 210px;
-            .v-carousel__controls {
-                background: transparent;
-                button {
-                    margin: 0 !important;
-                    i.iconfont {
-                        font-size: 12px;
-                    }
-                }
-            }
-            img {
-                width: 100%;
-            }
-        }
+  position: relative;
+  .job-carousel_wrap {
+    .fade {
+      &-enter-active,
+      &-leave-active,
+      &-leave-to {
+        transition: 0.3s ease-out;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+      &-enter,
+      &-leave,
+      &-leave-to {
+        opacity: 0;
+      }
     }
-    .job-title {
-        i.iconfont {
+    .job-carousel {
+      height: 210px;
+      .v-carousel__controls {
+        background: transparent;
+        button {
+          margin: 0 !important;
+          i.iconfont {
             font-size: 12px;
-            vertical-align: middle;
-            padding: 3px;
-            transform: scale(0.5);
+          }
         }
+      }
+      img {
+        width: 100%;
+      }
     }
+  }
+  .job-title {
+    i.iconfont {
+      font-size: 12px;
+      vertical-align: middle;
+      padding: 3px;
+      transform: scale(0.5);
+    }
+  }
 
-    .job-list {
-        min-height: 100vh;
-    }
+  .job-list {
+    min-height: 100vh;
+  }
 }
 </style>

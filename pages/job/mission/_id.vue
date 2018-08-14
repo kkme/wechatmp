@@ -16,19 +16,23 @@
         <v-list dense
                 class="py-0">
           <v-list-tile class="border-bottom"
-                       @click="onCancelMission">
+                       @click="onDialogOpen('cancelMission')">
             <v-list-tile-title>任务取消</v-list-tile-title>
           </v-list-tile>
           <v-list-tile class="border-bottom"
-                       @click="onEndMission">
+                       @click="onDialogOpen('endMission')">
             <v-list-tile-title>提前结束任务</v-list-tile-title>
           </v-list-tile>
           <v-list-tile class="border-bottom"
-                       @click="onDelayMission">
+                       @click="onDialogOpen('delayMission')">
             <v-list-tile-title>延长工作时间</v-list-tile-title>
           </v-list-tile>
           <v-list-tile class="border-bottom"
-                       @click="overdueCheckIn">
+                       @click="onDialogOpen('patchOrder')">
+            <v-list-tile-title>补单量</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile class="border-bottom"
+                       @click="onDialogOpen('overdueCheckInOut')">
             <v-list-tile-title>任务补签</v-list-tile-title>
           </v-list-tile>
         </v-list>
@@ -87,7 +91,7 @@
               max-width="500px">
       <v-card>
         <v-card-title class="justify-center pt-4">
-          <span class="title">申请{{dialogContent[currentDialog].description}}任务</span>
+          <span class="title">{{dialogContent[currentDialog].description}}</span>
         </v-card-title>
         <v-card-text>
           <v-form v-model="valid"
@@ -97,9 +101,7 @@
             <v-layout align-center>
               <div class="flex-auto">任务结束时间：</div>
               <v-flex>
-                <base-input v-model="username"
-                            :rules="nameRules"
-                            placeholder="任务结束时间"
+                <base-input placeholder="任务结束时间"
                             :flat="false"
                             :solo="false"
                             class="mt-0"
@@ -108,11 +110,9 @@
             </v-layout>
             <v-layout align-center
                       class="mt-3">
-              <div class="flex-auto">申请{{dialogContent[currentDialog].description}}：</div>
+              <div class="flex-auto">{{dialogContent[currentDialog].description}}：</div>
               <v-flex>
-                <base-input v-model="username"
-                            :rules="nameRules"
-                            placeholder="申请结束时间"
+                <base-input placeholder="申请结束时间"
                             :flat="false"
                             :solo="false"
                             class="mt-0"
@@ -125,12 +125,13 @@
         <v-card-actions>
           <v-btn color="primary"
                  block
-                 class="mx-4 mt-3"
+                 class="mx-4 mt-3 mb-3"
                  :disabled="!valid"
-                 @click="submit"
-                 :loading="loading">登录</v-btn>
+                 @click="onDialogSubmit(dialogContent[currentDialog].apiCall)"
+                 :loading="loading">确定</v-btn>
         </v-card-actions>
-        <div class="py-3 text-xs-center caption error--text">{{dialogContent[currentDialog].textLabel}}</div>
+        <div class="pb-3 text-xs-center caption error--text"
+             v-if="dialogContent[currentDialog].textLabel">{{dialogContent[currentDialog].textLabel}}</div>
       </v-card>
     </v-dialog>
   </div>
@@ -159,32 +160,46 @@ export default {
     active: 0,
     detail: {},
     jobDetail: null,
-    dialog: true,
+    dialog: false,
+    valid: false,
+    loading: false,
+    disabled: false,
     currentDialog: 'cancelMission',
+    // Rules: [v => !!v || '', v => (v && v.length >= 11) || ''],
+    // passwordRules: [v => !!v || '', v => (v && v.length >= 6) || ''],
     dialogContent: {
       cancelMission: {
-        description: '取消'
+        description: '取消任务',
+        apiCall: 'onCancelMission'
       },
       endMission: {
-        description: '提前结束',
-        textLabel: '提前结束任务将影响你的信誉值'
+        description: '提前结束任务',
+        textLabel: '提前结束任务将影响你的信誉值',
+        apiCall: 'onEndMission'
       },
       delayMission: {
-        description: '延长'
+        description: '延长任务时间',
+        apiCall: 'onDelayMission'
+      },
+      patchOrder: {
+        description: '补单量',
+        apiCall: 'onPatchOrder'
+      },
+      overdueCheckInOut: {
+        description: '补签到',
+        apiCall: 'onOverdueCheckInOut'
       }
     }
   }),
-  computed: {
-    ...mapActions({
-      cancelMission: 'mission/cancelMission',
-      applyEndMission: 'mission/applyEndMission'
-    })
-  },
   methods: {
     ...mapActions({
       fetchDetail: 'mission/fetchDetail',
-      fetchJobDetail: 'job/fetchJob'
-
+      fetchJobDetail: 'job/fetchJob',
+      cancelMission: 'mission/cancelMission',
+      endMission: 'mission/endMission',
+      delayMission: 'mission/delayMission',
+      patchOrder: 'mission/patchOrder',
+      overdueCheckInOut: 'mission/overdueCheckInOut'
     }),
     getDetail() {
       let id = this.$route.params.id
@@ -209,16 +224,51 @@ export default {
         }
       })
     },
-    onCancelMission() {
-      this.currentDialog = 'cancelMission'
+    onDialogOpen(currentDialog) {
+      this.currentDialog = currentDialog
       this.dialog = true
+    },
+    onDialogSubmit(apiCall) {
+      this[apiCall]()
+    },
+    onCancelMission() {
+      this.cancelMission({
+        id: this.$route.params.id
+      })
     },
     onEndMission() {
-      this.currentDialog = 'endMission'
-      this.dialog = true
+      this.endMission({
+        id: this.$route.params.id
+      })
     },
-    onDelayMission() { this.dialog = true },
-    overdueCheckIn() { this.dialog = true }
+    onDelayMission() {
+      this.delayMission({
+        deliveryId: this.$route.params.id,
+        jobEndTime: '2018-09-09',
+        directions: 'asjdlksajdalajsdklajskldjaskljdklasj'
+      })
+    },
+    onPatchOrder() {
+      console.log(this.detail)
+
+      this.patchOrder({
+        deliveryId: this.$route.params.id,
+        recruitmentId: this.detail.id,
+        number: '12',
+        directions: 'asjdlksajdalajsdklajskldjaskljdklasj',
+        createTime: '2018-05-05 05:05'
+      })
+    },
+    onOverdueCheckInOut() {
+      this.overdueCheckInOut({
+        deliveryId: this.$route.params.id,
+        recruitmentId: this.detail.id,
+        number: '12',
+        directions: 'asjdlksajdalajsdklajskldjaskljdklasj'
+      })
+    },
+
+    submit() {}
   },
   mounted() {
     this.getDetail()

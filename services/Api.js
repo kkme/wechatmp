@@ -13,6 +13,8 @@ let instance = axios.create({
 instance.interceptors.response.use(
   response => {
     // TODO: some auth stuff
+    if (response.data.code !== 1) Promise.reject(response.data)
+
     let data = response.data.data
     if (data || data === '') {
       return data
