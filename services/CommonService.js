@@ -5,6 +5,7 @@ export default {
   fetchMetroPlatforms: data => Api.post('common/getMetroplat', data),
   fetchDistricts: data => Api.post('common/getDistrict', data),
   fetchDateTime: () => Api.post('common/getDateTime'),
+  fetchCommentTag: () => Api.post('/common/getEvaluationTag'),
   duibaLogin: () => Api.post('duiba/login'),
   uploadFile: data => Api.post('common/upload', data),
   sendSmsCode: data => Api.post('jobuser/getTelCode', data)

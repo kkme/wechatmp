@@ -13,8 +13,11 @@ export default {
   // 用户认证信息
   fetchCertification: data => Api.post('jobuser/verify', data),
 
-  // 用户身份证
-  fetchIDCard: data => Api.post('jobuser/verify/idcard', data),
+  // 身份证认证
+  identifyByIdCard: data => Api.post('jobuser/verify/idcard', data),
+
+  // 学生证认证
+  identifyByStudentCard: data => Api.post('jobuser/verify/student', data),
 
   // 收藏明细
   fetchCollections: data => Api.post('jobuser/collection', data),
@@ -47,5 +50,13 @@ export default {
   fetchCharges: data => Api.post('jobuser/company/add', data),
 
   // 简历信息
-  fetchResume: () => Api.post('jobuser/resume')
+  fetchResume: () => Api.post('jobuser/resume'),
+
+  // 修改基本信息
+  updateUserBaseInfo: data => Api.post('/jobuser/updateUserInfo', data),
+  updateUserContacts: data => Api.post('/jobuser/addCommunication', data),
+  updateUserEducation: data => Api.post('/jobuser/addEducation', data),
+  updateUserJobExp: data => Api.post('/jobuser/addWork', data),
+  updateUserAbout: data => Api.post('/jobuser/addSelfEvaluation', data),
+  updateUserSkill: data => Api.post('/jobuser/addAbility', data)
 }

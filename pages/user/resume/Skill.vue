@@ -4,7 +4,7 @@
     <v-textarea outline
                 solo
                 flat
-                v-model="skill.note"
+                v-model="skill"
                 label="过人的能力及特长会为您带来好工作哦~"
                 counter="300"
                 class="textarea-thin"></v-textarea>
@@ -21,6 +21,7 @@
               class="mt-5">
       <v-flex xs10>
         <v-btn block
+               @click="submit"
                color="primary">确定</v-btn>
       </v-flex>
     </v-layout>
@@ -28,6 +29,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   head: () => ({
     title: '能力及特长'
@@ -36,8 +38,29 @@ export default {
     title: '能力及特长'
   },
   data: () => ({
-    skill: {}
-  })
+    skill: {},
+    loading: false
+  }),
+  methods: {
+    ...mapActions({
+      updateUserSkill: 'users/updateUserSkill'
+    }),
+    submit() {
+      this.loading = true
+      this.updateUserSkill({checkSign: this.skill}).then(res => {
+        this.loading = false
+      })
+    },
+    setDefaultData() {
+      let skill = this.$route.params.skill
+      if (skill) {
+        this.skill = skill
+      }
+    }
+  },
+  mounted() {
+    this.setDefaultData()
+  }
 }
 </script>
 

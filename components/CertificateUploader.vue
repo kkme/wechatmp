@@ -1,34 +1,59 @@
 <template>
   <v-layout class="certificate-uploader px-3 my-3">
-    <v-flex class="d-flex align-center justify-center mr-2 certificate-uploader-btn"
+    <v-flex class="mr-2 certificate-uploader-btn"
+            :style="{backgroundImage: `url(${frontBg || ''})`}"
             v-ripple>
-      <span class="text-xs-center">
-        <v-icon color="white">iconfont icon-plus</v-icon>
-        <div class="mt-2">上传身份证正面</div>
-      </span>
-      <input type="file"
-             class="d-none"
-             ref="uploadImage"
-             accept="image/*"
-             @change="onFilePicked(_, 'front')" />
+      <v-layout justify-center
+                align-center
+                column
+                class="h-100">
+        <v-btn class="text-xs-center"
+               flat
+               icon
+               color="primary"
+               :loading="frontLoading"
+               @click="$refs.front.click()"
+               :ripple="false">
+          <v-icon color="white">iconfont icon-plus</v-icon>
+        </v-btn>
+        <div>上传身份证正面</div>
+        <input type="file"
+               class="d-none"
+               accept="image/*"
+               @change="onFilePicked($event, 'front')"
+               ref="front" />
+      </v-layout>
     </v-flex>
-    <v-flex class="d-flex align-center justify-center ml-2 certificate-uploader-btn"
+    <v-flex class="mr-2 certificate-uploader-btn"
+            :style="{backgroundImage: `url(${backBg || ''})`}"
             v-ripple>
-      <span class="text-xs-center">
-        <v-icon color="white">iconfont icon-plus</v-icon>
-        <div class="mt-2">上传身份证反面</div>
-      </span>
-      <input type="file"
-             class="d-none"
-             ref="uploadImage"
-             accept="image/*"
-             @change="onFilePicked(_, 'back')" />
+      <v-layout justify-center
+                align-center
+                column
+                class="h-100">
+        <v-btn class="text-xs-center"
+               flat
+               icon
+               color="primary"
+               :loading="backLoading"
+               @click="$refs.back.click()"
+               :ripple="false">
+          <v-icon color="white">iconfont icon-plus</v-icon>
+        </v-btn>
+        <div>上传身份证反面</div>
+        <input type="file"
+               class="d-none"
+               accept="image/*"
+               @change="onFilePicked($event, 'back')"
+               ref="back" />
+      </v-layout>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
 import { readFiles } from '@helper'
+import { mapActions } from 'vuex'
 export default {
   props: {
     max: Number,
@@ -37,31 +62,36 @@ export default {
     }
   },
   data: () => ({
-    certificate: {}
+    certificate: {
+      front: null,
+      back: null
+    },
+    frontBg: null,
+    backBg: null,
+    frontLoading: false,
+    backLoading: false
   }),
   methods: {
-    // ...mapActions(['uploadFile']),
-    onFilePicked(event, flag) {
-      this.loading = true
-      console.log(event, flag)
-
-      // readFiles(event.target.files).then(res => {
-      //   console.log(res)
-      //   this.$emit('input', res[0])
-      // })
-      this.loading = false
-      // TODO: upload file to server
-
-      // this.images = files[0]
-      // let formData = new FormData()
-      // formData.append('file', files[0])
-      // var request = new XMLHttpRequest();
-      // request.open("POST", "http://192.168.0.105:8085/common/upload");
-      // request.send(formData);
-      // this.uploadFile(formData).then(res => {
-      //   this.$emit('input', res.src)
-      //   this.loading = false
-      // })
+    ...mapActions({
+      uploadFile: 'common/uploadFile'
+    }),
+    async onFilePicked(event, flag) {
+      this[`${flag}Loading`] = true
+      let file = await readFiles(event.target.files)
+      this[`${flag}Bg`] = file[0].base64
+      let formData = new FormData()
+      formData.append('file', event.target.files[0])
+      let url = await this.uploadFile(formData)
+      this.certificate[flag] = url.src
+      this[`${flag}Loading`] = false
+    }
+  },
+  watch: {
+    certificate: {
+      handler: function(newValue) {
+        this.$emit('input', this.certificate)
+      },
+      deep: true
     }
   }
 }
@@ -69,15 +99,16 @@ export default {
 
 <style lang="scss">
 .certificate-uploader {
-  height: 100px;
-  .certificate-uploader-btn {
-    border: 1px dashed $primary;
-    border-radius: $border-radius;
-    i.iconfont {
-      background-color: $primary;
-      border-radius: 50%;
-      padding: 6px;
+    height: 100px;
+    .certificate-uploader-btn {
+        border: 1px dashed $primary;
+        border-radius: $border-radius;
+        background-size: cover;
+        i.iconfont {
+            background-color: $primary;
+            border-radius: 50%;
+            padding: 6px;
+        }
     }
-  }
 }
 </style>

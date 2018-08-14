@@ -30,7 +30,8 @@
                      class="mx-0 px-0">确定</v-btn>
             </v-toolbar-items>
           </v-toolbar>
-          <div class="secondary py-2">
+          <div class="secondary py-2"
+               v-if="false">
             <base-input placeholder="请输入城市名称"
                         prepend-inner-icon="iconfont icon-search"
                         autofocus
@@ -45,11 +46,11 @@
               <base-location></base-location>
             </span>
             <v-spacer></v-spacer>
-            <a href="#"
+            <!-- <a href="#"
                v-scroll-to="{
                     el: '#province64',
                     container: '.city-selector-main-provinces',
-                }">刷新</a>
+                }">刷新</a> -->
           </v-layout>
         </div>
         <v-layout class="city-selector-main">
@@ -217,7 +218,7 @@ export default {
     }
   },
   mounted() {
-    // this.getDefault()
+    this.getDefault()
   }
 }
 </script>

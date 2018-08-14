@@ -52,7 +52,7 @@
           </div>
         </v-flex>
         <span class="primary--text pr-3 flex-auto">
-          {{order.acceptanceStatus | valueToLabel(orderStatus)}}
+          {{order.acceptanceStatus | valueToLabel(orderStatuses)}}
         </span>
         <v-flex xs12
                 class="mt-2"
@@ -174,20 +174,20 @@ export default {
 
 <style lang="scss">
 .my-mission-orders {
-  .my-mission-orders-btn {
-    border: 3px solid $primary;
-    border-radius: 50%;
-  }
-  .my-mission-orders-log-item {
-    position: relative;
-    z-index: 2;
-    img {
-      position: absolute;
-      z-index: 1;
-      right: 2rem;
-      top: 0.5rem;
-      width: 20vw;
+    .my-mission-orders-btn {
+        border: 3px solid $primary;
+        border-radius: 50%;
     }
-  }
+    .my-mission-orders-log-item {
+        position: relative;
+        z-index: 2;
+        img {
+            position: absolute;
+            z-index: 1;
+            right: 2rem;
+            top: 0.5rem;
+            width: 20vw;
+        }
+    }
 }
 </style>

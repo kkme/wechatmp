@@ -38,13 +38,11 @@ export default {
   data: () => ({}),
   methods: {
     ...mapActions({
-      fetchUser: 'user/fetchUser'
+      fetchResume: 'users/fetchResume'
     })
   },
   mounted() {
-    console.log(1)
-
-    // this.fetchUser()
+    this.fetchResume()
   }
 }
 </script>

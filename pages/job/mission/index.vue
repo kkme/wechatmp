@@ -79,14 +79,10 @@
               grow
               slider-color="primary"
               class="my-mission-tabs sticky-to-top">
-        <v-tab ripple
-               :class="{'primary--text': active === 0}">已领取</v-tab>
-        <v-tab ripple
-               :class="{'primary--text': active === 1}">收到邀请</v-tab>
-        <v-tab ripple
-               :class="{'primary--text': active === 2}">申请列表</v-tab>
-        <v-tab ripple
-               :class="{'primary--text': active === 3}">已完成</v-tab>
+        <v-tab ripple>已领取</v-tab>
+        <v-tab ripple>收到邀请</v-tab>
+        <v-tab ripple>申请列表</v-tab>
+        <v-tab ripple>已完成</v-tab>
         <v-tab-item>
           <my-mission-item :items="currentMonthMyMissions" />
           <base-infinite @infinite="getMoreMyMissions"
@@ -171,6 +167,44 @@
         </v-tab-item>
       </v-tabs>
     </v-flex>
+    <v-bottom-sheet v-model="commentSheet">
+
+    </v-bottom-sheet>
+    <v-bottom-sheet v-model="commentSheet">
+      <div class="comment white">
+        <v-layout align-center
+                  justify-center
+                  column>
+          <div class="subheading text-xs-center py-3"> 对这工作感觉怎么样呢？ </div>
+          <div class="comment-stars">
+            <v-layout align-center
+                      class="py-2"
+                      v-for="n of 5"
+                      :key="n">
+              <span class="mr-3 pl-2 comment-rate">评价指标</span>
+              <v-flex class="d-flex">
+                <v-icon class="mx-2">iconfont icon-star</v-icon>
+                <v-icon class="mx-2">iconfont icon-star</v-icon>
+                <v-icon class="mx-2">iconfont icon-star</v-icon>
+                <v-icon class="mx-2">iconfont icon-star</v-icon>
+                <v-icon class="mx-2">iconfont icon-star</v-icon>
+              </v-flex>
+            </v-layout>
+          </div>
+          <div class="comment-text mt-2">
+            <base-textarea outline
+                           solo
+                           flat
+                           label="除了评分，还有什么其他想说的吗~"
+                           counter="200"
+                           class="body-1"></base-textarea>
+            <v-btn color="primary"
+                   class="mt-3 mb-5"
+                   block>确定</v-btn>
+          </div>
+        </v-layout>
+      </div>
+    </v-bottom-sheet>
   </v-layout>
 </template>
 
@@ -193,7 +227,11 @@ export default {
   },
   mixins: [page],
   data: () => ({
-    active: 3,
+    active: 0,
+    valid: false,
+    commentSheet: false,
+    disabled: false,
+    loading: false,
     missionsPage: {},
     invitationsPage: {},
     applyListPage: {},
@@ -203,8 +241,7 @@ export default {
     pickedMonth: '',
     prevMonthLoading: false,
     nextMonthLoading: false,
-    disableBtn: false,
-    commentDialog: false
+    disableBtn: false
   }),
   computed: {
     ...mapGetters({
@@ -242,11 +279,8 @@ export default {
   },
   watch: {
     dateRange(newValue, oldValue) {
-      console.log(newValue, oldValue)
       if (!(newValue && oldValue)) return
       this.$nextTick(() => {
-        console.log('i am in')
-
         if (this.$refs.myMissionsInfinite) {
           this.$refs.myMissionsInfinite.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
           this.myMissionsPage = null
@@ -278,8 +312,9 @@ export default {
       fetchInvitations: 'mission/fetchInvitations',
       fetchApplications: 'mission/fetchApplications',
       fetchCompletedMissions: 'mission/fetchCompletedMissions',
+      updateInvitation: 'mission/handleInvitation',
       fetchDateTime: 'common/fetchDateTime',
-      updateInvitation: 'mission/handleInvitation'
+      fetchCommentTag: 'common/fetchCommentTag'
     }),
     getMoreMyMissions($infinite) {
       this.infiniteLoading($infinite, this.fetchMyMissions, 'myMissionsPage', this.dateRange).then(() =>
@@ -350,12 +385,23 @@ export default {
       return valueToLabel(val, applyStatuses, 'name')
     },
     postComment(id) {
-      this.commentDialog = true
+      this.commentSheet = true
     }
   },
   mounted() {
     this.fetchDateTime()
     this.fetchCountInfo({})
+    this.fetchCommentTag()
   }
 }
 </script>
+<style lang="scss">
+.comment {
+    .comment-rate {
+        flex-basis: 6em;
+    }
+    .comment-text {
+        width: 80%;
+    }
+}
+</style>

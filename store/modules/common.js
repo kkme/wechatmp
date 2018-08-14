@@ -7,6 +7,7 @@ export const state = {
   positions: [],
   metroPlatforms: [],
   districts: [],
+  commentTags: [],
   today: '',
   now: ''
 }
@@ -23,6 +24,7 @@ export const getters = {
   },
   metroPlatforms: state => state.metroPlatforms,
   districts: state => state.districts,
+  commentTags: state => state.commentTags,
   today: state => state.today,
   now: state => state.now
 }
@@ -46,7 +48,9 @@ export const mutations = {
   UPDATE_DISTRICTS(state, districts) {
     state.districts = unionBy(districts, state.districts, 'id')
   },
-
+  UPDATE_COMMENT_TAG(state, commentTags) {
+    state.commentTags = unionBy(commentTags, state.commentTags, 'id')
+  },
   UPDATE_DATETIME(state, datetime) {
     let datetimeArr = datetime.trim().split(' ')
     state.today = datetimeArr[0]
@@ -98,6 +102,12 @@ export const actions = {
   fetchDateTime({ commit, state }) {
     return CommonService.fetchDateTime().then(res => {
       commit('UPDATE_DATETIME', res)
+      return res
+    })
+  },
+  fetchCommentTag({ commit, state }) {
+    return CommonService.fetchCommentTag().then(res => {
+      commit('UPDATE_COMMENT_TAG', res)
       return res
     })
   },

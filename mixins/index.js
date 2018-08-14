@@ -24,7 +24,9 @@ const page = {
     infiniteLoading($infinite, apiCall, property, opts) {
       this.getPage(this[property], opts, property)
       return apiCall(this[property]).then(res => {
-        let length = res.length || res.list.length
+        let length = 0
+        if (res.list) length = res.list.length
+        else length = res.length
         if (length) {
           $infinite.loaded()
           if (length < this[property].pagesize) {

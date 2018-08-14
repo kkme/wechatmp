@@ -18,6 +18,7 @@
               class="mt-5">
       <v-flex xs10>
         <v-btn block
+               @click="submit"
                color="primary">确定</v-btn>
       </v-flex>
     </v-layout>
@@ -25,6 +26,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   head: () => ({
     title: '自我评价'
@@ -33,8 +35,29 @@ export default {
     title: '自我评价'
   },
   data: () => ({
-    about: ''
-  })
+    about: '',
+    loading: false
+  }),
+  methods: {
+    ...mapActions({
+      updateUserAbout: 'users/updateUserAbout'
+    }),
+    submit() {
+      this.loading = true
+      this.updateUserAbout({checkSign: this.about}).then(res => {
+        this.loading = false
+      })
+    },
+    setDefaultData() {
+      let about = this.$route.params.about
+      if (about) {
+        this.about = about
+      }
+    }
+  },
+  mounted() {
+    this.setDefaultData()
+  }
 }
 </script>
 

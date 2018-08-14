@@ -11,6 +11,7 @@
                 justify-space-around
                 align-center
                 column
+                v-if="!idcard && !idcard.id"
                 @click="$router.push('/user/certification/identity')">
         <div class="user-certification-avatar mt-1">
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -28,15 +29,62 @@
         <div class="subheading">实名认证</div>
         <div>- 上传身份证信息完成认证 -</div>
       </v-layout>
+      <v-layout class="user-certification-not-student image--bg mb-3 py-3 h-100"
+                align-center
+                justify-space-between
+                column
+                v-else>
+        <v-layout class="mt-4 w-100"
+                  align-center>
+          <span class="avatar flex-auto ml-4 mr-3">
+            <img src="@img/img0.png"
+                 alt=""
+                 class="w-100">
+          </span>
+          <v-flex>
+            <div>{{idcard.name}}</div>
+            <div>{{idcard.idcard}}</div>
+          </v-flex>
+          <div class="flex-auto">
+            <div class="user-certification-status">{{idcard.checkstatus}}</div>
+          </div>
+        </v-layout>
+        <div style="align-self: flex-end"
+             class="mx-3 mt-5">提交时间：{{idcard.certifiedtime}}</div>
+      </v-layout>
       <v-layout class="user-certification-student image--bg mt-3 py-3"
                 fill-height
                 justify-space-around
                 align-center
                 column
+                v-if="!student && !student.id"
                 @click="$router.push('/user/certification/student')">
         <div class="avatar"><img src="@img/student.png"></div>
         <div class="subheading">学生认证</div>
         <div>- 上传学生证信息完成认证 -</div>
+      </v-layout>
+      <v-layout class="user-certification-student image--bg mt-3 py-3 h-100"
+                align-center
+                justify-space-between
+                column
+                v-else>
+        <v-layout class="mt-4 w-100"
+                  align-center>
+          <span class="avatar flex-auto ml-4 mr-3">
+            <img src="@img/img1.png"
+                 alt=""
+                 class="w-100">
+          </span>
+          <v-flex>
+            <div>{{student.schoolname}}</div>
+            <div>{{student.studentid}}</div>
+          </v-flex>
+          <div class="flex-auto">
+            <div class="user-certification-status">{{student.checkstatus}}</div>
+          </div>
+        </v-layout>
+        <div style="align-self: flex-end"
+             class="mx-3 mt-5">提交时间：{{student.certifiedtime}}</div>
       </v-layout>
     </v-layout>
     <div class="text-xs-center text-muted caption">完成认证，增加信用、奖励积分，获得更优质的工作</div>
@@ -54,55 +102,60 @@ export default {
     title: '实名认证'
   },
   data: () => ({
-    tabs: null
-  })
-  // computed: {
-  //   ...mapGetters({
-  //     collections: 'users/collections'
-  //   })
-  // },
-  // methods: {
-  //   ...mapActions({
-  //     fetchCollections: 'users/fetchCollections'
-  //   })
-  // },
-  // mounted() {
-  //   this.fetchCollections({})
-  // }
+    idcard: {},
+    student: {}
+  }),
+  computed: {
+    ...mapGetters({
+      collections: 'users/collections'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchCertification: 'users/fetchCertification'
+    })
+  },
+  mounted() {
+    this.fetchCertification({}).then(res => {
+      this.idcard = res.iDcardVerified
+      this.student = res.studendVerified
+    })
+  }
 }
 </script>
 
 <style lang="scss">
 .user-certification {
-  height: calc(100vh - 48px);
-  .user-certification-action {
-    height: 60vh;
-    flex: 0 0 60vh;
-    > div {
-      border-radius: $border-radius * 1.5;
+    height: calc(100vh - 48px);
+    .user-certification-action {
+        height: 60vh;
+        flex: 0 0 60vh;
+        > div {
+            border-radius: $border-radius * 1.5;
+        }
     }
-  }
-  .user-certification-avatar {
-    width: 50px;
-    height: 50px;
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 50%;
-    .simple-svg-wrapper {
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      line-height: 50px;
+    .user-certification-avatar {
+        width: 50px;
+        height: 50px;
+        background-color: #fff;
+        padding: 10px;
+        border-radius: 50%;
     }
-  }
-  .user-certification-not-student {
-    background-image: url('~@img/certification_bg_yellow.jpg');
-    svg {
-      width: 100%;
+    .user-certification-not-student {
+        background-image: url('~@img/certification_bg_yellow.jpg');
+        svg {
+            width: 100%;
+        }
     }
-  }
-  .user-certification-student {
-    background-image: url('~@img/certification_bg_blue.jpg');
-  }
+    .user-certification-student {
+        background-image: url('~@img/certification_bg_blue.jpg');
+    }
+    .user-certification-status {
+        background-color: $white;
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+        color: $accent;
+        padding: 0.1rem 1rem;
+    }
 }
 </style>

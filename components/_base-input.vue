@@ -140,15 +140,6 @@ export default {
             border-radius: $border-radius;
         }
     }
-    .base-input-action {
-        // margin-right: 8em;
-    }
-    .base-input-btn {
-        // position: absolute;
-        // right: 0;
-        // top: auto;
-        // z-index: 1;
-    }
     input:focus {
         font-size: 16px;
     }

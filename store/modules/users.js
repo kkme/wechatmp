@@ -1,4 +1,4 @@
-import axios from 'axios'
+// import axios from 'axios'
 import UserService from '@/services/UserService'
 import { groupBy, unionBy } from 'lodash'
 import { collectionTypes } from '@const'
@@ -13,7 +13,8 @@ export const state = {
   corpCollections: [],
   histories: [],
   comments: [],
-  resume: {}
+  resume: {},
+  userBaseInfo: {}
 }
 
 export const getters = {
@@ -28,7 +29,8 @@ export const getters = {
   corpCollections: state => state.corpCollections,
   commhistoriesents: state => state.histories,
   comments: state => state.comments,
-  resume: state => state.resume
+  resume: state => state.resume,
+  userBaseInfo: state => state.userBaseInfo
 }
 
 export const mutations = {
@@ -58,6 +60,9 @@ export const mutations = {
   },
   UPDATE_RESUME(state, resume) {
     state.resume = resume
+  },
+  UPDATE_USER_BASE_INFO(state, userBaseInfo) {
+    state.userBaseInfo = userBaseInfo
   }
 }
 
@@ -77,11 +82,11 @@ export const actions = {
 
     // 3. Fetch the user from the API and cache it in case
     //    we need it again in the future.
-    return axios.get(`/users/${username}`).then(response => {
-      const user = response.data
-      commit('CACHE_USER', user)
-      return user
-    })
+    // return axios.get(`/users/${username}`).then(response => {
+    //   const user = response.data
+    //   commit('CACHE_USER', user)
+    //   return user
+    // })
   },
   signUp({ commit }, payload) {
     return UserService.signUp(payload).then(res => {
@@ -91,8 +96,6 @@ export const actions = {
   },
   fetchBaseInfo({ commit }, payload) {
     return UserService.fetchBaseInfo(payload).then(res => {
-      console.log(res.length)
-
       commit('UPDATE_BASE_INFO', res)
       return res
     })
@@ -155,6 +158,58 @@ export const actions = {
   fetchResume({ commit }) {
     return UserService.fetchResume().then(res => {
       commit('UPDATE_RESUME', res)
+      return res
+    })
+  },
+  fetchUserBaseInfo({ commit }, payload) {
+    return UserService.fetchUserBaseInfo().then(res => {
+      commit('UPDATE_USER_BASE_INFO', payload)
+      return res
+    })
+  },
+  updateUserBaseInfo({ commit }, payload) {
+    return UserService.updateUserBaseInfo(payload).then(res => {
+      commit('UPDATE_USER_BASE_INFO', payload)
+      return res
+    })
+  },
+  updateUserContacts({ commit }, payload) {
+    return UserService.updateUserContacts(payload).then(res => {
+      return res
+    })
+  },
+  updateUserEducation({ commit }, payload) {
+    return UserService.updateUserEducation(payload).then(res => {
+      return res
+    })
+  },
+  updateUserJobExp({ commit }, payload) {
+    return UserService.updateUserJobExp(payload).then(res => {
+      return res
+    })
+  },
+  updateUserAbout({ commit }, payload) {
+    return UserService.updateUserAbout(payload).then(res => {
+      return res
+    })
+  },
+  updateUserSkill({ commit }, payload) {
+    return UserService.updateUserSkill(payload).then(res => {
+      return res
+    })
+  },
+  fetchCertification({ commit }, payload) {
+    return UserService.fetchCertification(payload).then(res => {
+      return res
+    })
+  },
+  identifyByIdCard({ commit }, payload) {
+    return UserService.identifyByIdCard(payload).then(res => {
+      return res
+    })
+  },
+  identifyByStudentCard({ commit }, payload) {
+    return UserService.identifyByStudentCard(payload).then(res => {
       return res
     })
   }

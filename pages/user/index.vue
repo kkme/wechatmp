@@ -2,17 +2,19 @@
   <div class="white">
     <v-layout align-center
               pa-3>
-      <img src="@img/avatar.jpg"
+      <img :src="baseInfo.avatar"
            class="avatar">
       <v-flex class="pl-3">
         <v-layout class="subheading"
                   align-center>
           <span>{{ baseInfo.name }}</span>
-          <nuxt-link to="/user/certification">
-            <svg-certification class="certification ml-3"
-                               :class="{ checked: !!baseInfo.checkStatusIDcard, 'mt-1': !baseInfo.checkStatusIDcard }" />
-          </nuxt-link>
 
+          <v-btn small
+                 icon
+                 @click="$router.push({name: 'user-certification'})">
+            <svg-certification class="certification svg-sm"
+                               :class="{ checked: !!baseInfo.checkStatusIDcard, 'mt-1': !baseInfo.checkStatusIDcard }" />
+          </v-btn>
         </v-layout>
 
         <div class="grey--text">等级：{{ baseInfo.level }}</div>
@@ -139,47 +141,47 @@ export default {
 
 <style lang="scss">
 .user-center-balance {
-  a {
-    display: block;
-    height: 100%;
-    width: 100%;
-  }
-  user-select: none;
+    a {
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
+    user-select: none;
 }
 .user-center-shortcut {
-  .user-center-resume,
-  .user-center-custom {
-    background: no-repeat center;
-    background-size: 100%;
-    min-height: 70px;
-  }
-  .user-center-resume {
-    background-image: url('~@img/center-bg-1.jpg');
-  }
-  .user-center-custom {
-    background-image: url('~@img/center-bg-2.jpg');
-  }
+    .user-center-resume,
+    .user-center-custom {
+        background: no-repeat center;
+        background-size: 100%;
+        min-height: 70px;
+    }
+    .user-center-resume {
+        background-image: url('~@img/center-bg-1.jpg');
+    }
+    .user-center-custom {
+        background-image: url('~@img/center-bg-2.jpg');
+    }
 }
 .user-center-links {
-  .svg {
-    width: 1.5rem;
-  }
+    .svg {
+        width: 1.5rem;
+    }
 }
 .certification {
-  .st0 {
-    fill: #ffa433;
-  }
-  .st1 {
-    fill: transparent;
-  }
-  &.checked {
-    .st1 {
-      fill: #87b953;
+    .st0 {
+        fill: #ffa433;
     }
-  }
-  svg {
-    width: 2em;
-    height: 2em;
-  }
+    .st1 {
+        fill: transparent;
+    }
+    &.checked {
+        .st1 {
+            fill: #87b953;
+        }
+    }
+    svg {
+        width: 2em;
+        height: 2em;
+    }
 }
 </style>

@@ -125,7 +125,7 @@
         <v-card-actions>
           <v-btn color="primary"
                  block
-                 class="mx-4 mt-3 mb-3"
+                 class="mx-4 my-3"
                  :disabled="!valid"
                  @click="onDialogSubmit(dialogContent[currentDialog].apiCall)"
                  :loading="loading">确定</v-btn>

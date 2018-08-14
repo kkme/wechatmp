@@ -1,10 +1,12 @@
 <template>
-  <div class="resume-online white">
+  <div class="resume-online white"
+       v-if="userInfo">
     <base-divider></base-divider>
     <v-layout align-center
-              class="px-3 pb-2">
+              class="px-3 pb-2"
+              v-if="userInfo">
       <v-flex>
-        <div class="subheading">QWERT
+        <div class="subheading">{{userInfo.name}}
           <v-btn icon
                  nuxt
                  to="/user/resume/info"
@@ -13,21 +15,21 @@
           </v-btn>
         </div>
         <div>
-          <span>男</span>
-          <span>22</span>
-          <span>汉族</span>
-          <span>学生</span>
+          <span>{{userInfo.sex}}</span>
+          <span>{{userInfo.family}}</span>
+          <span>{{userInfo.identitytype}}</span>
         </div>
         <div>学历：
-          <span>大专</span>
+          <span>{{userInfo.education | valueToLabel(eduList)}}</span>
         </div>
       </v-flex>
       <img class="avatar-lg"
-           src="@img/avatar.jpg" />
+           :src="userInfo.avatar" />
     </v-layout>
 
     <base-divider></base-divider>
-    <div class="px-3 pb-2 resume-online-contact">
+    <div class="px-3 pb-2 resume-online-contact"
+         v-if="userInfo">
       <v-layout class="border-bottom"
                 align-center>
         <div class="subheading">通讯信息</div>
@@ -42,18 +44,18 @@
       <v-layout class="py-2"
                 wrap>
         <div class="d-flex">
-          <svg-phone class="svg-sm" />13551065642</div>
+          <svg-phone class="svg-sm" />{{userInfo.tel}}</div>
         <v-spacer></v-spacer>
         <div class="d-flex">
-          <svg-wechat class="svg-sm" />13551066564</div>
+          <svg-wechat class="svg-sm" />{{userInfo.wechat}}</div>
       </v-layout>
       <v-layout class="py-2"
                 wrap>
         <div class="d-flex">
-          <svg-mail class="svg-sm" />lirunw@gmail.com</div>
+          <svg-mail class="svg-sm" />{{userInfo.email}}</div>
         <v-spacer></v-spacer>
         <div class="d-flex">
-          <svg-qq class="svg-sm" />363372111</div>
+          <svg-qq class="svg-sm" />{{userInfo.qq}}</div>
       </v-layout>
     </div>
 
@@ -64,23 +66,24 @@
                   align-center>
           <div class="subheading">学历信息</div>
         </v-layout>
-        <div class="resume-online-item mt-3">
+        <div class="resume-online-item mt-3"
+             v-if="education">
           <v-layout align-center
-                    :class="n!==3 ? 'mb-3' : ''"
-                    v-for="n of 3"
-                    :key="n">
+                    v-for="(edu, index) of education"
+                    :class="index!== education.length - 1 ? 'mb-3' : ''"
+                    :key="index">
             <div class="resume-online-item-icon mr-3 white">
               <SvgResumeItemListIcon class="svg-sm" />
             </div>
             <v-flex>
-              <div>2013-09 - 2016-08</div>
-              <div class="py-1">加速度按时间段大学</div>
-              <div class="caption text-muted">艺术设计 | 本科</div>
+              <div>{{edu.admissiontime}} - {{edu.graduationtime}}</div>
+              <div class="py-1">{{edu.schoolname}}</div>
+              <div class="caption text-muted">{{edu.professionname}} | {{edu.educationtype}}</div>
             </v-flex>
             <v-spacer></v-spacer>
             <v-btn icon
                    nuxt
-                   to="/user/resume/edu"
+                   :to="{ name: 'user-resume-Edu', params: { edu }}"
                    class="ma-0">
               <v-icon color="primary">iconfont icon-edit</v-icon>
             </v-btn>
@@ -99,7 +102,6 @@
         </v-btn>
       </div>
     </div>
-
     <base-divider></base-divider>
     <div>
       <div class="px-3">
@@ -107,29 +109,29 @@
                   align-center>
           <div class="subheading">工作经验</div>
         </v-layout>
-        <div class="resume-online-item mt-3">
+        <div class="resume-online-item mt-3"
+             v-if="exps">
           <v-layout align-center
-                    :class="n!==5 ? 'mb-3' : ''"
-                    v-for="n of 5"
-                    :key="n">
+                    v-for="(exp, index) of exps"
+                    :class="index!==exps.length-1 ? 'mb-3' : ''"
+                    :key="index">
             <div class="resume-online-item-icon mr-3 white">
               <SvgResumeItemListIcon class="svg-sm" />
             </div>
             <v-flex>
-              <div>销售顾问︱兼职</div>
-              <div class="py-1">成都海天物流有限责任公司</div>
-              <div class="caption text-muted">2015.09.08-2016.08.09</div>
+              <div>{{exp.post}}︱{{exp.worktype}}</div>
+              <div class="py-1">{{exp.comname}}</div>
+              <!-- <div class="caption text-muted">2015.09.08-2016.08.09</div> -->
               <div class="caption text-muted mt-2">
                 <div>工作内容：</div>
-                <p>
-                  1,负责公司产品的销售服务和客户咨询服务<br>2,负责公司产品的销售服务和客户咨询服务<br>3,负责公司产品的销售服务和客户咨询服务
-                </p>
+                <div class="rich-text"
+                     v-html="exp.description"></div>
               </div>
             </v-flex>
             <v-spacer></v-spacer>
             <v-btn icon
                    nuxt
-                   to="/user/resume/exp"
+                   :to="{ name: 'user-resume-Exp', params: { exp }}"
                    class="ma-0">
               <v-icon color="primary">iconfont icon-edit</v-icon>
             </v-btn>
@@ -157,14 +159,15 @@
         <v-spacer></v-spacer>
         <v-btn icon
                nuxt
-               to="/user/resume/about"
+               v-if="userInfo"
+               :to="{ name: 'user-resume-About', params: { about: userInfo.selfevaluation }}"
                class="ma-0">
           <v-icon color="primary">iconfont icon-edit</v-icon>
         </v-btn>
       </v-layout>
-      <p class="py-3 mt-1">
-        本人性格开朗、稳重、有活力，待人热情、真诚；工作认真负责，积极主动对待工作认真负责，善于沟通、协调有较强的组织能力与团队精神；活泼开朗、乐观上进、有爱心并善于施教并行。
-      </p>
+      <div class="py-3 mt-1 rich-text"
+           v-if="userInfo"
+           v-html="userInfo.selfevaluation"></div>
     </div>
 
     <base-divider></base-divider>
@@ -175,14 +178,15 @@
         <v-spacer></v-spacer>
         <v-btn icon
                nuxt
-               to="/user/resume/skill"
+               v-if="userInfo"
+               :to="{ name: 'user-resume-Skill', params: { skill: userInfo.abilityppecialty }}"
                class="ma-0">
           <v-icon color="primary">iconfont icon-edit</v-icon>
         </v-btn>
       </v-layout>
-      <p class="py-3 mt-1">
-        1：从小学习绘画，功底不错。 2：班上担任班干部，团队领导能力和协作能力比较突出，在校期间经常获得奖学金。 3：会跳些许简单的舞蹈，和一些乐器。
-      </p>
+      <div class="py-3 mt-1 rich-text"
+           v-if="userInfo"
+           v-html="userInfo.abilityppecialty"></div>
     </div>
 
     <base-divider></base-divider>
@@ -191,6 +195,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { eduList } from '@const'
 export default {
   head: () => ({
     title: '在线简历'
@@ -198,11 +203,20 @@ export default {
   meta: {
     title: '在线简历'
   },
-  data: () => ({}),
+  data: () => ({eduList}),
   computed: {
     ...mapGetters({
       resume: 'users/resume'
-    })
+    }),
+    userInfo() {
+      return this.resume.userInfo
+    },
+    education() {
+      return this.resume.education
+    },
+    exps() {
+      return this.resume.wordExperience
+    }
   },
   methods: {
     ...mapActions({
@@ -217,42 +231,42 @@ export default {
 
 <style lang="scss">
 .resume-online {
-  .resume-online-contact {
-    svg {
-      .st1 {
-        fill: #666666;
-      }
-      .st2 {
-        fill: #cccccc;
-      }
-      .st3 {
-        fill: #ffffff;
-      }
+    .resume-online-contact {
+        svg {
+            .st1 {
+                fill: #666666;
+            }
+            .st2 {
+                fill: #cccccc;
+            }
+            .st3 {
+                fill: #ffffff;
+            }
+        }
     }
-  }
-  .resume-online-item {
-    position: relative;
-    &::before {
-      content: '';
-      position: absolute;
-      height: 100%;
-      width: 0;
-      left: $svg-icon-width / 2;
-      transform: translateX(-50%);
-      z-index: 0;
-      border-left: 1px solid $border-color;
+    .resume-online-item {
+        position: relative;
+        &::before {
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 0;
+            left: $svg-icon-width / 2;
+            transform: translateX(-50%);
+            z-index: 0;
+            border-left: 1px solid $border-color;
+        }
+        .resume-online-item-icon {
+            position: relative;
+            z-index: 2;
+            padding: 2px 0;
+            .st1 {
+                fill: #73b256;
+            }
+            .st2 {
+                fill: #c8efb6;
+            }
+        }
     }
-    .resume-online-item-icon {
-      position: relative;
-      z-index: 2;
-      padding: 2px 0;
-      .st1 {
-        fill: #73b256;
-      }
-      .st2 {
-        fill: #c8efb6;
-      }
-    }
-  }
 }
 </style>

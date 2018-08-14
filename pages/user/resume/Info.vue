@@ -8,7 +8,7 @@
           <v-list-tile-title>个人头像</v-list-tile-title>
         </v-list-tile-content>
         <v-spacer></v-spacer>
-        <img :src="avatar.base64"
+        <img :src="userAvatar"
              class="avatar-sm">
         <image-uploader class="d-none"
                         ref="imageInput"
@@ -37,7 +37,7 @@
         </v-list-tile-content>
         <v-spacer></v-spacer>
         <base-bottom-sheet class="caption text-muted"
-                           v-model="info.edu"
+                           v-model="info.education"
                            :items="eduList"
                            placeholder="请选择学历"
                            ref="eduSheet"></base-bottom-sheet>
@@ -124,7 +124,10 @@
               class="mt-5">
       <v-flex xs10>
         <v-btn block
-               color="primary">保存</v-btn>
+               color="primary"
+               :loading="loading"
+               :disabled="disabled"
+               @click="submit">保存</v-btn>
       </v-flex>
     </v-layout>
 
@@ -135,6 +138,8 @@
 <script>
 import { gender, identity, eduList } from '@const'
 import ImageUploader from '@/components/ImageUploader'
+import { mapActions, mapGetters } from 'vuex'
+import { labelToValue } from '@helper'
 export default {
   components: {
     ImageUploader
@@ -147,17 +152,56 @@ export default {
   },
   data: () => ({
     info: {
-      gender: 'SEX_BOY',
-      identity: 'IDENTITY_OTHER'
+      gender: '',
+      identity: ''
     },
     genderTypes: gender,
     identityTypes: identity,
     eduList,
-    avatar: {
-      url: '',
-      base64: require('@img/avatar.jpg')
+    avatar: {},
+    loading: false,
+    disabled: true,
+    defaultAvatar: require('@img/avatar.jpg')
+  }),
+  computed: {
+    ...mapGetters({
+      resume: 'users/resume'
+    }),
+    userAvatar() {
+      return this.avatar.base64 || this.info.avatar || this.defaultAvatar
     }
-  })
+  },
+  methods: {
+    ...mapActions({
+      updateUserBaseInfo: 'users/updateUserBaseInfo',
+      fetchResume: 'users/fetchResume'
+
+    }),
+    submit() {
+      this.loading = true
+      this.updateUserBaseInfo(this.info).then(res => {
+        this.loading = false
+      })
+    }
+  },
+  mounted() {
+    this.fetchResume().then(res => {
+      this.disabled = false
+      this.info = {
+        avatar: res.userInfo.avatar,
+        name: res.userInfo.name,
+        education: res.userInfo.education,
+        sex: labelToValue(res.userInfo.sex, gender),
+        identitytype: labelToValue(res.userInfo.identitytype, identity),
+        family: res.userInfo.family,
+        birthday: res.userInfo.birthday,
+        censusprovinceid: res.userInfo.censusprovinceid,
+        censuscityid: res.userInfo.censuscityid,
+        censuscountyid: res.userInfo.censuscountyid,
+        alipay: res.userInfo.alipay
+      }
+    })
+  }
 }
 </script>
 

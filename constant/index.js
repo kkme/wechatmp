@@ -588,28 +588,31 @@ export default {
   }
 }
 
-const gender = [{ label: '男', value: 'SEX_BOY' }, { label: '女', value: 'SEX_GIRL' }]
+const gender = [
+  { name: 'male', label: '男', value: 'SEX_BOY' },
+  { name: 'female', label: '女', value: 'SEX_GIRL' }
+]
 const eduList = [
-  { label: '不限学历', name: 'EDUCATION_LEVEL_0', value: 0 },
-  { label: '小学及小学以下', name: 'EDUCATION_LEVEL_1', value: 311 },
-  { label: '初中/中专', name: 'EDUCATION_LEVEL_2', value: 312 },
-  { label: '高中/高职', name: 'EDUCATION_LEVEL_3', value: 313 },
-  { label: '大学专科', name: 'EDUCATION_LEVEL_4', value: 314 },
-  { label: '大学本科', name: 'EDUCATION_LEVEL_5', value: 315 },
-  { label: '硕士研究生', name: 'EDUCATION_LEVEL_6', value: 316 },
-  { label: '博士及以上', name: 'EDUCATION_LEVEL_7', value: 317 }
+  // { name: 'EDUCATION_LEVEL_0', label: '不限学历', value: 0 },
+  { name: 'EDUCATION_LEVEL_1', label: '小学及小学以下', value: 311 },
+  { name: 'EDUCATION_LEVEL_2', label: '初中/中专', value: 312 },
+  { name: 'EDUCATION_LEVEL_3', label: '高中/高职', value: 313 },
+  { name: 'EDUCATION_LEVEL_4', label: '大学专科', value: 314 },
+  { name: 'EDUCATION_LEVEL_5', label: '大学本科', value: 315 },
+  { name: 'EDUCATION_LEVEL_6', label: '硕士研究生', value: 316 },
+  { name: 'EDUCATION_LEVEL_7', label: '博士及以上', value: 317 }
 ]
 const identity = [
   { name: 'student', label: '学生', value: 'IDENTITY_STUDENT' },
   { name: 'other', label: '其他', value: 'IDENTITY_OTHER' }
 ]
 const collectionTypes = [
-  { label: '兼职', name: 'job', value: 'COLLECTION_TYPE_PARTTIME' },
-  { label: '企业', name: 'corp', value: 'COLLECTION_TYPE_COMPANY' }
+  { name: 'job', label: '兼职', value: 'COLLECTION_TYPE_PARTTIME' },
+  { name: 'corp', label: '企业', value: 'COLLECTION_TYPE_COMPANY' }
 ]
 const jobTypes = [
-  { label: '兼职', name: 'parttime', value: 'RECRUITMENT_PARTTIME' },
-  { label: '实习', name: 'train', value: 'RECRUITMENT_PRACTICE' }
+  { name: 'parttime', label: '兼职', value: 'RECRUITMENT_PARTTIME' },
+  { name: 'train', label: '实习', value: 'RECRUITMENT_PRACTICE' }
 ]
 const jobOrderBy = [
   { name: 'default', label: '默认发布', value: 'default' },
@@ -675,6 +678,13 @@ const orderStatuses = [
   { name: 'done', label: '已生成工资', value: 'ACCEPTANCE_STATUS_SALARY' }
 ]
 
+const commentTypes = [
+  { name: 'b2cParttime', label: 'B2C兼职', value: 'EVALTAGE_PART_B2C' },
+  { name: 'c2bParttime', label: 'C2B兼职', value: 'EVALTAGE_PART_C2B' },
+  { name: 'b2cTrain', label: 'B2C实习', value: 'EVALTAGE_PRACT_B2C' },
+  { name: 'c2bTrain', label: 'C2B实习', value: 'EVALTAGE_PRACT_C2B' }
+]
+
 export {
   gender,
   eduList,
@@ -690,5 +700,6 @@ export {
   smsTypes,
   applyStatuses,
   missionCheckTypes,
-  orderStatuses
+  orderStatuses,
+  commentTypes
 }
