@@ -5,15 +5,16 @@
   </div> -->
   <v-btn :outline="outline"
          small
-         :color="color"
+         :color="active ? activeColor : color"
          tag="div"
          depressed
          :ripple="false"
          class="base-tag"
          v-bind="$attrs"
          v-on="$listeners"
+         @click="onClick"
          :style="height ? style : ''">
-    <slot>已认证</slot>
+    <slot>{{label}}</slot>
   </v-btn>
 </template>
 
@@ -24,6 +25,10 @@ export default {
       type: String,
       default: 'grey'
     },
+    activeColor: {
+      type: String,
+      default: 'primary'
+    },
     outline: {
       type: [String, Boolean],
       default: true
@@ -31,6 +36,51 @@ export default {
     height: {
       type: String,
       default: ''
+    },
+    value: {
+      type: Array,
+      default: () => []
+    },
+    val: [String, Number],
+    label: [String, Number],
+    clickable: {
+      type: [String, Boolean],
+      default: null
+    }
+  },
+  data() {
+    return {
+      checkedProxy: false,
+      active: false
+    }
+  },
+  mounted() {
+    // set the checked proxy if we start with this value included.
+    if (this.value.includes(this.val)) {
+      this.checkedProxy = true
+    }
+  },
+  methods: {
+    onClick() {
+      if (this.clickable !== null && this.clickable !== false) {
+        this.checkedProxy = !this.checkedProxy
+        let value = [].concat(this.value) // copy so we dont mutate directly
+        if (!this.checkedProxy && value.includes(this.val)) {
+          value.splice(value.indexOf(this.val), 1)
+          this.active = false
+        } else {
+          value.push(this.val)
+          this.active = true
+        }
+        this.$emit('input', value) // emit the new value.
+      }
+    }
+  },
+  watch: {
+    value(newValue) {
+      if (newValue.length === 0) {
+        this.active = false
+      }
     }
   },
   computed: {

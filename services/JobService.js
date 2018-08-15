@@ -10,5 +10,7 @@ export default {
   addToCorpCollection: data => Api.post('job/company/toCollection', data),
   fetchRecommendJobs: data => Api.post('job/sameJob', data),
   fetchCompanyInfo: data => Api.post('job/companyInfo', data),
-  applyJob: data => Api.post('parttimeApply/add', data)
+  applyJob: data => Api.post('parttimeApply/add', data),
+  fetchHotKeywords: () => Api.post('job/search/hot'),
+  fetchSearchHistory: () => Api.post('job/search/history')
 }

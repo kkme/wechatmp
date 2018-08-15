@@ -23,10 +23,10 @@
 <script>
 export default {
   props: {
-    value: [String, Object],
+    value: [String, Object, Number],
     items: Array,
     placeholder: {
-      type: String,
+      type: [String, Number],
       default: '请选择'
     }
   },

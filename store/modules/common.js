@@ -48,7 +48,7 @@ export const mutations = {
   UPDATE_DISTRICTS(state, districts) {
     state.districts = unionBy(districts, state.districts, 'id')
   },
-  UPDATE_COMMENT_TAG(state, commentTags) {
+  UPDATE_COMMENT_TAGS(state, commentTags) {
     state.commentTags = unionBy(commentTags, state.commentTags, 'id')
   },
   UPDATE_DATETIME(state, datetime) {
@@ -105,9 +105,9 @@ export const actions = {
       return res
     })
   },
-  fetchCommentTag({ commit, state }) {
-    return CommonService.fetchCommentTag().then(res => {
-      commit('UPDATE_COMMENT_TAG', res)
+  fetchCommentTags({ commit, state }) {
+    return CommonService.fetchCommentTags().then(res => {
+      commit('UPDATE_COMMENT_TAGS', res)
       return res
     })
   },

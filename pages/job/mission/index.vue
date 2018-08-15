@@ -23,7 +23,7 @@
                  color="primary"
                  @click="prevMonth"
                  :loading="prevMonthLoading"
-                 :disabled="disableBtn || nextMonthLoading">
+                 :disabled="disablePrevMonth">
             <v-icon>iconfont icon-left_circle</v-icon>
           </v-btn>
           <v-flex class="py-3">
@@ -47,7 +47,7 @@
                  color="primary"
                  @click="nextMonth"
                  :loading="nextMonthLoading"
-                 :disabled="disableBtn || prevMonthLoading">
+                 :disabled="disableNextMonth">
             <v-icon>iconfont icon-right_circle</v-icon>
           </v-btn>
         </v-layout>
@@ -154,9 +154,9 @@
               <div @click.stop.prevent="stopPop">
                 <v-btn flat
                        color="primary"
-                       :disabled="getApplyStatusName(slotProps.item.deliveryStatus) !== 'done'"
-                       @click="postComment(slotProps.item.deliveryId)"
-                       class="ma-0">{{getApplyStatusName(slotProps.item.deliveryStatus) === 'done' ? '点击评价' : '已评价'}}</v-btn>
+                       :disabled="!!slotProps.item.evaluationId"
+                       @click="onPostComment(slotProps.item.deliveryId)"
+                       class="ma-0">{{ !slotProps.item.deliveryStatus ? '点击评价' : '已评价'}}</v-btn>
               </div>
 
             </template>
@@ -168,38 +168,45 @@
       </v-tabs>
     </v-flex>
     <v-bottom-sheet v-model="commentSheet">
-
-    </v-bottom-sheet>
-    <v-bottom-sheet v-model="commentSheet">
       <div class="comment white">
         <v-layout align-center
                   justify-center
                   column>
           <div class="subheading text-xs-center py-3"> 对这工作感觉怎么样呢？ </div>
-          <div class="comment-stars">
-            <v-layout align-center
-                      class="py-2"
-                      v-for="n of 5"
-                      :key="n">
-              <span class="mr-3 pl-2 comment-rate">评价指标</span>
-              <v-flex class="d-flex">
-                <v-icon class="mx-2">iconfont icon-star</v-icon>
-                <v-icon class="mx-2">iconfont icon-star</v-icon>
-                <v-icon class="mx-2">iconfont icon-star</v-icon>
-                <v-icon class="mx-2">iconfont icon-star</v-icon>
-                <v-icon class="mx-2">iconfont icon-star</v-icon>
-              </v-flex>
-            </v-layout>
+          <div class="comment-stars py-2 my-2">
+            <v-flex class="d-flex">
+              <comment-stars v-model="comment.score"
+                             clickable></comment-stars>
+            </v-flex>
           </div>
-          <div class="comment-text mt-2">
+          <v-layout wrap
+                    class="comment-tags">
+            <v-flex xs6
+                    v-for="tag of commentTags"
+                    :key="tag.id"
+                    class="pa-2">
+              <base-tag height="24px"
+                        class="ma-0"
+                        block
+                        outline
+                        v-model="comment.tagList"
+                        clickable
+                        :val="tag.id"
+                        :label="tag.tagname"></base-tag>
+            </v-flex>
+          </v-layout>
+          <div class="comment-text mt-3">
             <base-textarea outline
                            solo
                            flat
                            label="除了评分，还有什么其他想说的吗~"
                            counter="200"
-                           class="body-1"></base-textarea>
+                           v-model="comment.content"
+                           class="body-1">
+            </base-textarea>
             <v-btn color="primary"
                    class="mt-3 mb-5"
+                   @click="submitComment"
                    block>确定</v-btn>
           </div>
         </v-layout>
@@ -212,12 +219,13 @@
 import MyMissionItem from '@/components/MyMissionItem'
 import { page } from '@mixins'
 import { mapGetters, mapActions } from 'vuex'
-import { formatTime, getFirstAndLastDay, valueToLabel } from '@helper'
-import { applyStatuses, applyTypes } from '@const'
-
+import { formatTime, getFirstAndLastDay, valueToLabel, labelToValue } from '@helper'
+import { applyStatuses, applyTypes, commentTypes, jobTypes } from '@const'
+import CommentStars from '@/components/CommentStars'
 export default {
   components: {
-    MyMissionItem
+    MyMissionItem,
+    CommentStars
   },
   head: () => ({
     title: '我的任务'
@@ -227,7 +235,7 @@ export default {
   },
   mixins: [page],
   data: () => ({
-    active: 0,
+    active: 3,
     valid: false,
     commentSheet: false,
     disabled: false,
@@ -241,7 +249,12 @@ export default {
     pickedMonth: '',
     prevMonthLoading: false,
     nextMonthLoading: false,
-    disableBtn: false
+    disableBtn: false,
+    currentMissionId: '',
+    comment: {
+      tagList: [],
+      deliveryId: ''
+    }
   }),
   computed: {
     ...mapGetters({
@@ -250,7 +263,8 @@ export default {
       invitations: 'mission/invitations',
       applications: 'mission/applications',
       completedMissions: 'mission/completedMissions',
-      today: 'common/today'
+      today: 'common/today',
+      commentTags: 'common/commentTags'
     }),
     currentMonth() {
       let today = this.today
@@ -265,16 +279,22 @@ export default {
       return this.pickedMonth ? getFirstAndLastDay(this.pickedMonth + '-01') : getFirstAndLastDay(this.today)
     },
     currentMonthMyMissions() {
-      return this.myMissions.filter(mission => this.isThisMonth(mission))
+      return this.myMissions.filter(mission => this.isThisMonth(mission.jobEndTime))
     },
     currentMonthInvitations() {
-      return this.invitations.filter(invitation => this.isThisMonth(invitation))
+      return this.invitations.filter(invitation => this.isThisMonth(invitation.jobEndTime))
     },
     currentMonthApplications() {
-      return this.applications.filter(application => this.isThisMonth(application))
+      return this.applications.filter(application => this.isThisMonth(application.jobEndTime))
     },
     currentMonthCompletedMissions() {
-      return this.completedMissions.filter(completedMission => this.isThisMonth(completedMission))
+      return this.completedMissions.filter(completedMission => this.isThisMonth(completedMission.jobEndTime))
+    },
+    disablePrevMonth() {
+      return this.disableBtn || this.nextMonthLoading
+    },
+    disableNextMonth() {
+      return this.disableBtn || this.prevMonthLoading || this.isThisMonth(this.today)
     }
   },
   watch: {
@@ -303,6 +323,14 @@ export default {
         }
         this.fetchCountInfo(this.dateRange)
       })
+    },
+    commentSheet() {
+      this.comment = {
+        tagList: [],
+        deliveryId: this.currentMissionId,
+        evaluationType: labelToValue('c2bParttime', commentTypes),
+        recruitmenttype: labelToValue('parttime', jobTypes)
+      }
     }
   },
   methods: {
@@ -314,7 +342,8 @@ export default {
       fetchCompletedMissions: 'mission/fetchCompletedMissions',
       updateInvitation: 'mission/handleInvitation',
       fetchDateTime: 'common/fetchDateTime',
-      fetchCommentTag: 'common/fetchCommentTag'
+      fetchCommentTags: 'common/fetchCommentTags',
+      postComment: 'mission/postComment'
     }),
     getMoreMyMissions($infinite) {
       this.infiniteLoading($infinite, this.fetchMyMissions, 'myMissionsPage', this.dateRange).then(() =>
@@ -365,8 +394,8 @@ export default {
       this.nextMonthLoading = false
       this.prevMonthLoading = false
     },
-    isThisMonth(item) {
-      let endMonth = new Date(item.jobEndTime).getMonth() + 1
+    isThisMonth(date) {
+      let endMonth = new Date(date).getMonth() + 1
       let thisMonth = new Date(this.currentMonth).getMonth() + 1
       return endMonth === thisMonth
     },
@@ -374,7 +403,7 @@ export default {
       console.log('stop')
     },
     handleInvitation(id, flag) {
-      this.updateInvitation({id, flag})
+      this.updateInvitation({ id, flag })
     },
     getBtnColor(val) {
       if (valueToLabel(val, applyStatuses, 'name') === 'pass') return 'primary'
@@ -384,24 +413,40 @@ export default {
     getApplyStatusName(val) {
       return valueToLabel(val, applyStatuses, 'name')
     },
-    postComment(id) {
+    onPostComment(id) {
+      this.currentMissionId = id
       this.commentSheet = true
+    },
+    submitComment() {
+      let comment = Object.assign({}, this.comment)
+      comment.tagList = comment.tagList.map(id => ({ id }))
+      this.postComment(comment).then(res => {
+        this.commentSheet = false
+      })
     }
   },
   mounted() {
     this.fetchDateTime()
-    this.fetchCountInfo({})
-    this.fetchCommentTag()
+    this.fetchCountInfo({
+      endDate: '2018-08-31',
+      startDate: '2018-08-01'
+    })
+    this.fetchCommentTags()
   }
 }
 </script>
 <style lang="scss">
 .comment {
-    .comment-rate {
-        flex-basis: 6em;
-    }
-    .comment-text {
-        width: 80%;
-    }
+  .comment-rate {
+    flex-basis: 6em;
+  }
+  .comment-text,
+  .comment-tags {
+    width: 80%;
+  }
+  .comment-tags {
+    max-height: 3.5 * (24px + $spacer);
+    overflow-y: auto;
+  }
 }
 </style>

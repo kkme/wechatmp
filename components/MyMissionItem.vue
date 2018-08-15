@@ -8,10 +8,10 @@
         <span class="subheading">{{item.title}}</span>
         <slot :item="item">
           <v-spacer></v-spacer>
-          <base-tag outline
+          <!-- <base-tag outline
                     color="accent"
                     height="20px"
-                    class="my-0">{{item.deliveryType | valueToLabel(applyTypes,'label2')}}</base-tag>
+                    class="my-0">{{item.deliveryType | valueToLabel(applyTypes,'label2')}}</base-tag> -->
         </slot>
       </v-layout>
       <v-layout class="caption mt-2"

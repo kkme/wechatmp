@@ -28,17 +28,6 @@
                     v-model="identity.idcard"></base-input>
       </v-list-tile>
 
-      <v-divider class="mx-3"></v-divider>
-
-      <v-list-tile>
-        <v-list-tile-content>
-          <v-list-tile-title>支付宝</v-list-tile-title>
-        </v-list-tile-content>
-        <v-spacer></v-spacer>
-        <base-input placeholder="请输入支付宝账号"
-                    class="input-rtl"
-                    v-model="identity.alipay"></base-input>
-      </v-list-tile>
     </v-list>
     <v-layout justify-center
               class="mt-5">

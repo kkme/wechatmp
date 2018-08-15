@@ -1,7 +1,7 @@
 import UserService from '@/services/UserService'
 import axios from 'axios'
-import Cookie from 'js-cookie'
-import cookieparser from 'cookieparser'
+// import Cookie from 'js-cookie'
+// import cookieparser from 'cookieparser'
 export const state = {
   currentUser: getSavedState('auth.currentUser')
 }
@@ -69,10 +69,10 @@ export const actions = {
   },
   nuxtServerInit({ commit }, { req }) {
     let accessToken = null
-    if (req.headers.cookie) {
-      let parsed = cookieparser.parse(req.headers.cookie)
-      accessToken = JSON.parse(parsed.auth)
-    }
+    // if (req.headers.cookie) {
+    //   let parsed = cookieparser.parse(req.headers.cookie)
+    //   accessToken = JSON.parse(parsed.auth)
+    // }
     commit('SET_CURRENT_USER', accessToken)
   }
 }
@@ -88,12 +88,11 @@ function getSavedState(key) {
 }
 
 function saveState(key, state) {
-  Cookie.set('auth', state)
+  // Cookie.set('auth', state)
   window.localStorage.setItem(key, JSON.stringify(state))
 }
 
 function setDefaultAuthHeaders(state) {
   console.log(state.currentUser)
-
   axios.defaults.headers.common.user_author = state.currentUser ? state.currentUser : ''
 }

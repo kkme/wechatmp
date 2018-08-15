@@ -40,6 +40,24 @@
       </v-layout>
       <base-infinite @infinite="getMoreData"></base-infinite>
     </div>
+    <v-dialog v-model="dialog"
+              max-width="500px">
+      <v-card>
+        <v-card-title class="justify-center pt-4">
+          <span class="title"></span>
+        </v-card-title>
+        <v-card-text>
+          支付宝
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary"
+                 block
+                 class="mx-4 my-3"
+                 :disabled="!valid"
+                 :loading="loading">确定</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -55,6 +73,9 @@ export default {
     title: '我的钱包'
   },
   mixins: [page],
+  data: () => ({
+    dialog: false
+  }),
   computed: {
     ...mapGetters({
       walletLog: 'users/walletLog',
@@ -86,13 +107,13 @@ export default {
 
 <style lang="scss">
 .wallet {
-    .wallet-balance {
-        background: url('~@svg/wallet_bg.svg') no-repeat center bottom;
-        background-size: 100%;
-        height: 27vh;
-        & > div {
-            height: 48px;
-        }
+  .wallet-balance {
+    background: url('~@svg/wallet_bg.svg') no-repeat center bottom;
+    background-size: 100%;
+    height: 27vh;
+    & > div {
+      height: 48px;
     }
+  }
 }
 </style>

@@ -45,11 +45,7 @@
 </template>
 
 <script>
-import Stars from '@/components/Stars'
 export default {
-  components: {
-    Stars
-  },
   head: () => ({
     title: '领取奖励'
   }),

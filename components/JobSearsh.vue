@@ -47,6 +47,7 @@
         </v-flex>
         <v-btn flat
                v-show="active"
+               @click="search"
                class="ma-1 px-3 job-search-btn">搜索</v-btn>
       </v-layout>
     </div>
@@ -62,10 +63,9 @@
           <v-spacer />
           <v-icon class="icon--text">iconfont icon-delete</v-icon>
           <v-flex xs12>
-            <base-tag height="24px">包吃</base-tag>
-            <base-tag height="24px">包住</base-tag>
             <base-tag height="24px"
-                      color="primary">包开心</base-tag>
+                      v-for="(n, index) of searchHistories"
+                      :key="index">{{n}}</base-tag>
           </v-flex>
         </v-layout>
         <v-layout wrap
@@ -75,10 +75,9 @@
           <v-icon class="icon--text"
                   color="accent">iconfont icon-hot</v-icon>
           <v-flex xs12>
-            <base-tag height="24px">包吃</base-tag>
-            <base-tag height="24px">包住</base-tag>
             <base-tag height="24px"
-                      color="primary">包开心</base-tag>
+                      v-for="(n, index) of hotKeywords"
+                      :key="index">{{n}}</base-tag>
           </v-flex>
         </v-layout>
       </div>
@@ -89,7 +88,8 @@
 <script>
 import CitySelector from '@/components/CitySelector'
 import { preventWindowScroll } from '@mixins'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
+// import { getSavedState, saveState } from '@helper'
 export default {
   components: {
     CitySelector
@@ -101,75 +101,86 @@ export default {
   mixins: [preventWindowScroll],
   computed: {
     ...mapGetters({
-      currentCity: 'common/currentCity'
+      currentCity: 'common/currentCity',
+      hotKeywords: 'job/hotKeywords',
+      searchHistories: 'job/searchHistories'
     })
   },
   methods: {
+    ...mapActions({
+      fetchHotKeywords: 'job/fetchHotKeywords',
+      fetchSearchHistory: 'job/fetchSearchHistory'
+    }),
     onClose() {
       this.formBg = false
-    }
+    },
+    search() {}
+  },
+  created() {
+    this.fetchHotKeywords()
+    this.fetchSearchHistory()
   }
 }
 </script>
 
 <style lang="scss">
 .job-search {
-    position: absolute;
-    top: 0;
-    left: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  &.active {
+    position: fixed;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.36);
+  }
+  .job-search-form {
+    position: relative;
+    z-index: 2;
+    &:not(.active) {
+      transition: background 800ms;
+    }
+    .job-search-content {
+      position: relative;
+      border-radius: $border-radius * 2;
+      .job-search-input {
+        position: relative;
+        &::before {
+          content: '';
+          height: 100%;
+          border-left: 2px solid $border-color;
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: 1;
+          transform: scale(0.6);
+        }
+      }
+    }
+    .job-search-btn {
+      min-width: unset;
+    }
+  }
+  .job-search-shortcut {
+    position: relative;
+    z-index: 1;
+    transform: translateY(0%);
     width: 100%;
+    flex: 1;
+  }
 
-    &.active {
-        position: fixed;
-        z-index: 5;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.36);
-    }
-    .job-search-form {
-        position: relative;
-        z-index: 2;
-        &:not(.active) {
-            transition: background 800ms;
-        }
-        .job-search-content {
-            position: relative;
-            border-radius: $border-radius * 2;
-            .job-search-input {
-                position: relative;
-                &::before {
-                    content: '';
-                    height: 100%;
-                    border-left: 2px solid $border-color;
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    z-index: 1;
-                    transform: scale(0.6);
-                }
-            }
-        }
-        .job-search-btn {
-            min-width: unset;
-        }
-    }
-    .job-search-shortcut {
-        position: relative;
-        z-index: 1;
-        transform: translateY(0%);
-        width: 100%;
-        flex: 1;
-    }
-
-    .fall-enter-active,
-    .fall-leave-active {
-        transition: transform 300ms;
-        transform: translateY(0%);
-    }
-    .fall-enter,
-    .fall-leave-to {
-        transform: translateY(-100%);
-    }
+  .fall-enter-active,
+  .fall-leave-active {
+    transition: transform 300ms;
+    transform: translateY(0%);
+  }
+  .fall-enter,
+  .fall-leave-to {
+    transform: translateY(-100%);
+  }
 }
 </style>

@@ -6,7 +6,6 @@ export default {
   fetchInvitations: data => Api.post('/myDelivery/inviteMe', data), // 收到的邀请
   fetchApplications: data => Api.post('/myDelivery/applyList', data), // 申请列表
   fetchCompletedMissions: data => Api.post('/myDelivery/finish', data), // 已完成和取消的任务列表
-  postComment: data => Api.post('/myDelivery/jobuser/add', data), // 添加评论
   handleInvitation: data => Api.post('/myDelivery/inviteMe/deal', data), // 处理邀请
   fetchDetail: data => Api.post('/myDelivery/detail', data), // 任务详情
   fetchCheckInOutLog: data => Api.post('/myDelivery/parttime/signin', data), // 任务签到列表
@@ -20,5 +19,6 @@ export default {
   endMission: data => Api.post('/myDelivery/aheadFinish', data), // 提前结束任务
   delayMission: data => Api.post('/parttimeApply/delay', data), // 申请延期
   patchOrder: data => Api.post('/parttimeOrder/remedy', data), // 补单量
-  overdueCheckInOut: data => Api.post('/parttimeSignin/remedy', data) // 补签到
+  overdueCheckInOut: data => Api.post('/parttimeSignin/remedy', data), // 补签到
+  postComment: data => Api.post('evaluation/jobuser/add', data) // 添加评论
 }

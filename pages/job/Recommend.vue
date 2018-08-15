@@ -25,11 +25,7 @@
 </template>
 
 <script>
-import Stars from '@/components/Stars'
 export default {
-  components: {
-    Stars
-  },
   head: () => ({
     title: '组合推荐'
   }),

@@ -72,7 +72,7 @@ module.exports = {
       '~/plugins/baidumap.js',
       '~/plugins/vue-amap.js'
     ],
-    publicPath: 'https://local.sapi.s-cout.com/job-api/wechatmp/',
+    publicPath: 'https://local.sapi.s-cout.com/',
     extractCSS: true,
     cssSourceMap: false,
     /*

@@ -47,8 +47,8 @@
                        class="ma-0"
                        depressed
                        large
-                       block
-                       @click="join">报名参加</v-btn>
+                       :disabled="applied"
+                       block>{{applied ? '已报名' : '报名参加'}}</v-btn>
                 <v-card>
 
                   <v-card-text>
@@ -78,33 +78,26 @@
 
                     </v-layout>
                     <v-layout align-center
-                              class="mt-2"
-                              v-if="!detail.isanyjobperiod">
+                              class="mt-2">
                       <v-flex>
 
                         <div>
-                          <template v-if="detail.mintaskday">最短申请时段:{{detail.mintaskhour}}小时</template>
+                          <template v-if="detail.mintaskhour">最短申请时段:{{detail.mintaskhour}}小时</template>
                           <template v-else>全程参加</template>
                         </div>
+                        <div>工作时段：{{detail.isanyjobperiod ? '不限时段' : detail.jobperiod}}</div>
                         <div class="py-2">
                           <base-time-picker v-model="job.jobperiodbegin"
-                                            :min="minTime"
-                                            :max="maxTime"
                                             bordered
                                             placeholder="开始时间"></base-time-picker>
                         </div>
                         <div class="py-2">
                           <base-time-picker v-model="job.jobperiodend"
-                                            :min="minTime "
-                                            :max="maxTime"
                                             bordered
                                             placeholder="结束时间"></base-time-picker>
                         </div>
                       </v-flex>
                     </v-layout>
-                    <div v-else>
-                      不限工作时段
-                    </div>
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
@@ -161,7 +154,7 @@ import CorpItem from '@/components/CorpItem'
 import JobItem from '@/components/JobItem'
 import BottomBtns from '@/components/BottomBtns'
 import JobDetail from '@/components/JobDetail'
-import constant from '@const/public'
+// import constant from '@const/public'
 import { eduList, paymentTypes, salaryTypes, paymentPlatfroms, applyTypes } from '@const'
 import { mapActions, mapGetters } from 'vuex'
 import { addDays, addHour, dateGreater, labelToValue } from '@helper'
@@ -179,8 +172,8 @@ export default {
     title: '职位详情'
   },
   data: () => ({
-    mapIcon: constant.BAIDU_MAP_POSITION_ICON,
-    mapIconOffset: constant.BAIDU_MAP_POSITION_ICON_OFFSET,
+    // mapIcon: constant.BAIDU_MAP_POSITION_ICON,
+    // mapIconOffset: constant.BAIDU_MAP_POSITION_ICON_OFFSET,
     eduList,
     paymentTypes,
     salaryTypes,
@@ -276,7 +269,7 @@ export default {
     ...mapActions({
       fetchJob: 'job/fetchJob',
       addToJobCollection: 'job/addToJobCollection',
-      deleteJobCollection: 'users/deleteJobCollection',
+      deleteJobCollection: 'users/deleteCollection',
       fetchRecommendJobs: 'job/fetchRecommendJobs',
       fetchCompanyInfo: 'job/fetchCompanyInfo',
       applyJob: 'job/applyJob',
@@ -299,14 +292,15 @@ export default {
       this.loading = true
       this.applyJob(this.job).then(res => {
         this.loading = false
+        this.dialog = false
       })
     },
     fetchData() {
       this.fetchJob({ id: this.$route.params.id })
         .then(job => {
           this.detail = job.parttime
-          this.marked = +job.collection
-          this.applied = +job.delivery
+          this.marked = !!job.collection
+          this.applied = !!job.delivery
           this.job.recruitmentid = this.detail.id
           this.job.deliverytype = labelToValue('user', applyTypes)
           return job.parttime
@@ -340,18 +334,18 @@ export default {
 
 <style lang="scss">
 .job-detail {
-    .job-similar {
-        .job-similar-title {
-            i.iconfont {
-                color: $primary;
-                transform: scale(0.5);
-            }
-        }
+  .job-similar {
+    .job-similar-title {
+      i.iconfont {
+        color: $primary;
+        transform: scale(0.5);
+      }
     }
-    .job-detail-action {
-        button {
-            border-radius: 0;
-        }
+  }
+  .job-detail-action {
+    button {
+      border-radius: 0;
     }
+  }
 }
 </style>
