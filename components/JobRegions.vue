@@ -127,8 +127,8 @@ export default {
 
 <style lang="scss">
 .job-regions {
-  .job-regions-item {
-    overflow: auto;
-  }
+    .job-regions-item {
+        overflow: auto;
+    }
 }
 </style>

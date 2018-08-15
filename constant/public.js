@@ -1,5 +1,5 @@
-// const BASE_URL = 'https://local.sapi.s-cout.com/'
-const BASE_URL = 'http://192.168.0.99:8080/'
+const BASE_URL = 'https://local.sapi.s-cout.com/'
+// const BASE_URL = 'http://192.168.0.99:8080/'
 // const BASE_URL = 'http://192.168.1.107:8080/'
 export default {
   BASE_URL,
@@ -20,5 +20,5 @@ export default {
     pagesize: 20,
     pageindex: 1
   },
-  DEFAULT_PAGE_SIZE: 5
+  DEFAULT_PAGE_SIZE: 10
 }

@@ -58,5 +58,6 @@ export default {
   updateUserEducation: data => Api.post('/jobuser/addEducation', data),
   updateUserJobExp: data => Api.post('/jobuser/addWork', data),
   updateUserAbout: data => Api.post('/jobuser/addSelfEvaluation', data),
-  updateUserSkill: data => Api.post('/jobuser/addAbility', data)
+  updateUserSkill: data => Api.post('/jobuser/addAbility', data),
+  updatePreference: data => Api.post('/customize/add', data)
 }

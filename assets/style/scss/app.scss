@@ -124,6 +124,9 @@
 .d-flex .flex-auto {
   flex: 0 0 auto !important;
 }
+.flex-1 {
+  flex: 1
+}
 .input-rtl {
   &.input,
   input {

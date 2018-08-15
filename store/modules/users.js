@@ -212,6 +212,11 @@ export const actions = {
     return UserService.identifyByStudentCard(payload).then(res => {
       return res
     })
+  },
+  updatePreference({ commit }, payload) {
+    return UserService.updatePreference(payload).then(res => {
+      return res
+    })
   }
 }
 

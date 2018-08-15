@@ -60,11 +60,12 @@
         </nuxt-link>
       </v-flex>
       <v-flex xs6>
-        <div class="ml-2 user-center-custom d-flex align-center justify-center rounded">
+        <nuxt-link to="/user/preference"
+                   class="ml-2 user-center-custom d-flex align-center justify-center rounded text--primary">
           <span>定制推荐<br>
             <span class="grey--text caption">精准岗位匹配和推荐</span>
           </span>
-        </div>
+        </nuxt-link>
       </v-flex>
     </v-layout>
     <base-divider></base-divider>
