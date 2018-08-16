@@ -588,10 +588,7 @@ export default {
   }
 }
 
-const gender = [
-  { name: 'male', label: '男', value: 'SEX_BOY' },
-  { name: 'female', label: '女', value: 'SEX_GIRL' }
-]
+const gender = [{ name: 'male', label: '男', value: 'SEX_BOY' }, { name: 'female', label: '女', value: 'SEX_GIRL' }]
 const eduList = [
   // { name: 'EDUCATION_LEVEL_0', label: '不限学历', value: 0 },
   { name: 'EDUCATION_LEVEL_1', label: '小学及小学以下', value: 311 },
@@ -684,6 +681,19 @@ const commentTypes = [
   { name: 'b2cTrain', label: 'B2C实习', value: 'EVALTAGE_PRACT_B2C' },
   { name: 'c2bTrain', label: 'C2B实习', value: 'EVALTAGE_PRACT_C2B' }
 ]
+const messageTypes = [
+  { name: 'mission', label: '任务通知', value: 'task' },
+  { name: 'apply', label: '申请确认', value: 'apply' },
+  { name: 'team', label: '战队消息', value: 'team' },
+  { name: 'system', label: '系统消息', value: 'system' },
+  { name: 'feedback', label: '投诉反馈', value: 'feedback' }
+]
+const feedbackTypes = [
+  { name: 'info', label: '信息投诉', value: 'FEEDBACK_TYPE_INFO' },
+  { name: 'salary', label: '工资申诉', value: 'FEEDBACK_TYPE_SALARY' },
+  { name: 'customService', label: '客服投诉', value: 'FEEDBACK_TYPE_SERVICE' },
+  { name: 'suggest', label: '建议反馈', value: 'FEEDBACK_TYPE_SUGGEST' }
+]
 
 export {
   gender,
@@ -701,5 +711,7 @@ export {
   applyStatuses,
   missionCheckTypes,
   orderStatuses,
-  commentTypes
+  commentTypes,
+  messageTypes,
+  feedbackTypes
 }

@@ -41,7 +41,7 @@ export default {
   fetchWalletLog: data => Api.post('jobuser/money', data),
 
   // 用户经验值
-  fetchExp: data => Api.post('jobuser/experience', data),
+  fetchExpLog: data => Api.post('jobuser/experience', data),
 
   // 投诉建议
   fetchFeedBack: data => Api.post('jobuser/platform/add', data),
@@ -59,5 +59,13 @@ export default {
   updateUserJobExp: data => Api.post('/jobuser/addWork', data),
   updateUserAbout: data => Api.post('/jobuser/addSelfEvaluation', data),
   updateUserSkill: data => Api.post('/jobuser/addAbility', data),
-  updatePreference: data => Api.post('/customize/add', data)
+  updatePreference: data => Api.post('/customize/add', data),
+
+  // 领取经验
+  collectExp: data => Api.post('/jobuser/experience/receive', data),
+
+  // 领取积分
+  collectPoints: data => Api.post('/jobuser/integral/receive', data),
+  platformFeedback: data => Api.post('/feedback/platform/add', data),
+  companyFeedback: data => Api.post('/feedback/company/add', data)
 }

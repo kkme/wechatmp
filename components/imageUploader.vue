@@ -1,24 +1,25 @@
 <template>
   <div class="image-uploader">
-    <div v-for="(img, index) of imagesUrl"
-         v-if="imagesUrl.length"
+    <div v-for="(img, index) of base64s"
+         v-if="base64s.length && index < maxImages"
          :key="index"
          :style="`backgroundImage: url(${img.base64})`">
       <v-btn small
              icon
              color="secondary"
-             class="image-uploader-item-close ma-0">
+             class="image-uploader-item-close ma-0"
+             @click="deleteImg(index)">
         <v-icon class="caption"
                 color="white">iconfont icon-x</v-icon>
       </v-btn>
     </div>
-    <div class="image-uploader-btn d-flex align-center"
-         v-if="!(imagesUrl.length >= maxImages)">
+    <div class="image-uploader-btn d-flex align-center">
       <v-btn small
              class="ma-0 pa-0"
              outline
              color="grey"
              @click="chooseFile"
+             :disabled="base64s.length >= maxImages"
              :loading="loading">
         <v-icon color="grey"
                 large>iconfont icon-plus</v-icon>
@@ -28,7 +29,7 @@
              ref="uploadImage"
              accept="image/*"
              @change="onFilePicked"
-             :multiple="!!multiple">
+             :multiple="max > 1">
     </div>
   </div>
 </template>
@@ -40,15 +41,15 @@ import { readFiles } from '@helper'
 import { mapActions } from 'vuex'
 export default {
   props: {
-    max: Number,
-    multiple: {
-      default: true
+    max: {
+      type: Number,
+      default: 5
     }
   },
   data: () => ({
     loading: false,
     images: [],
-    imagesUrl: []
+    base64s: []
   }),
   computed: {
     maxImages() {
@@ -56,40 +57,35 @@ export default {
     }
   },
   methods: {
-    // ...mapActions(['uploadFile']),
+    ...mapActions({
+      uploadFile: 'common/uploadFile'
+    }),
     chooseFile() {
       this.$refs.uploadImage.click()
     },
-    onFilePicked(event) {
+    async onFilePicked(event) {
       this.loading = true
       let files = event.target.files
-      readFiles(files).then(res => {
-        if (!this.multiple) {
-          this.$emit('input', res[0])
-        } else {
-          this.imagesUrl = unionBy(res, this.imagesUrl, 'name')
-          this.$emit('input', this.imagesUrl)
-        }
-      })
-      this.loading = false
-      // TODO: upload file to server
+      files = Array.from(files).slice(0, this.maxImages - this.images.length)
 
-      // let formData = new FormData()
-      // formData.append('file', files)
-      // return this.uploadFile(formData).
-      let formDataPromise = Array.from(files).map(file => {
+      readFiles(files).then(res => {
+        this.base64s = unionBy(res, this.base64s, 'name')
+      })
+      let formDataPromise = files.map((file, index) => {
         let formData = new FormData()
         formData.append('file', file)
         return this.uploadFile(formData)
       })
-
-      Promise.all(formDataPromise).then(res => {
-        console.log({ res })
-      })
+      let newImages = await Promise.all(formDataPromise)
+      this.images = unionBy(newImages, this.images, 'title')
+      this.loading = false
+      this.$emit('input', this.images)
     },
-    ...mapActions({
-      uploadFile: 'common/uploadFile'
-    })
+    deleteImg(index) {
+      this.base64s.splice(index, 1)
+      this.images.splice(index, 1)
+      this.$emit('input', this.images)
+    }
   }
 }
 </script>

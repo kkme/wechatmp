@@ -132,10 +132,15 @@ export default {
           password: this.password,
           imgCode: this.captcha,
           loginType: this.loginType
-        }).then(res => {
-          this.loading = false
-          this.$router.push('/job')
         })
+          .then(res => {
+            this.loading = false
+            this.$router.push('/job')
+          })
+          .catch(error => {
+            this.loading = false
+            console.log(error)
+          })
       }
     }
   }
@@ -144,19 +149,19 @@ export default {
 
 <style lang="scss">
 .signin {
-    .logo {
-        width: 60vw;
-        max-width: 310px;
-    }
-    .signin-form,
-    .signin-links {
-        width: 80vw;
-        max-width: 300px;
-    }
-    .signin-form {
-        border-radius: $border-radius * 5;
-        box-shadow: 0 2px 10px 0 rgba($primary, 0.2);
-        margin-top: -1rem;
-    }
+  .logo {
+    width: 60vw;
+    max-width: 310px;
+  }
+  .signin-form,
+  .signin-links {
+    width: 80vw;
+    max-width: 300px;
+  }
+  .signin-form {
+    border-radius: $border-radius * 5;
+    box-shadow: 0 2px 10px 0 rgba($primary, 0.2);
+    margin-top: -1rem;
+  }
 }
 </style>

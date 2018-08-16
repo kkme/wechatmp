@@ -11,24 +11,26 @@
       <v-tab-item>
         <v-layout align-center
                   justify-center
+                  v-if="team"
                   class="primary white--text mt-1 px-4 py-3">
-          <v-flex v-if="false">
+          <v-flex v-if="!team.name">
             <div class="subheading">战队排行榜</div>
             <div>您还未参见战队</div>
           </v-flex>
-          <v-flex class="white--text">
-            <div class="subheading">林蛋大和楚中天战队</div>
+          <v-flex v-else
+                  class="white--text">
+            <div class="subheading">{{team.name}}</div>
             <v-layout class="text-xs-center mt-2">
               <div>
-                <div class="subheading">No. 1254</div>
+                <div class="subheading">No. {{teamSumary.level}}</div>
                 <div>等级</div>
               </div>
               <div class="ml-4">
-                <div class="subheading">No. 1254</div>
+                <div class="subheading">No. {{teamSumary.mission}}</div>
                 <div>单量</div>
               </div>
               <div class="ml-4">
-                <div class="subheading">No. 1254</div>
+                <div class="subheading">No. {{teamSumary.member}}</div>
                 <div>人数</div>
               </div>
             </v-layout>
@@ -49,9 +51,18 @@
                    class="white--text">等级</v-tab>
             <v-tab ripple
                    class="white--text">人数</v-tab>
-            <v-tab-item>单量</v-tab-item>
-            <v-tab-item>等级</v-tab-item>
-            <v-tab-item>人数</v-tab-item>
+            <v-tab-item>
+              <ranking-item :items="teamMission"
+                            unit="单"></ranking-item>
+            </v-tab-item>
+            <v-tab-item>
+              <ranking-item :items="teamLevel"
+                            unit="级"></ranking-item>
+            </v-tab-item>
+            <v-tab-item>
+              <ranking-item :items="teamMember"
+                            unit="人"></ranking-item>
+            </v-tab-item>
           </v-tabs>
         </div>
       </v-tab-item>
@@ -60,15 +71,19 @@
                   justify-center
                   class="primary white--text mt-1 px-4 py-3">
           <v-flex class="white--text">
-            <div class="subheading">林蛋大</div>
+            <div class="subheading">{{user.name}}</div>
             <v-layout class="text-xs-center mt-2">
               <div>
-                <div class="subheading">No. 1254</div>
-                <div>等级</div>
+                <div class="subheading">No. {{userSumary.mission}}</div>
+                <div>
+                  单量
+                </div>
               </div>
               <div class="ml-4">
-                <div class="subheading">No. 1254</div>
-                <div>单量</div>
+                <div class="subheading">No. {{userSumary.level}}</div>
+                <div>
+                  等级
+                </div>
               </div>
             </v-layout>
           </v-flex>
@@ -86,8 +101,14 @@
                    class="white--text">单量</v-tab>
             <v-tab ripple
                    class="white--text">等级</v-tab>
-            <v-tab-item>单量</v-tab-item>
-            <v-tab-item>等级</v-tab-item>
+            <v-tab-item>
+              <ranking-item :items="userMission"
+                            unit="单"></ranking-item>
+            </v-tab-item>
+            <v-tab-item>
+              <ranking-item :items="userLevel"
+                            unit="人"></ranking-item>
+            </v-tab-item>
           </v-tabs>
         </div>
       </v-tab-item>
@@ -96,7 +117,12 @@
 </template>
 
 <script>
+import RankingItem from '@/components/RankingItem'
+import { mapGetters, mapActions } from 'vuex'
 export default {
+  components: {
+    RankingItem
+  },
   head: () => ({
     title: '排行榜'
   }),
@@ -104,10 +130,66 @@ export default {
     title: '排行榜'
   },
   data: () => ({
-    active: 1,
-    activeTeamSub: 1,
-    activeSub: 1
-  })
+    active: 0,
+    activeTeamSub: 0,
+    activeSub: 0
+  }),
+  computed: {
+    ...mapGetters({
+      team: 'ranking/teamRanking',
+      user: 'ranking/userRanking'
+    }),
+    teamSumary() {
+      if (!this.team) return null
+      let member = this.team.peopleRank || 0
+      let level = this.team.levelRank || 0
+      let mission = this.team.deliveryNumRank || 0
+      return {
+        member,
+        level,
+        mission
+      }
+    },
+    teamMission() {
+      if (!this.team) return null
+      return this.team.deliveryRankList
+    },
+    teamMember() {
+      if (!this.team) return null
+      return this.team.peopleRankList
+    },
+    teamLevel() {
+      if (!this.team) return null
+      return this.team.levelRankList
+    },
+    userSumary() {
+      if (!this.user) return null
+      let level = this.user.levelRank || -1
+      let mission = this.user.deliveryNumRank || -1
+      return {
+        level,
+        mission
+      }
+    },
+    userMission() {
+      if (!this.user) return null
+      return this.user.deliveryRankList
+    },
+    userLevel() {
+      if (!this.user) return null
+      return this.user.levelRankList
+    }
+  },
+  methods: {
+    ...mapActions({
+      fetchTeamRanking: 'ranking/fetchTeamRanking',
+      fetchUserRanking: 'ranking/fetchUserRanking'
+    })
+  },
+  mounted() {
+    this.fetchTeamRanking()
+    this.fetchUserRanking()
+  }
 }
 </script>
 

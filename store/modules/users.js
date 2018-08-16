@@ -8,6 +8,7 @@ export const state = {
   scoreLog: [],
   pointsLog: [],
   walletLog: [],
+  expLog: [],
   collections: [],
   jobCollections: [],
   corpCollections: [],
@@ -20,6 +21,7 @@ export const state = {
 export const getters = {
   baseInfo: state => state.baseInfo,
   scoreLog: state => state.scoreLog,
+  expLog: state => state.expLog,
   groupedScoreLog: state => groupByMonth(state.scoreLog),
   pointsLog: state => state.pointsLog,
   groupedPointsLog: state => groupByMonth(state.pointsLog),
@@ -30,7 +32,8 @@ export const getters = {
   commhistoriesents: state => state.histories,
   comments: state => state.comments,
   resume: state => state.resume,
-  userBaseInfo: state => state.userBaseInfo
+  userBaseInfo: state => state.userBaseInfo,
+  pointsCollectList: state => state.pointsCollectList
 }
 
 export const mutations = {
@@ -42,6 +45,9 @@ export const mutations = {
   },
   UPDATE_POINTS_LOG(state, pointsLog) {
     state.pointsLog = unionBy(pointsLog, state.pointsLog, 'id')
+  },
+  UPDATE_EXP_LOG(state, expLog) {
+    state.expLog = unionBy(expLog, state.expLog, 'id')
   },
   UPDATE_WALLET_LOG(state, walletLog) {
     state.walletLog = unionBy(walletLog, state.walletLog, 'id')
@@ -90,7 +96,7 @@ export const actions = {
   },
   signUp({ commit }, payload) {
     return UserService.signUp(payload).then(res => {
-      commit('auth/SET_CURRENT_USER', res)
+      commit('auth/SET_CURRENT_USER', res, { root: true })
       return res
     })
   },
@@ -122,6 +128,13 @@ export const actions = {
   fetchWalletLog({ commit }, payload) {
     return UserService.fetchWalletLog(payload).then(res => {
       commit('UPDATE_WALLET_LOG', res)
+      return res
+    })
+  },
+
+  fetchExpLog({ commit }, payload) {
+    return UserService.fetchExpLog(payload).then(res => {
+      commit('UPDATE_EXP_LOG', res)
       return res
     })
   },
@@ -215,6 +228,27 @@ export const actions = {
   },
   updatePreference({ commit }, payload) {
     return UserService.updatePreference(payload).then(res => {
+      return res
+    })
+  },
+
+  collectPoints({ commit }, payload) {
+    return UserService.collectPoints(payload).then(res => {
+      return res
+    })
+  },
+  collectExp({ commit }, payload) {
+    return UserService.collectExp(payload).then(res => {
+      return res
+    })
+  },
+  platformFeedback({ commit }, payload) {
+    return UserService.platformFeedback(payload).then(res => {
+      return res
+    })
+  },
+  companyFeedback({ commit }, payload) {
+    return UserService.companyFeedback(payload).then(res => {
       return res
     })
   }

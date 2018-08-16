@@ -134,7 +134,7 @@ export default {
   },
   mounted() {
     this.fetchCities({ pid: 0 })
-    this.duibaLogin()
+    // this.duibaLogin()
   }
 }
 </script>

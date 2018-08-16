@@ -235,7 +235,7 @@ export default {
   },
   mixins: [page],
   data: () => ({
-    active: 3,
+    active: 0,
     valid: false,
     commentSheet: false,
     disabled: false,
@@ -279,16 +279,16 @@ export default {
       return this.pickedMonth ? getFirstAndLastDay(this.pickedMonth + '-01') : getFirstAndLastDay(this.today)
     },
     currentMonthMyMissions() {
-      return this.myMissions.filter(mission => this.isThisMonth(mission.jobEndTime))
+      return this.myMissions.filter(mission => this.isThisMonth(mission.createTime))
     },
     currentMonthInvitations() {
-      return this.invitations.filter(invitation => this.isThisMonth(invitation.jobEndTime))
+      return this.invitations.filter(invitation => this.isThisMonth(invitation.createTime))
     },
     currentMonthApplications() {
-      return this.applications.filter(application => this.isThisMonth(application.jobEndTime))
+      return this.applications.filter(application => this.isThisMonth(application.createTime))
     },
     currentMonthCompletedMissions() {
-      return this.completedMissions.filter(completedMission => this.isThisMonth(completedMission.jobEndTime))
+      return this.completedMissions.filter(completedMission => this.isThisMonth(completedMission.createTime))
     },
     disablePrevMonth() {
       return this.disableBtn || this.nextMonthLoading

@@ -35,6 +35,18 @@
                        @click="onDialogOpen('overdueCheckInOut')">
             <v-list-tile-title>任务补签</v-list-tile-title>
           </v-list-tile>
+          <v-list-tile class="border-bottom"
+                       v-if="jobDetail"
+                       nuxt
+                       :to="{ name: 'user-FeedBack', query:{ id: detail.recruitmentId, type:'info', comid: jobDetail.comid } }">
+            <v-list-tile-title>信息投诉</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile class="border-bottom"
+                       v-if="jobDetail"
+                       nuxt
+                       :to="{ name: 'user-FeedBack', query:{ id: detail.recruitmentId, type:'salary', comid: jobDetail.comid } }">
+            <v-list-tile-title>工资申述</v-list-tile-title>
+          </v-list-tile>
         </v-list>
       </v-menu>
     </v-layout>
@@ -54,12 +66,13 @@
           {{detail.address ? detail.address : `${detail.province}${detail.city}${detail.county}`}}
         </template>
       </div>
-      <div>领取时间：
+      <div>申请时间：
         <template v-if="detail.userPeriodBegin">
           {{detail.userPeriodBegin}} - {{detail.userPeriodEnd}}
         </template>
       </div>
-      <div>领取周期： {{detail.userJobBeginTime ? `${detail.userJobBeginTime} - ${detail.userJobEndTime || '长期'}` : ''}}</div>
+      <div>申请周期：{{detail.userJobBeginTime ? `${detail.userJobBeginTime} - ${detail.userJobEndTime || '长期'}` : ''}}</div>
+      <div>领取时间: {{detail.createtime}}</div>
     </div>
     <base-divider class="mt-2"></base-divider>
     <v-tabs v-model="active"
@@ -158,7 +171,7 @@ export default {
   },
   data: () => ({
     active: 0,
-    detail: {},
+    detail: null,
     jobDetail: null,
     dialog: false,
     valid: false,
@@ -249,8 +262,6 @@ export default {
       })
     },
     onPatchOrder() {
-      console.log(this.detail)
-
       this.patchOrder({
         deliveryId: this.$route.params.id,
         recruitmentId: this.detail.id,

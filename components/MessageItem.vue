@@ -1,24 +1,25 @@
 <template>
-  <v-card>
+  <v-card v-if="item">
     <base-divider></base-divider>
     <v-layout row
               wrap
               class="pa-3">
-
       <svg-message-dot class="svg-sm" />
-      <span class="subheading">签到任务被驳回</span>
+      <span class="subheading">{{item.title}}</span>
       <v-flex xs12
-              class="py-1">2018-7-31 09:32:33</v-flex>
+              class="py-1">{{item.createtime}}</v-flex>
       <v-flex xs12
               text-muted>
-        消息内容消息内容消息内容消息内容 消息内容消息内容消息内容消息内容 消息内容消息内容消息内容消息内容 消息内容消息内容消息内容消息内容 消息内容消息内容消息内容消息内容 消息内容消息内容消息内容消息内容
+        {{item.content}}
       </v-flex>
     </v-layout>
   </v-card>
 </template>
 
 <script>
-export default {}
+export default {
+  props: ['item']
+}
 </script>
 
 <style lang="scss">

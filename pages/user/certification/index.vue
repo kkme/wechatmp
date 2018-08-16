@@ -11,7 +11,7 @@
                 justify-space-around
                 align-center
                 column
-                v-if="!idcard && !idcard.id"
+                v-if="!idcard.id"
                 @click="$router.push('/user/certification/identity')">
         <div class="user-certification-avatar mt-1">
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,7 @@
                 justify-space-around
                 align-center
                 column
-                v-if="!student && !student.id"
+                v-if="!student.id"
                 @click="$router.push('/user/certification/student')">
         <div class="avatar"><img src="@img/student.png"></div>
         <div class="subheading">学生认证</div>
@@ -115,10 +115,14 @@ export default {
       fetchCertification: 'users/fetchCertification'
     })
   },
-  mounted() {
+  created() {
     this.fetchCertification({}).then(res => {
-      this.idcard = res.iDcardVerified
-      this.student = res.studendVerified
+      if (res && res.iDcardVerified) {
+        this.idcard = res.iDcardVerified
+      }
+      if (res && res.studendVerified) {
+        this.student = res.studendVerified
+      }
     })
   }
 }
@@ -126,36 +130,36 @@ export default {
 
 <style lang="scss">
 .user-certification {
-    height: calc(100vh - 48px);
-    .user-certification-action {
-        height: 60vh;
-        flex: 0 0 60vh;
-        > div {
-            border-radius: $border-radius * 1.5;
-        }
+  height: calc(100vh - 48px);
+  .user-certification-action {
+    height: 60vh;
+    flex: 0 0 60vh;
+    > div {
+      border-radius: $border-radius * 1.5;
     }
-    .user-certification-avatar {
-        width: 50px;
-        height: 50px;
-        background-color: #fff;
-        padding: 10px;
-        border-radius: 50%;
+  }
+  .user-certification-avatar {
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 50%;
+  }
+  .user-certification-not-student {
+    background-image: url('~@img/certification_bg_yellow.jpg');
+    svg {
+      width: 100%;
     }
-    .user-certification-not-student {
-        background-image: url('~@img/certification_bg_yellow.jpg');
-        svg {
-            width: 100%;
-        }
-    }
-    .user-certification-student {
-        background-image: url('~@img/certification_bg_blue.jpg');
-    }
-    .user-certification-status {
-        background-color: $white;
-        border-top-left-radius: 1rem;
-        border-bottom-left-radius: 1rem;
-        color: $accent;
-        padding: 0.1rem 1rem;
-    }
+  }
+  .user-certification-student {
+    background-image: url('~@img/certification_bg_blue.jpg');
+  }
+  .user-certification-status {
+    background-color: $white;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    color: $accent;
+    padding: 0.1rem 1rem;
+  }
 }
 </style>

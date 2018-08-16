@@ -42,6 +42,7 @@
         <base-input class="caption text-muted input-rtl"
                     placeholder="请输入密码"
                     v-model="user.password"
+                    type="password"
                     :rules="passwordRules"></base-input>
         <svg-right class="svg-sm" />
       </v-list-tile>
@@ -56,6 +57,7 @@
         <base-input class="caption text-muted input-rtl"
                     placeholder="请确认密码"
                     v-model="rePassword"
+                    type="password"
                     :rules="rePasswordRules"></base-input>
         <svg-right class="svg-sm" />
       </v-list-tile>
@@ -102,6 +104,7 @@
       <v-flex xs10>
         <v-btn block
                color="primary"
+               :loading="loading"
                @click="onSignUp">注册</v-btn>
       </v-flex>
     </v-layout>
@@ -131,36 +134,31 @@ export default {
         name: '',
         identityType: ''
       },
-      phoneRules: [
-        v => !!v || '',
-        v => (v && v.length >= 11) || ''
-      ],
-      nameRules: [
-        v => !!v || '',
-        v => (v && v.length >= 2) || ''
-      ],
-      passwordRules: [
-        v => !!v || '',
-        v => (v && v.length >= 6) || ''
-      ],
-      rePasswordRules: [
-        v => !!v || '',
-        v => this.user.password === v || ''
-      ],
-      captchaRules: [
-        v => !!v || '',
-        v => (v && v.length >= 4) || ''
-      ]
+      phoneRules: [v => !!v || '', v => (v && v.length >= 11) || ''],
+      nameRules: [v => !!v || '', v => (v && v.length >= 2) || ''],
+      passwordRules: [v => !!v || '', v => (v && v.length >= 6) || ''],
+      rePasswordRules: [v => !!v || '', v => this.user.password === v || ''],
+      captchaRules: [v => !!v || '', v => (v && v.length >= 4) || ''],
+      loading: false
     }
   },
   methods: {
     ...mapActions({
       signUp: 'users/signUp'
     }),
-    onSignUp () {
+    onSignUp() {
       if (this.$refs.form.validate()) {
+        this.loading = true
         this.user.identityType = this.identity
         this.signUp(this.user)
+          .then(res => {
+            this.loading = false
+            this.$router.push('/job')
+          })
+          .catch(error => {
+            this.loading = false
+            console.log(error)
+          })
       }
     }
   },

@@ -17,7 +17,8 @@
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
               </v-list-tile-content>
 
-              <span class="caption text-muted">共
+              <span class="caption text-muted"
+                    v-if="false">共
                 <span class="primary--text body-2">23</span>条动态</span>
               <v-list-tile-action>
                 <svg-right class="svg-sm" />
