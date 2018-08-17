@@ -3,7 +3,7 @@
     <v-list class="py-0"
             dense
             two-line>
-      <template v-for="(item, index) in items">
+      <template v-for="(item, index) in invitations">
         <v-list-tile :key="item.id">
 
           <v-list-tile-content class="pl-2">
@@ -24,6 +24,7 @@
           <v-divider/>
         </div>
       </template>
+      <base-infinite @infinite="infinite($event, fetchInvitations)"></base-infinite>
     </v-list>
     <bottom-btns :disabled="!checked"
                  border
@@ -34,6 +35,8 @@
 
 <script>
 import BottomBtns from '@/components/BottomBtns'
+import { mapActions, mapGetters } from 'vuex'
+import { page } from '@mixins'
 export default {
   components: {
     BottomBtns
@@ -44,16 +47,20 @@ export default {
   meta: {
     title: '战队邀请'
   },
+  mixins: [page],
   data: () => ({
-    items: [
-      { id: '1a', title: '击杀风毒龙', date: '2018-08-09 08:00' },
-      { id: '2b', title: '击杀风毒龙', date: '2018-08-09 08:00' },
-      { id: '3c', title: '击杀风毒龙', date: '2018-08-09 08:00' },
-      { id: '4d', title: '击杀风毒龙', date: '2018-08-09 08:00' },
-      { id: '5e', title: '击杀风毒龙', date: '2018-08-09 08:00' }
-    ],
     checked: false
-  })
+  }),
+  computed: {
+    ...mapGetters({
+      invitations: 'team/invitations'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchInvitations: 'team/fetchInvitations'
+    })
+  }
 }
 </script>
 

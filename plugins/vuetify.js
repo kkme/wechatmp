@@ -23,7 +23,9 @@ import {
   VCheckbox,
   VCarousel,
   VMenu,
-  VForm
+  VForm,
+  VSnackbar,
+  VAvatar
 } from 'vuetify'
 
 import { Ripple, Scroll } from 'vuetify/es5/directives'
@@ -52,7 +54,9 @@ Vue.use(Vuetify, {
     VCheckbox,
     VCarousel,
     VMenu,
-    VForm
+    VForm,
+    VSnackbar,
+    VAvatar
   },
   theme: {
     primary: '#8bc271',
@@ -69,7 +73,9 @@ Vue.use(Vuetify, {
     checkboxOn: 'iconfont icon-check_on',
     checkboxOff: 'iconfont icon-radio_off',
     clear: 'iconfont icon-clear',
-    delimiter: 'iconfont icon-dot'
+    delimiter: 'iconfont icon-dot',
+    prev: 'iconfont icon-left',
+    next: 'iconfont icon-right'
   },
   directives: {
     Ripple,

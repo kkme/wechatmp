@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="pointes-item-title body-2 pa-3 grey lighten-2">请上传身份证正反面照片</div>
-    <certificate-uploader v-model="certificate"></certificate-uploader>
+    <certificate-uploader v-model="certificate"
+                          text="身份证"></certificate-uploader>
     <div class="pointes-item-title body-2 pa-3 grey lighten-2">请确认以下信息</div>
     <v-list dense
             flat
@@ -35,6 +36,7 @@
         <v-btn block
                color="primary"
                :loading="loading"
+               :disabled="!certificate.front || !certificate.back || !identity.idcard || !identity.name"
                @click="submit">确定</v-btn>
       </v-flex>
     </v-layout>
@@ -64,6 +66,14 @@ export default {
       this.identifyByIdCard(this.identity).then(res => {
         this.loading = false
       })
+    }
+  },
+  computed: {
+    disableBtn() {
+      if (!(this.identity.detailAddr && this.identity.schoolname && this.identity.studentid)) return true
+      if (!(this.region.province && this.region.city && this.region.county)) return true
+      if (!(this.certificate.front && this.certificate.back)) return true
+      return false
     }
   }
 }

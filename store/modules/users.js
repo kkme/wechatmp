@@ -251,6 +251,11 @@ export const actions = {
     return UserService.companyFeedback(payload).then(res => {
       return res
     })
+  },
+  withdraw({ commit }, payload) {
+    return UserService.withdraw(payload).then(res => {
+      return res
+    })
   }
 }
 

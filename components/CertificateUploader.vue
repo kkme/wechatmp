@@ -16,7 +16,7 @@
                :ripple="false">
           <v-icon color="white">iconfont icon-plus</v-icon>
         </v-btn>
-        <div>上传身份证正面</div>
+        <div>上传{{text}}正面</div>
         <input type="file"
                class="d-none"
                accept="image/*"
@@ -40,7 +40,7 @@
                :ripple="false">
           <v-icon color="white">iconfont icon-plus</v-icon>
         </v-btn>
-        <div>上传身份证反面</div>
+        <div>上传{{text}}反面</div>
         <input type="file"
                class="d-none"
                accept="image/*"
@@ -59,7 +59,8 @@ export default {
     max: Number,
     multiple: {
       default: true
-    }
+    },
+    text: String
   },
   data: () => ({
     certificate: {
@@ -99,16 +100,16 @@ export default {
 
 <style lang="scss">
 .certificate-uploader {
-    height: 100px;
-    .certificate-uploader-btn {
-        border: 1px dashed $primary;
-        border-radius: $border-radius;
-        background-size: cover;
-        i.iconfont {
-            background-color: $primary;
-            border-radius: 50%;
-            padding: 6px;
-        }
+  height: 100px;
+  .certificate-uploader-btn {
+    border: 1px dashed $primary;
+    border-radius: $border-radius;
+    background-size: cover;
+    i.iconfont {
+      background-color: $primary;
+      border-radius: 50%;
+      padding: 6px;
     }
+  }
 }
 </style>

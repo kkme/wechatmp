@@ -1,36 +1,38 @@
 <template>
   <div class="image-uploader">
-    <div v-for="(img, index) of base64s"
-         v-if="base64s.length && index < maxImages"
-         :key="index"
-         :style="`backgroundImage: url(${img.base64})`">
-      <v-btn small
-             icon
-             color="secondary"
-             class="image-uploader-item-close ma-0"
-             @click="deleteImg(index)">
-        <v-icon class="caption"
-                color="white">iconfont icon-x</v-icon>
-      </v-btn>
-    </div>
-    <div class="image-uploader-btn d-flex align-center">
-      <v-btn small
-             class="ma-0 pa-0"
-             outline
-             color="grey"
-             @click="chooseFile"
-             :disabled="base64s.length >= maxImages"
-             :loading="loading">
-        <v-icon color="grey"
-                large>iconfont icon-plus</v-icon>
-      </v-btn>
-      <input type="file"
-             class="d-none"
-             ref="uploadImage"
-             accept="image/*"
-             @change="onFilePicked"
-             :multiple="max > 1">
-    </div>
+    <slot>
+      <div v-for="(img, index) of base64s"
+           v-if="base64s.length && index < maxImages"
+           :key="index"
+           :style="`backgroundImage: url(${img.base64})`">
+        <v-btn small
+               icon
+               color="secondary"
+               class="image-uploader-item-close ma-0"
+               @click="deleteImg(index)">
+          <v-icon class="caption"
+                  color="white">iconfont icon-x</v-icon>
+        </v-btn>
+      </div>
+      <div class="image-uploader-btn d-flex align-center">
+        <v-btn small
+               class="ma-0 pa-0"
+               outline
+               color="grey"
+               @click="chooseFile"
+               :disabled="base64s.length >= maxImages"
+               :loading="loading">
+          <v-icon color="grey"
+                  large>iconfont icon-plus</v-icon>
+        </v-btn>
+      </div>
+    </slot>
+    <input type="file"
+           class="d-none"
+           ref="uploadImage"
+           accept="image/*"
+           @change="onFilePicked"
+           :multiple="max > 1">
   </div>
 </template>
 
@@ -41,10 +43,7 @@ import { readFiles } from '@helper'
 import { mapActions } from 'vuex'
 export default {
   props: {
-    max: {
-      type: Number,
-      default: 5
-    }
+    max: Number
   },
   data: () => ({
     loading: false,
@@ -79,7 +78,8 @@ export default {
       let newImages = await Promise.all(formDataPromise)
       this.images = unionBy(newImages, this.images, 'title')
       this.loading = false
-      this.$emit('input', this.images)
+
+      this.$emit('input', this.maxImages === 1 ? this.images[0] : this.images)
     },
     deleteImg(index) {
       this.base64s.splice(index, 1)

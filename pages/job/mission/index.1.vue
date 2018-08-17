@@ -84,13 +84,13 @@
         <v-tab ripple>申请列表</v-tab>
         <v-tab ripple>已完成</v-tab>
         <v-tab-item>
-          <my-mission-item :items="myMissions" />
+          <my-mission-item :items="currentMonthMyMissions" />
           <base-infinite @infinite="getMoreMyMissions"
                          ref="myMissionsInfinite"
                          v-if="active === 0 && this.dateRange"></base-infinite>
         </v-tab-item>
         <v-tab-item>
-          <my-mission-item :items="invitations">
+          <my-mission-item :items="currentMonthInvitations">
             <template slot-scope="slotProps">
               <base-tag outline
                         color="accent"
@@ -129,7 +129,7 @@
                          v-if="active === 1 && this.dateRange"></base-infinite>
         </v-tab-item>
         <v-tab-item>
-          <my-mission-item :items="applications">
+          <my-mission-item :items="currentMonthApplications">
             <template slot-scope="slotProps">
               <base-tag outline
                         color="accent"
@@ -144,7 +144,7 @@
                          v-if="active === 2 && this.dateRange"></base-infinite>
         </v-tab-item>
         <v-tab-item>
-          <my-mission-item :items="completedMissions">
+          <my-mission-item :items="currentMonthCompletedMissions">
             <template slot-scope="slotProps">
               <base-tag outline
                         color="accent"
@@ -278,18 +278,18 @@ export default {
     dateRange() {
       return this.pickedMonth ? getFirstAndLastDay(this.pickedMonth + '-01') : getFirstAndLastDay(this.today)
     },
-    // currentMonthMyMissions() {
-    //   return this.myMissions.filter(mission => this.isThisMonth(mission.createTime))
-    // },
-    // currentMonthInvitations() {
-    //   return this.invitations.filter(invitation => this.isThisMonth(invitation.createTime))
-    // },
-    // currentMonthApplications() {
-    //   return this.applications.filter(application => this.isThisMonth(application.createTime))
-    // },
-    // currentMonthCompletedMissions() {
-    //   return this.completedMissions.filter(completedMission => this.isThisMonth(completedMission.createTime))
-    // },
+    currentMonthMyMissions() {
+      return this.myMissions.filter(mission => this.isThisMonth(mission.createTime))
+    },
+    currentMonthInvitations() {
+      return this.invitations.filter(invitation => this.isThisMonth(invitation.createTime))
+    },
+    currentMonthApplications() {
+      return this.applications.filter(application => this.isThisMonth(application.createTime))
+    },
+    currentMonthCompletedMissions() {
+      return this.completedMissions.filter(completedMission => this.isThisMonth(completedMission.createTime))
+    },
     disablePrevMonth() {
       return this.disableBtn || this.nextMonthLoading
     },
@@ -301,32 +301,27 @@ export default {
     dateRange(newValue, oldValue) {
       if (!(newValue && oldValue)) return
       this.$nextTick(() => {
-        // if (this.$refs.myMissionsInfinite) {
-        //   this.$refs.myMissionsInfinite.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
-        //   this.myMissionsPage = null
-        //   this.$refs.myMissionsInfinite.$refs.infiniteLoading.attemptLoad()
-        // }
-        // if (this.$refs.myInvitationsInfinite) {
-        //   this.$refs.myInvitationsInfinite.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
-        //   this.invitationsPage = null
-        //   this.$refs.myInvitationsInfinite.$refs.infiniteLoading.attemptLoad()
-        // }
-        // if (this.$refs.myApplicationInfinite) {
-        //   this.$refs.myApplicationInfinite.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
-        //   this.applyListPage = null
-        //   this.$refs.myApplicationInfinite.$refs.infiniteLoading.attemptLoad()
-        // }
-        // if (this.$refs.completedMissionsInfinite) {
-        //   this.$refs.completedMissionsInfinite.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
-        //   this.completedMissionsPage = null
-        //   this.$refs.completedMissionsInfinite.$refs.infiniteLoading.attemptLoad()
-        // }
+        if (this.$refs.myMissionsInfinite) {
+          this.$refs.myMissionsInfinite.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
+          this.myMissionsPage = null
+          this.$refs.myMissionsInfinite.$refs.infiniteLoading.attemptLoad()
+        }
+        if (this.$refs.myInvitationsInfinite) {
+          this.$refs.myInvitationsInfinite.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
+          this.invitationsPage = null
+          this.$refs.myInvitationsInfinite.$refs.infiniteLoading.attemptLoad()
+        }
+        if (this.$refs.myApplicationInfinite) {
+          this.$refs.myApplicationInfinite.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
+          this.applyListPage = null
+          this.$refs.myApplicationInfinite.$refs.infiniteLoading.attemptLoad()
+        }
+        if (this.$refs.completedMissionsInfinite) {
+          this.$refs.completedMissionsInfinite.$refs.infiniteLoading.$emit('$InfiniteLoading:reset')
+          this.completedMissionsPage = null
+          this.$refs.completedMissionsInfinite.$refs.infiniteLoading.attemptLoad()
+        }
         this.fetchCountInfo(this.dateRange)
-          .then(() => this.resetBtn())
-          .catch(error => {
-            this.resetBtn()
-            console.log(error)
-          })
       })
     },
     commentSheet() {
@@ -351,16 +346,24 @@ export default {
       postComment: 'mission/postComment'
     }),
     getMoreMyMissions($infinite) {
-      this.infiniteLoading($infinite, this.fetchMyMissions, 'myMissionsPage').then(() => this.resetBtn())
+      this.infiniteLoading($infinite, this.fetchMyMissions, 'myMissionsPage', this.dateRange).then(() =>
+        this.resetBtn()
+      )
     },
     getMoreMyInvitations($infinite) {
-      this.infiniteLoading($infinite, this.fetchInvitations, 'invitationsPage').then(() => this.resetBtn())
+      this.infiniteLoading($infinite, this.fetchInvitations, 'invitationsPage', this.dateRange).then(() =>
+        this.resetBtn()
+      )
     },
     getMoreMyApplication($infinite) {
-      this.infiniteLoading($infinite, this.fetchApplications, 'applyListPage').then(() => this.resetBtn())
+      this.infiniteLoading($infinite, this.fetchApplications, 'applyListPage', this.dateRange).then(() =>
+        this.resetBtn()
+      )
     },
     getMoreCompletedMissions($infinite) {
-      this.infiniteLoading($infinite, this.fetchCompletedMissions, 'completedMissionsPage').then(() => this.resetBtn())
+      this.infiniteLoading($infinite, this.fetchCompletedMissions, 'completedMissionsPage', this.dateRange).then(() =>
+        this.resetBtn()
+      )
     },
     nextMonth() {
       if (!this.currentMonth) return

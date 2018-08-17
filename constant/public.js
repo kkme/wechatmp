@@ -1,6 +1,8 @@
 const BASE_URL = 'https://local.sapi.s-cout.com/'
 // const BASE_URL = 'http://192.168.0.99:8080/'
 // const BASE_URL = 'http://192.168.1.107:8080/'
+// const AVATAR = require('@img/avatar.jpg')
+const AVATAR = 'http://g.hiphotos.baidu.com/image/pic/item/0824ab18972bd4074b98befd70899e510fb30956.jpg'
 export default {
   BASE_URL,
   BASE_URL_CAPTCHA: BASE_URL + 'jobuser/getVerifyCode',
@@ -20,5 +22,6 @@ export default {
     pagesize: 20,
     pageindex: 1
   },
-  DEFAULT_PAGE_SIZE: 10
+  DEFAULT_PAGE_SIZE: 10,
+  AVATAR
 }

@@ -15,6 +15,7 @@
         <v-btn color="primary"
                class="px-4 ma-0"
                outline
+               @click="dialog = true"
                round>我要提现</v-btn>
       </v-layout>
     </v-layout>
@@ -40,24 +41,36 @@
       </v-layout>
       <base-infinite @infinite="getMoreData"></base-infinite>
     </div>
-    <v-dialog v-model="dialog"
-              max-width="500px">
-      <v-card>
-        <v-card-title class="justify-center pt-4">
-          <span class="title"></span>
-        </v-card-title>
-        <v-card-text>
-          支付宝
-        </v-card-text>
-        <v-card-actions>
-          <v-btn color="primary"
-                 block
-                 class="mx-4 my-3"
-                 :disabled="!valid"
-                 :loading="loading">确定</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <v-form v-model="valid"
+            ref="form"
+            lazy-validation>
+      <v-dialog v-model="dialog"
+                max-width="500px">
+        <v-card>
+          <v-card-title class="justify-center pt-4">
+            <span class="title">我要提现到支付宝</span>
+          </v-card-title>
+          <v-card-text>
+            <div class="mx-3">
+              <v-text-field label="金额"
+                            v-model.number="amount"
+                            type="number"
+                            :rules="amountRules"
+                            clearable
+                            min="1"></v-text-field>
+            </div>
+            <v-card-actions>
+              <v-btn color="primary"
+                     block
+                     class="mx-4 my-3"
+                     :disabled="!valid"
+                     :loading="loading"
+                     @click="submit">确定</v-btn>
+            </v-card-actions>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
+    </v-form>
   </div>
 </template>
 
@@ -74,7 +87,18 @@ export default {
   },
   mixins: [page],
   data: () => ({
-    dialog: false
+    dialog: false,
+    valid: false,
+    loading: false,
+    amount: null,
+    amountRules: [
+      // v => !/\\.\\d?\\.+/.test(v) || '禁止录入两个以上的点',
+      // v => !/^0(\\d+)$/.test(v) || '禁止录入整数部分两位以上，但首位为0',
+      // v => !/[\\d\\.]+$/.test(v) || '禁止录入任何非数字和点',
+      // v => !/^(\\d+\\.\\d{2}).+/.test(v) || '禁止录入小数点后两位以上',
+
+      v => v >= 1 || '最小限额为1元'
+    ]
   }),
   computed: {
     ...mapGetters({
@@ -85,7 +109,8 @@ export default {
   methods: {
     ...mapActions({
       fetchBaseInfo: 'users/fetchBaseInfo',
-      fetchWalletLog: 'users/fetchWalletLog'
+      fetchWalletLog: 'users/fetchWalletLog',
+      withdraw: 'users/withdraw'
     }),
     getMoreData($infinite) {
       this.getPage(this.page)
@@ -95,6 +120,22 @@ export default {
           $infinite.complete()
         }
       })
+    },
+    submit() {
+      if (this.valid) {
+        this.loading = true
+        this.withdraw({
+          receiptremark: '支付宝提现',
+          price: this.amount
+        })
+          .then(res => {
+            this.loading = false
+          })
+          .catch(error => {
+            this.loading = false
+            console.log(error)
+          })
+      }
     }
   },
   mounted() {

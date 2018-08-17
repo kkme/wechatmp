@@ -694,7 +694,11 @@ const feedbackTypes = [
   { name: 'customService', label: '客服投诉', value: 'FEEDBACK_TYPE_SERVICE' },
   { name: 'suggest', label: '建议反馈', value: 'FEEDBACK_TYPE_SUGGEST' }
 ]
-
+const teamRoles = [
+  { name: 'manager', label: '助理', value: 'TEAM_POSITION_ASSIST' },
+  { name: 'owner', label: '管理员', value: 'TEAM_POSITION_MANAGER' },
+  { name: 'member', label: '队员', value: 'TEAM_POSITION_MEMBER' }
+]
 export {
   gender,
   eduList,
@@ -713,5 +717,6 @@ export {
   orderStatuses,
   commentTypes,
   messageTypes,
-  feedbackTypes
+  feedbackTypes,
+  teamRoles
 }

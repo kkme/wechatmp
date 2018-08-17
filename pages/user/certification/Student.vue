@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div class="pointes-item-title body-2 pa-3 grey lighten-2">请上传身份证正反面照片</div>
-    <certificate-uploader v-model="certificate"></certificate-uploader>
-    <div class="pointes-item-title body-2 pa-3 grey lighten-2">请上传身份证正反面照片</div>
+    <div class="pointes-item-title body-2 pa-3 grey lighten-2">请上传学生证正反面照片</div>
+    <certificate-uploader v-model="certificate"
+                          text="学生证"></certificate-uploader>
+    <div class="pointes-item-title body-2 pa-3 grey lighten-2">请完善以下信息</div>
     <v-list dense
             flat
             class="py-0">
@@ -82,7 +83,7 @@ export default {
     region: {}
   }),
   computed: {
-    disableBtn () {
+    disableBtn() {
       if (!(this.identity.detailAddr && this.identity.schoolname && this.identity.studentid)) return true
       if (!(this.region.province && this.region.city && this.region.county)) return true
       if (!(this.certificate.front && this.certificate.back)) return true

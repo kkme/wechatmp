@@ -21,6 +21,7 @@
       </v-flex>
       <v-btn color="primary"
              small
+             @click="$store.commit('sys/SET_SNAKBAR', 'asdjklsaj')"
              class="mr-0">邀请加入</v-btn>
     </v-layout>
     <v-layout class="text-xs-center border-top user-center-balance">
@@ -142,47 +143,47 @@ export default {
 
 <style lang="scss">
 .user-center-balance {
-    a {
-        display: block;
-        height: 100%;
-        width: 100%;
-    }
-    user-select: none;
+  a {
+    display: block;
+    height: 100%;
+    width: 100%;
+  }
+  user-select: none;
 }
 .user-center-shortcut {
-    .user-center-resume,
-    .user-center-custom {
-        background: no-repeat center;
-        background-size: 100%;
-        min-height: 70px;
-    }
-    .user-center-resume {
-        background-image: url('~@img/center-bg-1.jpg');
-    }
-    .user-center-custom {
-        background-image: url('~@img/center-bg-2.jpg');
-    }
+  .user-center-resume,
+  .user-center-custom {
+    background: no-repeat center;
+    background-size: 100%;
+    min-height: 70px;
+  }
+  .user-center-resume {
+    background-image: url('~@img/center-bg-1.jpg');
+  }
+  .user-center-custom {
+    background-image: url('~@img/center-bg-2.jpg');
+  }
 }
 .user-center-links {
-    .svg {
-        width: 1.5rem;
-    }
+  .svg {
+    width: 1.5rem;
+  }
 }
 .certification {
-    .st0 {
-        fill: #ffa433;
-    }
+  .st0 {
+    fill: #ffa433;
+  }
+  .st1 {
+    fill: transparent;
+  }
+  &.checked {
     .st1 {
-        fill: transparent;
+      fill: #87b953;
     }
-    &.checked {
-        .st1 {
-            fill: #87b953;
-        }
-    }
-    svg {
-        width: 2em;
-        height: 2em;
-    }
+  }
+  svg {
+    width: 2em;
+    height: 2em;
+  }
 }
 </style>

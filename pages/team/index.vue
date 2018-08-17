@@ -1,5 +1,6 @@
 <template>
-  <div class="team-index white">
+  <div class="team-index white"
+       v-if="showConent">
     <div class="team-search"
          v-if="!isTeamMenmber">
       <div class="white lighten-2 py-2">
@@ -9,6 +10,9 @@
                       clearable
                       flat
                       hide-details
+                      v-model="keyword"
+                      :loading="searching"
+                      @keyup.enter="onSearch"
                       class="mx-3"></v-text-field>
       </div>
       <div class="pb-5 team-index-banner secondary">
@@ -31,23 +35,26 @@
       </div>
       <div class="team--index-team-list px-3">
         <v-layout class="align-center py-3 border-bottom"
-                  v-for="n of 10"
-                  :key="n">
-          <img src="@img/avatar.jpg"
-               class="avatar">
+                  v-for="team of searchResult"
+                  :key="team.teamId">
+          <div class="avatar mx-3 flex-auto">
+            <base-avatar :src="team.avatar"></base-avatar>
+          </div>
           <v-flex class="px-3">
-            <div class="body-2">一起去吃屎吧,楚中天一起去吃屎吧,楚中天</div>
+            <div class="body-2">{{team.teamName}}</div>
             <div class="caption">
-              <span>人数:1223 |</span>
-              <span>等级:1223 |</span>
-              <span>信誉:4.99</span>
+              <span>人数:{{team.peopleNum}}</span>
+              <span>等级:{{team.level}} |</span>
+              <span>信誉:{{team.reputation}}</span>
             </div>
           </v-flex>
           <v-btn class="pa-0 ma-0"
                  small
                  flat
+                 @click="applyTeam({ id: team.teamId})"
                  :style="{ backgroundImage: `url(${btnBg})`}"></v-btn>
         </v-layout>
+        <base-infinite @infinite="infinite($event, search, { keyword })"></base-infinite>
       </div>
     </div>
     <div class="team-my-team"
@@ -55,29 +62,31 @@
       <div class="team-my-team-info text-xs-center py-4 h-100 text--white">
         <v-layout align-center
                   dark>
-          <div class="avatar-lg mx-3">
-            <img src="@img/avatar.jpg">
+          <div class="avatar-lg mx-3 flex-auto">
+            <base-avatar :src="myTeam.avatar"></base-avatar>
           </div>
           <v-flex class="text-xs-left pr-3">
-            <div class="subheading">林蛋大和楚中天的故事</div>
+            <div class="subheading">{{myTeam.name}}</div>
             <div class="pt-2 caption">
-              <span class="mr-3">队长: 林蛋大</span>
-              <span>副队长：楚中天</span>
+              <span class="mr-3">队长: {{myTeam.mangerusername}}</span>
             </div>
+          </v-flex>
+          <v-flex>
+            {{myTeam.postion | valueToLabel(teamRoles)}}
           </v-flex>
         </v-layout>
         <v-layout class="py-4 mb-5">
           <v-flex xs3>
-            <span class="title">35</span><br>人数
+            <span class="title">{{myTeam.peoplenum}}</span><br>人数
           </v-flex>
           <v-flex xs3>
-            <span class="title">35</span><br>等级
+            <span class="title">{{myTeam.level}}</span><br>等级
           </v-flex>
           <v-flex xs3>
-            <span class="title">35</span><br>信誉
+            <span class="title">{{myTeam.reputation}}</span><br>信誉
           </v-flex>
           <v-flex xs3>
-            <span class="title">35</span><br>积分
+            <span class="title">{{myTeam.integra}}</span><br>积分
           </v-flex>
         </v-layout>
       </div>
@@ -107,17 +116,23 @@
                 flat
                 class="py-3">
           <template v-for="(item, index) in items">
-            <v-list-tile nuxt
-                         :key="index.title"
-                         :to="item.href">
+            <v-list-tile :key="index.title"
+                         :to="item.href"
+                         v-bind="{to : item.href, nuxt: !!item.href}"
+                         :class="{teamNotice: item.name === 'notice'}">
               <v-list-tile-avatar>
                 <component :is="item.icon"
                            class="svg-sm" />
               </v-list-tile-avatar>
               <v-list-tile-content class="pl-2">
                 <v-list-tile-title v-text="item.title"></v-list-tile-title>
+                <div v-if="item.name === 'notice'"
+                     class="py-2">
+                  {{myTeam.slogan || '没有设置公告'}}
+                </div>
               </v-list-tile-content>
-              <svg-right class="svg-sm" />
+              <svg-right class="svg-sm"
+                         v-if="item.name !== 'notice'" />
             </v-list-tile>
             <div class="px-3"
                  v-if="index !== items.length - 1"
@@ -133,6 +148,10 @@
 
 <script>
 import btnBg from '@img/team_btn.png'
+import { mapActions, mapGetters } from 'vuex'
+import { teamRoles } from '@const'
+import { valueToLabel } from '@helper'
+import { page } from '@mixins'
 export default {
   head: () => ({
     title: '战队'
@@ -140,74 +159,110 @@ export default {
   meta: {
     title: '战队'
   },
+  mixins: [page],
   data: () => ({
     btnBg,
     items: [
-      { icon: 'svg-mission-manage', href: '/team/mission', title: '任务管理' },
-      { icon: 'svg-hr', href: '/team/hr', title: '成员管理' },
-      { icon: 'svg-notice', href: '/team/notice', title: '战队公告' },
-      { icon: 'svg-sign-out', href: '/team/setting', title: '退出战队' },
-      { icon: 'svg-setting', href: '/team/setting', title: '设置' }
-    ]
+      { name: 'hr', icon: 'svg-hr', href: '/team/hr', title: '成员管理' },
+      { name: 'setting', icon: 'svg-setting', href: '/team/setting', title: '设置' },
+      { name: 'manage', icon: 'svg-mission-manage', href: '/team/mission', title: '任务管理' },
+      { name: 'quit', icon: 'svg-sign-out', href: '/team/setting', title: '退出战队' },
+      { name: 'notice', icon: 'svg-notice', title: '战队公告' }
+    ],
+    showConent: false,
+    teamRoles,
+    keyword: '',
+    searching: false
   }),
   computed: {
+    ...mapGetters({
+      myTeam: 'team/myTeam',
+      searchResult: 'team/searchResult'
+    }),
     isTeamMenmber() {
-      return true
+      return !!this.myTeam
+    },
+    role() {
+      return valueToLabel(this.myTeam.postion, teamRoles, 'name')
     }
+  },
+  methods: {
+    ...mapActions({
+      fetchMyTeamInfo: 'team/fetchMyTeamInfo',
+      search: 'team/search',
+      applyTeam: 'team/applyTeam'
+    }),
+    onSearch() {
+      this.searching = true
+      this.search({ keyword: this.keyword, reset: true }).then(res => {
+        this.searching = false
+      })
+    }
+  },
+  created() {
+    this.fetchMyTeamInfo().then(res => {
+      this.showConent = true
+    })
   }
 }
 </script>
 
 <style lang="scss">
 .team-index {
+  position: relative;
+  .team-search {
+    .v-text-field--solo .v-input__slot {
+      background: lighten($secondary, 5%);
+    }
+  }
+  .team-index-banner {
     position: relative;
-    .team-search {
-        .v-text-field--solo .v-input__slot {
-            background: lighten($secondary, 5%);
-        }
+    .team--index-banner-action {
+      position: absolute;
+      bottom: 0;
+      .team--create,
+      .team--invitation {
+        display: flex;
+        border-radius: $border-radius * 2;
+      }
     }
-    .team-index-banner {
-        position: relative;
-        .team--index-banner-action {
-            position: absolute;
-            bottom: 0;
-            .team--create,
-            .team--invitation {
-                display: flex;
-                border-radius: $border-radius * 2;
-            }
-        }
+  }
+  .team--index-team-list {
+    .avatar {
+      border-radius: 0.5em;
     }
-    .team--index-team-list {
-        .avatar {
-            border-radius: 0.5em;
-        }
-        button {
-            background-position: center;
-            background-size: contain;
-            min-width: 75px;
-        }
+    button {
+      background-position: center;
+      background-size: contain;
+      min-width: 75px;
     }
-    .team-my-team {
-        .team-my-team-info {
-            position: fixed;
-            top: $top-nav-height;
-            left: 0;
-            width: 100%;
-            background-image: url('~@img/team_index_bg.jpg');
-            background-repeat: no-repeat;
-            background-position: top center;
-            background-size: contain;
-            color: $white;
-        }
-        .team-my-team-content {
-            position: relative;
-            z-index: 1;
-            top: 187px;
-            border-top-left-radius: 2em;
-            border-top-right-radius: 2em;
-            min-height: calc(100vh - 187px - #{$top-nav-height});
-        }
+  }
+  .team-my-team {
+    .team-my-team-info {
+      position: fixed;
+      top: $top-nav-height;
+      left: 0;
+      width: 100%;
+      background-image: url('~@img/team_index_bg.jpg');
+      background-repeat: no-repeat;
+      background-position: top center;
+      background-size: contain;
+      color: $white;
     }
+    .team-my-team-content {
+      position: relative;
+      z-index: 1;
+      top: 187px;
+      border-top-left-radius: 2em;
+      border-top-right-radius: 2em;
+      min-height: calc(100vh - 187px - #{$top-nav-height});
+    }
+    .teamNotice .v-list__tile {
+      height: auto;
+      .v-list__tile__content {
+        justify-content: flex-start;
+      }
+    }
+  }
 }
 </style>

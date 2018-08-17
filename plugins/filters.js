@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { valueToLabel } from '@helper'
+import { valueToLabel, formatTime } from '@helper'
 Vue.filter('capitalize', function(value) {
   if (!value) return ''
   value = value.toString()
@@ -30,6 +30,7 @@ Vue.filter('formatCreateTime', function(value) {
   // if (value > 999) return Math.round((value / 1000) * 100) / 100 + 'km'
   return value
 })
+Vue.filter('formatDateTime', formatTime)
 
 // function (type, day) {
 //   try {

@@ -67,5 +67,7 @@ export default {
   // 领取积分
   collectPoints: data => Api.post('/jobuser/integral/receive', data),
   platformFeedback: data => Api.post('/feedback/platform/add', data),
-  companyFeedback: data => Api.post('/feedback/company/add', data)
+  companyFeedback: data => Api.post('/feedback/company/add', data),
+
+  withdraw: data => Api.post('jobuser/withdraw/apply', data)
 }

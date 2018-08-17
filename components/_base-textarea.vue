@@ -2,7 +2,6 @@
   <v-textarea outline
               solo
               flat
-              counter="200"
               @input="$emit('input', inputValue)"
               v-on="$listeners"
               v-bind="$attrs"

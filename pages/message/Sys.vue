@@ -1,5 +1,5 @@
 <template>
-  <div class="white message-mission min-h-100">
+  <div class="white py-2 min-h-100">
     <msg-item v-for="msg of msgs"
               :key="msg.id"
               class="message-item active"

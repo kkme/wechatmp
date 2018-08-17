@@ -7,70 +7,44 @@
     <v-tab ripple>管理人员</v-tab>
     <v-tab ripple>入队申请</v-tab>
     <v-tab-item>
-      <v-list class="py-0 team-member"
-              dense
-              two-line>
-        <template v-for="(item, index) in items">
-          <v-list-tile :key="item.id">
-            <v-list-tile-avatar>
-              <img src="@img/avatar.jpg">
-            </v-list-tile-avatar>
-            <v-list-tile-content class="pl-2">
-              <v-list-tile-title v-text="item.name"></v-list-tile-title>
-              <v-list-tile-sub-title>
-                <span>
-                  <v-icon class="icon--text mr-0">icon-phone iconfont</v-icon>{{item.level}}1355106564 |</span>
-                <span>等级:{{item.level}} |</span>
-                <span>信誉:{{item.level}} |</span>
-                <span>入队时间:{{item.level}}</span>
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-            <v-list-tile-action>
-              <span>
-                <v-checkbox :value="item.id"
-                            v-model="checked"
-                            color="primary"
-                            class="flex-0"></v-checkbox>
-              </span>
-            </v-list-tile-action>
-          </v-list-tile>
-          <div class="px-3"
-               v-if="index !== items.length - 1"
-               :key="index">
-            <v-divider/>
-          </div>
-        </template>
-      </v-list>
-      <bottom-btns :disabled="!checked"
+      <team-member-selector :items="members"
+                            v-model="selectedMember"></team-member-selector>
+      <base-infinite @infinite="getMoreMember"></base-infinite>
+      <bottom-btns :disabled="!selectedMember || selectedMember.length === 0"
                    border
                    rounded
                    class="px-4 py-3 border-bottom">
         <v-btn slot="no"
                color="white"
                class="ma-0 elevation-0"
-               :disabled="!checked"
+               @click="onRemoveMember"
+               :disabled="!selectedMember || selectedMember.length === 0"
                block>移除成员</v-btn>
         <v-btn slot="yes"
                color="primary"
                class="ma-0 elevation-0"
-               :disabled="!checked"
+               :disabled="!selectedMember || selectedMember.length === 0"
                block>赠送积分</v-btn>
       </bottom-btns>
     </v-tab-item>
     <v-tab-item>
-
+      <team-member-selector></team-member-selector>
     </v-tab-item>
     <v-tab-item>
-
+      <team-member-selector></team-member-selector>
     </v-tab-item>
   </v-tabs>
 </template>
 
 <script>
 import BottomBtns from '@/components/BottomBtns'
+import { page } from '@mixins'
+import { mapGetters, mapActions } from 'vuex'
+import TeamMemberSelector from '@/components/TeamMemberSelector'
 export default {
   components: {
-    BottomBtns
+    BottomBtns,
+    TeamMemberSelector
   },
   head: () => ({
     title: '人员管理'
@@ -78,6 +52,7 @@ export default {
   meta: {
     title: '人员管理'
   },
+  mixins: [page],
   data: () => ({
     items: [
       { id: '1a', name: '击杀风毒龙', level: '12' },
@@ -86,9 +61,30 @@ export default {
       { id: '4d', name: '击杀风毒龙', level: '12' },
       { id: '5e', name: '击杀风毒龙', level: '12' }
     ],
-    checked: false,
-    active: null
-  })
+    active: null,
+    selectedMember: []
+  }),
+  computed: {
+    ...mapGetters({
+      members: 'team/members'
+    })
+  },
+  methods: {
+    ...mapActions({
+      fetchMembers: 'team/fetchMembers',
+      removeMember: 'team/removeMember'
+    }),
+    getMoreMember($infinite) {
+      this.infiniteLoading($infinite, this.fetchMembers, 'memberPage')
+    },
+    onRemoveMember() {
+      if (this.selectedMember.length) {
+        this.selectedMember.forEach(id => {
+          this.removeMember({ id })
+        })
+      }
+    }
+  }
 }
 </script>
 

@@ -69,6 +69,7 @@
       <v-tab-item>
         <v-layout align-center
                   justify-center
+                  v-if="user"
                   class="primary white--text mt-1 px-4 py-3">
           <v-flex class="white--text">
             <div class="subheading">{{user.name}}</div>
@@ -164,8 +165,8 @@ export default {
     },
     userSumary() {
       if (!this.user) return null
-      let level = this.user.levelRank || -1
-      let mission = this.user.deliveryNumRank || -1
+      let level = this.user.levelRank || 0
+      let mission = this.user.deliveryNumRank || 0
       return {
         level,
         mission

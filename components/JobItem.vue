@@ -20,7 +20,7 @@
             <v-flex>
               <div class="pt-2 caption text-muted">
                 <v-icon class="iconfont icon-location icon--text"></v-icon>{{item.county}}/{{ item.distance | formatDistance}}
-                <span class="pl-2">{{item.jobBeginTime}} - {{item.jobBeginTime}}</span>
+                <span class="pl-2">{{item.jobBeginTime | formatDateTime('MM.dd')}} - {{item.jobBeginTime | formatDateTime('MM.dd')}}</span>
               </div>
               <v-layout class="caption text-muted mt-1"
                         align-center>
@@ -30,7 +30,8 @@
                   <v-icon class="icon--text mr-0">iconfont icon-safety</v-icon>{{item.wageGeneration}}</base-tag>
               </v-layout>
             </v-flex>
-            <div class="primary--text">
+            <div class="primary--text"
+                 v-if="item.personalRewardPoints">
               +{{item.personalRewardPoints}}积分
             </div>
           </v-layout>
@@ -54,10 +55,10 @@ export default {
 
 <style lang="scss">
 .job-items {
-    .job-item:last-child {
-        .job-item-divider {
-            border-color: transparent;
-        }
+  .job-item:last-child {
+    .job-item-divider {
+      border-color: transparent;
     }
+  }
 }
 </style>

@@ -3,20 +3,30 @@
     <v-layout align-center
               justify-center>
       <div class="my-4 text-xs-center">
-        <img src="@img/avatar.jpg"
-             class="avatar-xl">
-        <div class="pt-2 caption">点击上传旗帜</div>
+        <div class="avatar-lg mx-3">
+          <base-avatar v-bind="{src: avatar ? avatar.src : false}"></base-avatar>
+        </div>
+        <div class="pt-2 caption"
+             @click="$refs.imageInput.chooseFile()">
+          <image-uploader class="d-none"
+                          ref="imageInput"
+                          :multiple="false"
+                          v-model="avatar"
+                          :max="1" /> 点击上传旗帜
+        </div>
       </div>
     </v-layout>
     <base-divider></base-divider>
     <div class="team-create-content px-3">
       <div class="py-2 team-create-name">
         <base-input prepend-inner-icon="iconfont icon-edit"
-                    placeholder="请输入战队名称"></base-input>
+                    placeholder="请输入战队名称"
+                    v-model="team.name"></base-input>
         <v-divider></v-divider>
       </div>
       <base-textarea placeholder="来一段霸气的战队宣言或者口号吧~"
-                     v-model="text"></base-textarea>
+                     counter="500"
+                     v-model="team.slogan"></base-textarea>
     </div>
     <base-divider></base-divider>
     <div class="team-create-invite px-3">
@@ -35,7 +45,8 @@
           <v-flex xs2
                   class="text-xs-center team-invite-item"
                   v-for="n of 5"
-                  :key="n">
+                  :key="n"
+                  v-if="!inviteList">
             <img src="@img/avatar.jpg"
                  class="w-100">
             <div class="caption">林蛋大</div>
@@ -50,13 +61,39 @@
             </div>
           </v-flex>
           <v-flex xs2
-                  v-ripple
                   class="text-xs-center">
-            <svg-plus class="w-100"></svg-plus>
+            <div v-ripple
+                 @click="dialog = true">
+              <svg-plus class="w-100"></svg-plus>
+            </div>
             <div class="caption">邀请</div>
+            <v-dialog v-model="dialog"
+                      max-width="500px">
+              <v-card>
+                <v-card-title class="justify-center pt-4">
+                  <span class="title">邀请加入战队</span>
+                </v-card-title>
+                <v-card-text>
+                  <div class="mx-3">
+                    <v-text-field label="关键字"
+                                  v-model="keyword"
+                                  clearable></v-text-field>
+                  </div>
+                  <v-card-actions>
+                    <v-btn color="primary"
+                           block
+                           class="mx-4 my-3"
+                           :disabled="!keyword"
+                           :loading="loading"
+                           @click="search">确定</v-btn>
+                  </v-card-actions>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
           </v-flex>
         </v-layout>
       </v-container>
+
       <v-divider></v-divider>
       <v-layout class="mt-3"
                 align-center
@@ -71,7 +108,12 @@
 </template>
 
 <script>
+import ImageUploader from '@/components/ImageUploader'
+import { mapActions, mapGetters } from 'vuex'
 export default {
+  components: {
+    ImageUploader
+  },
   head: () => ({
     title: '创建战队'
   }),
@@ -79,8 +121,35 @@ export default {
     title: '创建战队'
   },
   data: () => ({
-    text: ''
-  })
+    team: {},
+    avatar: null,
+    inviteList: null,
+    dialog: false,
+    loading: false,
+    keyword: null,
+    searchResult: null
+  }),
+  computed: {
+    ...mapGetters({})
+  },
+  methods: {
+    ...mapActions({
+      searchUser: 'common/searchUser'
+    }),
+    search() {
+      if (this.keyword) {
+        this.loading = true
+        this.searchUser({ keyword: this.keyword, id: '' })
+          .then(res => {
+            this.searchResult = res
+          })
+          .catch(error => {
+            this.loading = false
+            console.log(error)
+          })
+      }
+    }
+  }
 }
 </script>
 

@@ -1,9 +1,10 @@
 <template>
-  <v-card v-if="item">
-    <base-divider></base-divider>
+  <v-card v-if="item"
+          class="mx-3 white"
+          color="white">
     <v-layout row
               wrap
-              class="pa-3">
+              class="pa-3 my-2">
       <svg-message-dot class="svg-sm" />
       <span class="subheading">{{item.title}}</span>
       <v-flex xs12
