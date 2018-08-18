@@ -10,7 +10,13 @@
           <base-avatar :src="item.avatar"></base-avatar>
         </div>
         <v-list-tile-content class="pl-2">
-          <v-list-tile-title v-text="item.username"></v-list-tile-title>
+          <v-list-tile-title>
+            <v-layout align-center>
+              <span>{{item.username}}</span>
+              <base-tag color="accent"
+                        class="mx-3">{{item.position | valueToLabel(teamRoles)}}</base-tag>
+            </v-layout>
+          </v-list-tile-title>
           <v-list-tile-sub-title class="caption">
             <span>
               <v-icon class="icon--text mr-0">icon-phone iconfont</v-icon>{{item.tel}} |</span>
@@ -23,12 +29,14 @@
           </v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
-          <span>
-            <v-checkbox :value="item.userId"
-                        v-model="checked"
-                        color="primary"
-                        class="flex-0"></v-checkbox>
-          </span>
+          <slot :item="item">
+            <span>
+              <v-checkbox :value="item.userId"
+                          v-model="checked"
+                          color="primary"
+                          class="flex-0"></v-checkbox>
+            </span>
+          </slot>
         </v-list-tile-action>
       </v-list-tile>
       <div class="px-3"
@@ -41,10 +49,12 @@
 </template>
 
 <script>
+import { teamRoles } from '@const'
 export default {
-  props: ['items'],
+  props: ['items', 'no-select'],
   data: () => ({
-    checked: []
+    checked: [],
+    teamRoles
   }),
   watch: {
     checked: {

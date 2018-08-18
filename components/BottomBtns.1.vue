@@ -6,24 +6,22 @@
                 'bottom-btns-rounded': rounded !== false,
                 'bottom-btns-border': border !== false,
               }">
-      <v-flex v-if="single === false">
+      <v-flex xs6
+              v-if="single === false">
         <slot name="no">
           <v-btn color="white"
                  class="ma-0 elevation-0"
                  :disabled="disabled !== false"
                  block
-                 :loading="!!noLoading"
                  @click="$emit('no')">拒绝</v-btn>
         </slot>
       </v-flex>
-      <slot></slot>
-      <v-flex>
+      <v-flex v-bind="{xs6: single === false, xs12: single !== false}">
         <slot name="yes">
           <v-btn color="primary"
                  class="ma-0 elevation-0"
                  :disabled="disabled !== false"
                  block
-                 :loading="!!yesLoading"
                  @click="$emit('yes')">同意</v-btn>
         </slot>
       </v-flex>
@@ -49,9 +47,7 @@ export default {
     single: {
       type: [String, Boolean],
       default: false
-    },
-    yesLoading: Boolean,
-    noLoading: Boolean
+    }
   }
 }
 </script>

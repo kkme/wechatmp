@@ -1,5 +1,4 @@
 <template>
-
   <v-bottom-nav :active.sync="bottomNav"
                 :value="true"
                 fixed

@@ -699,6 +699,15 @@ const teamRoles = [
   { name: 'owner', label: '管理员', value: 'TEAM_POSITION_MANAGER' },
   { name: 'member', label: '队员', value: 'TEAM_POSITION_MEMBER' }
 ]
+const teamInvitationHandlerTypes = [
+  { name: 'accept', label: '通过', value: 'TEAM_APPLYFOR_STATUS_PASS' },
+  { name: 'reject', label: '拒绝', value: 'TEAM_APPLYFOR_STATUS_DENY' }
+]
+const teamPermissionTypes = [
+  { name: 'open', label: '公开', value: 'TEAM_PERMISSION_OPEN' },
+  { name: 'check', label: '确认验证', value: 'TEAM_PERMISSION_CHECK' },
+  { name: 'close', label: '拒绝加入', value: 'TEAM_PERMISSION_CLOSE' }
+]
 export {
   gender,
   eduList,
@@ -718,5 +727,7 @@ export {
   commentTypes,
   messageTypes,
   feedbackTypes,
-  teamRoles
+  teamRoles,
+  teamInvitationHandlerTypes,
+  teamPermissionTypes
 }

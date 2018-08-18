@@ -32,7 +32,7 @@
            ref="uploadImage"
            accept="image/*"
            @change="onFilePicked"
-           :multiple="max > 1">
+           :multiple="maxImages > 1">
   </div>
 </template>
 

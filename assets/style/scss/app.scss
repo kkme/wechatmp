@@ -125,7 +125,7 @@
   flex: 0 0 auto !important;
 }
 .flex-1 {
-  flex: 1
+  flex: 1;
 }
 .input-rtl {
   &.input,
@@ -176,7 +176,9 @@ a {
 button img {
   width: 75px;
 }
-
+.line-height-0 {
+  line-height: 0;
+}
 .cart::after {
   display: inline-block;
   width: 0;
@@ -216,8 +218,16 @@ button img {
   }
 }
 .v-tabs__item.v-tabs__item--active {
-  color: $primary
+  color: $primary;
 }
 .iconfont {
   vertical-align: middle;
+}
+.border-left-radius-none.v-btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.border-right-radius-none.v-btn {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }

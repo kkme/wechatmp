@@ -8,7 +8,7 @@
           <v-list-tile-title>个人头像</v-list-tile-title>
         </v-list-tile-content>
         <v-spacer></v-spacer>
-        <img :src="userAvatar"
+        <img :src="userAvatar.src"
              class="avatar-sm">
         <image-uploader class="d-none"
                         ref="imageInput"
@@ -175,7 +175,6 @@ export default {
     ...mapActions({
       updateUserBaseInfo: 'users/updateUserBaseInfo',
       fetchResume: 'users/fetchResume'
-
     }),
     submit() {
       this.loading = true

@@ -4,13 +4,12 @@
               justify-center>
       <div class="my-4 text-xs-center">
         <div class="avatar-lg mx-3">
-          <base-avatar v-bind="{src: avatar ? avatar.src : false}"></base-avatar>
+          <base-avatar v-bind="{src: avatar ? `${baseImageUrl}${avatar.src}`: false}"></base-avatar>
         </div>
         <div class="pt-2 caption"
              @click="$refs.imageInput.chooseFile()">
           <image-uploader class="d-none"
                           ref="imageInput"
-                          :multiple="false"
                           v-model="avatar"
                           :max="1" /> 点击上传旗帜
         </div>
@@ -32,10 +31,10 @@
     <div class="team-create-invite px-3">
       <v-layout class="py-3">
         <span class="subheading">邀请好友
-          <span class="text-muted caption">(请至少邀请5名)</span>
+          <span class="text-muted caption">(请至少邀请{{minInvite}}名)</span>
         </span>
         <v-spacer></v-spacer>
-        <span class="text-muted">共6人</span>
+        <span class="text-muted">共{{inviteList.length || 0}}人</span>
       </v-layout>
       <v-container grid-list-lg
                    fluid
@@ -44,12 +43,12 @@
                   wrap>
           <v-flex xs2
                   class="text-xs-center team-invite-item"
-                  v-for="n of 5"
-                  :key="n"
-                  v-if="!inviteList">
-            <img src="@img/avatar.jpg"
-                 class="w-100">
-            <div class="caption">林蛋大</div>
+                  v-for="user of inviteList"
+                  :key="user.userId">
+            <div v-ripple>
+              <base-avatar :src="user.avatar"></base-avatar>
+            </div>
+            <div class="caption mt-2">{{user.username}}</div>
             <div class="team-invite-item-close">
               <v-btn small
                      icon
@@ -63,12 +62,13 @@
           <v-flex xs2
                   class="text-xs-center">
             <div v-ripple
-                 @click="dialog = true">
+                 @click="dialog = true"
+                 class="line-height-0">
               <svg-plus class="w-100"></svg-plus>
             </div>
-            <div class="caption">邀请</div>
+            <div class="caption mt-2">邀请</div>
             <v-dialog v-model="dialog"
-                      max-width="500px">
+                      max-width="200px">
               <v-card>
                 <v-card-title class="justify-center pt-4">
                   <span class="title">邀请加入战队</span>
@@ -100,6 +100,8 @@
                 justify-center>
         <v-flex xs10>
           <v-btn color="primary"
+                 :disabled="disabled"
+                 @click="submit"
                  block>提交</v-btn>
         </v-flex>
       </v-layout>
@@ -109,7 +111,8 @@
 
 <script>
 import ImageUploader from '@/components/ImageUploader'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
+import constant from '@const/public'
 export default {
   components: {
     ImageUploader
@@ -123,31 +126,45 @@ export default {
   data: () => ({
     team: {},
     avatar: null,
-    inviteList: null,
+    inviteList: [],
     dialog: false,
     loading: false,
     keyword: null,
-    searchResult: null
+    baseImageUrl: constant.BASE_URL,
+    minInvite: constant.TEAM_CREATE_MIN_MEMBER
   }),
   computed: {
-    ...mapGetters({})
+    disabled() {
+      return !(!!this.team.name && !!this.team.slogan && this.inviteList.length >= this.minInvite && !!this.avatar.src)
+    }
   },
   methods: {
     ...mapActions({
-      searchUser: 'common/searchUser'
+      searchUser: 'team/searchUser',
+      createTeam: 'team/createTeam'
     }),
     search() {
       if (this.keyword) {
         this.loading = true
         this.searchUser({ keyword: this.keyword, id: '' })
           .then(res => {
-            this.searchResult = res
+            this.inviteList.push(res)
+            this.loading = false
+            this.dialog = false
           })
           .catch(error => {
             this.loading = false
+            this.dialog = false
             console.log(error)
           })
       }
+    },
+    submit() {
+      this.team.avatar = this.baseImageUrl + this.avatar.src
+      this.team.userIdList = this.inviteList.map(user => user.userId)
+      this.createTeam(this.team).then(res => {
+        this.$router.push('/team')
+      })
     }
   }
 }

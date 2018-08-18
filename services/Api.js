@@ -26,18 +26,18 @@ instance.interceptors.response.use(
     // TODO: some auth stuff
     let code = +response.data.code
     if (code === 4000009) {
-      store().commit('sys/SET_SNACKBAR', response.data.msg)
+      store().dispatch('sys/showSnackbar', response.data.msg)
       return Promise.reject(response.data)
     }
     if (code !== 1) {
-      store().commit('sys/SET_SNACKBAR', { msg: response.data.msg || '出错了', color: 'error' })
+      store().dispatch('sys/showSnackbar', { msg: response.data.msg || '出错了', color: 'error' })
       return Promise.reject(response.data)
     }
     let data = response.data.data
     return data
   },
   error => {
-    store().commit('sys/SET_SNACKBAR', '网络似乎出现了问题，请稍后再试。')
+    store().dispatch('sys/showSnackbar', { msg: '网络似乎出现了问题，请稍后再试。', color: 'error' })
     return Promise.reject(error)
   }
 )

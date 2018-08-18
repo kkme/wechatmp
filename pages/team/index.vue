@@ -115,34 +115,102 @@
         <v-list dense
                 flat
                 class="py-3">
-          <template v-for="(item, index) in items">
-            <v-list-tile :key="index.title"
-                         :to="item.href"
-                         v-bind="{to : item.href, nuxt: !!item.href}"
-                         :class="{teamNotice: item.name === 'notice'}">
+          <v-list-tile nuxt
+                       to="/team/hr">
+            <v-list-tile-avatar>
+              <svg-hr class="svg-sm" />
+            </v-list-tile-avatar>
+            <v-list-tile-content class="pl-2">
+              <v-list-tile-title>成员管理</v-list-tile-title>
+            </v-list-tile-content>
+            <svg-right class="svg-sm" />
+          </v-list-tile>
+          <div class="px-3">
+            <v-divider/>
+          </div>
+          <v-list-tile nuxt
+                       to="/team/setting">
+            <v-list-tile-avatar>
+              <svg-setting class="svg-sm" />
+            </v-list-tile-avatar>
+            <v-list-tile-content class="pl-2">
+              <v-list-tile-title>设置</v-list-tile-title>
+            </v-list-tile-content>
+            <svg-right class="svg-sm" />
+          </v-list-tile>
+          <div class="px-3">
+            <v-divider/>
+          </div>
+          <v-list-tile nuxt
+                       to="/team/mission">
+            <v-list-tile-avatar>
+              <svg-mission-manage class="svg-sm" />
+            </v-list-tile-avatar>
+            <v-list-tile-content class="pl-2">
+              <v-list-tile-title>任务管理</v-list-tile-title>
+            </v-list-tile-content>
+            <svg-right class="svg-sm" />
+          </v-list-tile>
+          <div class="px-3">
+            <v-divider/>
+          </div>
+          <v-list-tile class="team-notice">
+            <v-list-tile-avatar>
+              <svg-notice class="svg-sm" />
+            </v-list-tile-avatar>
+            <v-list-tile-content class="pl-2">
+              <v-list-tile-title>公告</v-list-tile-title>
+              <div class="py-2">
+                {{myTeam.slogan || '没有设置公告'}}
+              </div>
+            </v-list-tile-content>
+          </v-list-tile>
+          <div class="px-3">
+            <v-divider/>
+          </div>
+          <template v-if="role !== 'owner'">
+            <v-list-tile @click="dialog = true">
               <v-list-tile-avatar>
-                <component :is="item.icon"
-                           class="svg-sm" />
+                <svg-sign-out class="svg-sm" />
               </v-list-tile-avatar>
               <v-list-tile-content class="pl-2">
-                <v-list-tile-title v-text="item.title"></v-list-tile-title>
-                <div v-if="item.name === 'notice'"
-                     class="py-2">
-                  {{myTeam.slogan || '没有设置公告'}}
-                </div>
+                <v-list-tile-title>退出战队</v-list-tile-title>
               </v-list-tile-content>
-              <svg-right class="svg-sm"
-                         v-if="item.name !== 'notice'" />
             </v-list-tile>
-            <div class="px-3"
-                 v-if="index !== items.length - 1"
-                 :key="index">
+            <div class="px-3">
               <v-divider/>
             </div>
           </template>
         </v-list>
       </div>
     </div>
+    <v-dialog v-model="dialog"
+              max-width="290">
+      <v-card>
+        <v-card-title class="headline">温馨提示</v-card-title>
+
+        <v-card-text>
+          确定要退出战队吗？
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn color="primary darken-1"
+                 flat="flat"
+                 @click="dialog = false">
+            取消
+          </v-btn>
+
+          <v-btn color="error darken-1"
+                 flat="flat"
+                 :loading="quiting"
+                 @click="onQuit">
+            确定
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -162,17 +230,12 @@ export default {
   mixins: [page],
   data: () => ({
     btnBg,
-    items: [
-      { name: 'hr', icon: 'svg-hr', href: '/team/hr', title: '成员管理' },
-      { name: 'setting', icon: 'svg-setting', href: '/team/setting', title: '设置' },
-      { name: 'manage', icon: 'svg-mission-manage', href: '/team/mission', title: '任务管理' },
-      { name: 'quit', icon: 'svg-sign-out', href: '/team/setting', title: '退出战队' },
-      { name: 'notice', icon: 'svg-notice', title: '战队公告' }
-    ],
     showConent: false,
     teamRoles,
     keyword: '',
-    searching: false
+    searching: false,
+    dialog: false,
+    quiting: false
   }),
   computed: {
     ...mapGetters({
@@ -190,13 +253,24 @@ export default {
     ...mapActions({
       fetchMyTeamInfo: 'team/fetchMyTeamInfo',
       search: 'team/search',
-      applyTeam: 'team/applyTeam'
+      applyTeam: 'team/applyTeam',
+      quitTeam: 'team/quitTeam'
     }),
     onSearch() {
       this.searching = true
       this.search({ keyword: this.keyword, reset: true }).then(res => {
         this.searching = false
       })
+    },
+    onQuit() {
+      this.quiting = true
+      this.quitTeam()
+        .then(res => {
+          return this.fetchMyTeamInfo()
+        })
+        .then(() => {
+          this.quiting = false
+        })
     }
   },
   created() {
@@ -257,7 +331,7 @@ export default {
       border-top-right-radius: 2em;
       min-height: calc(100vh - 187px - #{$top-nav-height});
     }
-    .teamNotice .v-list__tile {
+    .team-notice .v-list__tile {
       height: auto;
       .v-list__tile__content {
         justify-content: flex-start;
