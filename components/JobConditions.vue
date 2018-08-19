@@ -103,17 +103,18 @@
     <div class="py-1 px-3">
       <div class="body-2">特色兼职</div>
       <div class="d-flex">
-        <base-tag height="24px">不限</base-tag>
-        <base-tag height="24px">不限</base-tag>
-        <base-tag height="24px">不限</base-tag>
-        <base-tag height="24px">不限</base-tag>
+        <base-tag height="24px"
+                  v-for="tag of specialTags"
+                  :key="tag.id">{{tag.name}}</base-tag>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { salaryTypes, paymentTypes } from '@const'
+import { salaryTypes, paymentTypes, jobTypes } from '@const'
+import { mapGetters, mapActions } from 'vuex'
+import { labelToValue } from '@helper'
 export default {
   data: () => ({
     condition: {
@@ -132,7 +133,16 @@ export default {
     salaryTypes,
     paymentTypes
   }),
+  computed: {
+    ...mapGetters({
+      currentCity: 'common/currentCity',
+      specialTags: 'common/specialTags'
+    })
+  },
   methods: {
+    ...mapActions({
+      fetchSpecialTags: 'common/fetchSpecialTags'
+    }),
     onSalaryTypeSelected(salaryType) {
       console.log(salaryType)
 
@@ -143,18 +153,24 @@ export default {
 
       this.condition.wageClearing = paymentType.value
     }
+  },
+  mounted() {
+    if (!this.specialTags || this.specialTags.length === 0) {
+      let type = labelToValue('parttime', jobTypes)
+      this.fetchSpecialTags({recruitmenttype: type})
+    }
   }
 }
 </script>
 
 <style lang="scss">
 .job-conditions {
-  .job-conditions-input {
-    width: 8em;
-  }
-  .job-conditions-special-item {
-    display: inherit;
-    margin-left: $tag-space;
-  }
+    .job-conditions-input {
+        width: 8em;
+    }
+    .job-conditions-special-item {
+        display: inherit;
+        margin-left: $tag-space;
+    }
 }
 </style>

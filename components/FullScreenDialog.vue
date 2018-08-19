@@ -9,27 +9,21 @@
       </slot>
     </div>
     <v-card>
-      <v-toolbar dark
-                 flat
-                 color="primary">
+      <v-toolbar flat
+                 dense
+                 class="border-bottom"
+                 color="white">
         <v-btn icon
-               dark
                @click.native="dialog = false">
-          <v-icon>iconfont icon-left</v-icon>
+          <v-icon>iconfont icon-x</v-icon>
         </v-btn>
         <v-toolbar-title class="body-1"
                          v-if="title">{{ title }}</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
       <slot></slot>
-      <v-layout justify-center
-                class="mt-5">
-        <v-flex xs10>
-          <v-btn block
-                 color="primary"
-                 @click="deactive">确定</v-btn>
-        </v-flex>
-      </v-layout>
+      <slot name="action">
+      </slot>
     </v-card>
   </v-dialog>
 </template>

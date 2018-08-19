@@ -8,6 +8,8 @@ export const state = {
   metroPlatforms: [],
   districts: [],
   commentTags: [],
+  specialTags: [],
+  datetime: null,
   today: '',
   now: ''
 }
@@ -25,8 +27,15 @@ export const getters = {
   metroPlatforms: state => state.metroPlatforms,
   districts: state => state.districts,
   commentTags: state => state.commentTags,
-  today: state => state.today,
-  now: state => state.now
+  specialTags: state => state.specialTags,
+  today: state => {
+    if (!state.datetime || state.datetime === 'fetching') return ''
+    return state.datetime.trim().split(' ')[0]
+  },
+  now: state => {
+    if (!state.datetime || state.datetime === 'fetching') return ''
+    return state.datetime.trim().split(' ')[1]
+  }
 }
 
 export const mutations = {
@@ -51,10 +60,11 @@ export const mutations = {
   UPDATE_COMMENT_TAGS(state, commentTags) {
     state.commentTags = unionBy(commentTags, state.commentTags, 'id')
   },
+  UPDATE_SPECIAL_TAGS(state, specialTags) {
+    state.specialTags = unionBy(specialTags, state.specialTags, 'id')
+  },
   UPDATE_DATETIME(state, datetime) {
-    let datetimeArr = datetime.trim().split(' ')
-    state.today = datetimeArr[0]
-    state.now = datetimeArr[1]
+    state.datetime = datetime
   }
 }
 
@@ -100,14 +110,23 @@ export const actions = {
     })
   },
   fetchDateTime({ commit, state }) {
-    return CommonService.fetchDateTime().then(res => {
-      commit('UPDATE_DATETIME', res)
-      return res
-    })
+    if (state.datetime !== 'fetching') {
+      commit('UPDATE_DATETIME', 'fetching')
+      return CommonService.fetchDateTime().then(res => {
+        commit('UPDATE_DATETIME', res)
+        return res
+      })
+    }
   },
   fetchCommentTags({ commit, state }) {
     return CommonService.fetchCommentTags().then(res => {
       commit('UPDATE_COMMENT_TAGS', res)
+      return res
+    })
+  },
+  fetchSpecialTags({ commit, state }, payload) {
+    return CommonService.fetchSpecialTags(payload).then(res => {
+      commit('UPDATE_SPECIAL_TAGS', res)
       return res
     })
   },

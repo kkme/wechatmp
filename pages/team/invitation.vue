@@ -71,7 +71,8 @@ export default {
   methods: {
     ...mapActions({
       fetchInvitations: 'team/fetchInvitations',
-      handleInvitation: 'team/handleInvitation'
+      handleInvitation: 'team/handleInvitation',
+      removeUser: 'team/removeMissonAppliedUser'
     }),
     reject() {
       if (this.checked.length > 0) {

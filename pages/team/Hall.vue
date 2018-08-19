@@ -3,12 +3,10 @@
           color="white"
           fixed-tabs
           slider-color="primary">
-    <v-tab ripple>找任务</v-tab>
-    <v-tab ripple>已领取</v-tab>
-    <v-tab ripple>已申请</v-tab>
+    <v-tab ripple>正在招募</v-tab>
+    <v-tab ripple>已报名</v-tab>
+    <v-tab ripple>已完成</v-tab>
     <v-tab-item class="team-mission-item">
-      <job-filter></job-filter>
-      <base-divider></base-divider>
       <job-item :items="missions"
                 :team="true"
                 v-if="missions">
@@ -17,18 +15,15 @@
                               :item="item"
                               @click="claimMission(item.recruitmentId)"
                               disableCount>
-          <job-apply-dialog :jobDetail="item">
-            <v-btn color="primary"
-                   class="ma-0"
-                   depressed
-                   small
-                   :disabled="!!item.teamDelivStatus">{{!!item.teamDelivStatus ? '已领取' : '领取任务'}}</v-btn>
-          </job-apply-dialog>
+          <span v-if="item.applyNumber > 0">已报名{{item.applyNumber}}人</span>
+          <v-btn color="primary ma-0"
+                 small
+                 @click="onApplyMission(item.taskId)">领取任务</v-btn>
         </team-append-job-item>
         <base-divider></base-divider>
       </job-item>
       <base-infinite v-if="active === 0"
-                     @infinite="getMoreMission"></base-infinite>
+                     @infinite="getMoreRecruitingMissions"></base-infinite>
     </v-tab-item>
     <v-tab-item class="team-mission-item">
       <job-item :items="claimedMissions"
@@ -36,19 +31,17 @@
                 :team="true">
         <team-append-job-item disableCount
                               slot-scope="{item}"
+                              no-action
                               :item="item">
-          <v-btn color="primary"
-                 class="ma-0"
-                 depressed
+          <span>{{item.teamDelivStatus}}</span>
+          <v-btn color="primary ma-0"
                  small
-                 @click="onApplyMission(item.taskId)"
-                 v-if="item.applyNumber >=item.teamMinNumber && item.applyNumber <= item.teamMaxNumber">申请任务</v-btn>
-          <span v-else>{{item.teamDelivStatus}}</span>
+                 @click="onQuitMission(item.taskId)">领取任务</v-btn>
         </team-append-job-item>
         <base-divider></base-divider>
       </job-item>
       <base-infinite v-if="active === 1"
-                     @infinite="getMoreClaimedMission"></base-infinite>
+                     @infinite="getMoreAppliedMissions"></base-infinite>
     </v-tab-item>
     <v-tab-item class="team-mission-item">
       <job-item :items="appliedMissions"
@@ -64,7 +57,7 @@
         <base-divider></base-divider>
       </job-item>
       <base-infinite v-if="active === 2"
-                     @infinite="getMoreAppliedMission"></base-infinite>
+                     @infinite="getMoreFinishedMissions"></base-infinite>
     </v-tab-item>
   </v-tabs>
 </template>
@@ -84,10 +77,10 @@ export default {
     JobApplyDialog
   },
   head: () => ({
-    title: '战队任务'
+    title: '任务大厅'
   }),
   meta: {
-    title: '战队任务'
+    title: '任务大厅'
   },
   mixins: [page],
   data: () => ({
@@ -102,37 +95,26 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchMisiionByOwner: 'team/fetchMisiionByOwner',
-      fetchClaimedMissionByOwner: 'team/fetchClaimedMissionByOwner',
-      fetchAppliedMissionByOwner: 'team/fetchAppliedMissionByOwner',
-      applyMissionByOwner: 'team/applyMissionByOwner'
+      fetchRecruitingMission: 'team/fetchRecruitingMission',
+      fetchAppliedMission: 'team/fetchAppliedMission',
+      fetchFinishedMission: 'team/fetchFinishedMission',
+      applyMission: 'team/applyMission',
+      quitMission: 'team/quitMission'
     }),
-    getMoreMission($infinite) {
-      this.infiniteLoading($infinite, this.fetchMisiionByOwner, 'missionPage')
+    getMoreRecruitingMissions($infinite) {
+      this.infiniteLoading($infinite, this.fetchRecruitingMission, 'recruitingMissionPage')
     },
-    getMoreClaimedMission($infinite) {
-      this.infiniteLoading($infinite, this.fetchClaimedMissionByOwner, 'claimedMissionPage')
+    getMoreAppliedMissions($infinite) {
+      this.infiniteLoading($infinite, this.fetchAppliedMission, 'appliedMissionPage')
     },
-    getMoreAppliedMission($infinite) {
-      this.infiniteLoading($infinite, this.fetchAppliedMissionByOwner, 'appliedMissionPage')
-    },
-    claimMission(id) {
-      console.log(id)
-    },
-    onRemoveUsers(taskId) {
-      if (this.selectedAppliedUsers.length > 0) {
-        let actions = this.selectedAppliedUsers.map(userId => this.removeUser({ taskId, userId }))
-        Promise.all(actions)
-          .then(res => {
-            console.log(res)
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      }
+    getMoreFinishedMissions($infinite) {
+      this.infiniteLoading($infinite, this.fetchFinishedMission, 'finishedMissionPage')
     },
     onApplyMission(id) {
-      this.applyMissionByOwner({id})
+      this.applyMission({id})
+    },
+    onQuitMission(id) {
+      this.quitMission({id})
     }
   }
 }

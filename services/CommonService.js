@@ -6,6 +6,7 @@ export default {
   fetchDistricts: data => Api.post('common/getDistrict', data),
   fetchDateTime: () => Api.post('common/getDateTime'),
   fetchCommentTags: () => Api.post('/common/getEvaluationTag'),
+  fetchSpecialTags: data => Api.post('/common/getFeatureTag', data),
   duibaLogin: () => Api.post('duiba/login'),
   uploadFile: data => Api.post('common/upload', data),
   sendSmsCode: data => Api.post('jobuser/getTelCode', data),

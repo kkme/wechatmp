@@ -7,6 +7,9 @@ export const state = {
   members: null,
   teamApplications: null,
   settings: null,
+  recruitingMissions: null,
+  appliedMissions: null,
+  finishedMissions: null,
   // owner
   missionsForOwner: null,
   claimedMissionsForOwner: null,
@@ -20,6 +23,9 @@ export const getters = {
   members: state => state.members,
   teamApplications: state => state.teamApplications,
   settings: state => state.settings,
+  recruitingMissions: state => state.recruitingMissions,
+  appliedMissions: state => state.appliedMissions,
+  finishedMissions: state => state.finishedMissions,
   // owner
   missionsForOwner: state => state.missionsForOwner,
   claimedMissionsForOwner: state => state.claimedMissionsForOwner,
@@ -37,7 +43,10 @@ export const mutations = {
     state.invitations = invitations
   },
   DELETE_INVITATIONS_ITEM(state, id) {
-    state.invitations.splice(state.invitations.findIndex(invitation => invitation.applyForId === id), 1)
+    state.invitations.splice(
+      state.invitations.findIndex(invitation => invitation.applyForId === id),
+      1
+    )
   },
   UPDATE_MEMBERS(state, members) {
     state.members = members
@@ -51,8 +60,20 @@ export const mutations = {
   UPDATE_TEAM_APPLICATIONS(state, teamApplications) {
     state.teamApplications = unionBy(state.teamApplications, teamApplications, 'teamId')
   },
+  UPDATE_RECRUITING_MISSIONS(state, missions) {
+    state.recruitingMissions = unionBy(state.recruitingMissions, missions, 'taskId')
+  },
+  UPDATE_APPLIED_MISSIONS(state, missions) {
+    state.appliedMissions = unionBy(state.appliedMissions, missions, 'taskId')
+  },
+  UPDATE_FINISHED_MISSIONS(state, missions) {
+    state.finishedMissions = unionBy(state.finishedMissions, missions, 'taskId')
+  },
   DELETE_TEAM_APPLICATIONS_ITEM(state, id) {
-    state.teamApplications.splice(state.teamApplications.findIndex(teamApplication => teamApplication.userId === id), 1)
+    state.teamApplications.splice(
+      state.teamApplications.findIndex(teamApplication => teamApplication.userId === id),
+      1
+    )
   },
 
   // owner
@@ -153,6 +174,37 @@ export const actions = {
       return res
     })
   },
+  fetchRecruitingMission({ commit }, payload) {
+    let data = Object.assign({ type: 'recruit' }, payload)
+    return TeamService.fetchTeamMission(data).then(res => {
+      commit('UPDATE_RECRUITING_MISSIONS', res)
+      return res
+    })
+  },
+  fetchAppliedMission({ commit }, payload) {
+    let data = Object.assign({ type: 'applied' }, payload)
+    return TeamService.fetchTeamMission(data).then(res => {
+      commit('UPDATE_APPLIED_MISSIONS', res)
+      return res
+    })
+  },
+  fetchFinishedMission({ commit }, payload) {
+    let data = Object.assign({ type: 'finish' }, payload)
+    return TeamService.fetchTeamMission(data).then(res => {
+      commit('UPDATE_FINISHED_MISSIONS', res)
+      return res
+    })
+  },
+  applyMission({ commit }, payload) {
+    return TeamService.applyMission(payload).then(res => {
+      return res
+    })
+  },
+  quitMission({ commit }, payload) {
+    return TeamService.quitMission(payload).then(res => {
+      return res
+    })
+  },
 
   // owner fetchMisiionByOwner
   fetchMisiionByOwner({ commit }, payload) {
@@ -175,6 +227,16 @@ export const actions = {
   },
   claimMissionByOwner({ commit }, payload) {
     return TeamService.claimMissionByOwner(payload).then(res => {
+      return res
+    })
+  },
+  applyMissionByOwner({ commit }, payload) {
+    return TeamService.applyMissionByOwner(payload).then(res => {
+      return res
+    })
+  },
+  removeMissonAppliedUser({ commit }, payload) {
+    return TeamService.removeMissonAppliedUser(payload).then(res => {
       return res
     })
   }

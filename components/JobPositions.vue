@@ -13,10 +13,6 @@
         </div>
       </div>
     </div>
-    <div class="px-4 mb-3">
-      <v-btn color="primary"
-             block>确定</v-btn>
-    </div>
   </div>
 </template>
 

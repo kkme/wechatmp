@@ -107,7 +107,7 @@
               <span class="primary--text pr-2">2.</span>你的工作内容的基本步骤
             </p>
           </div>
-          <div slot="preview"
+          <div slot="title"
                class="px-3"
                :class="{ 'grey--text': !exp.description }"> {{ exp.description || '添加工作经验' }}</div>
         </full-screen-dialog>

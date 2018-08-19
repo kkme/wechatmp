@@ -29,15 +29,13 @@
             <span>入队时间:{{item.createtime}}</span>
           </v-list-tile-sub-title>
         </v-list-tile-content>
-        <v-list-tile-action>
-          <slot :item="item">
-            <span>
-              <v-checkbox :value="item.userId"
-                          v-model="checked"
-                          color="primary"
-                          class="flex-0"></v-checkbox>
-            </span>
-          </slot>
+        <v-list-tile-action v-if="!noSelect">
+          <span>
+            <v-checkbox :value="item.userId"
+                        v-model="checked"
+                        color="primary"
+                        class="flex-0"></v-checkbox>
+          </span>
         </v-list-tile-action>
       </v-list-tile>
       <div class="px-3"

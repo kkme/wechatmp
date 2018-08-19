@@ -588,7 +588,10 @@ export default {
   }
 }
 
-const gender = [{ name: 'male', label: '男', value: 'SEX_BOY' }, { name: 'female', label: '女', value: 'SEX_GIRL' }]
+const gender = [
+  { name: 'male', label: '男', value: 'SEX_BOY' },
+  { name: 'female', label: '女', value: 'SEX_GIRL' }
+]
 const eduList = [
   // { name: 'EDUCATION_LEVEL_0', label: '不限学历', value: 0 },
   { name: 'EDUCATION_LEVEL_1', label: '小学及小学以下', value: 311 },
