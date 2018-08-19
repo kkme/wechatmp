@@ -708,6 +708,10 @@ const teamPermissionTypes = [
   { name: 'check', label: '确认验证', value: 'TEAM_PERMISSION_CHECK' },
   { name: 'close', label: '拒绝加入', value: 'TEAM_PERMISSION_CLOSE' }
 ]
+const teamApplicationHandleType = [
+  { name: 'accept', label: '通过', value: 'TEAM_APPLYFOR_STATUS_PASS' },
+  { name: 'reject', label: '拒绝', value: 'TEAM_APPLYFOR_STATUS_DENY' }
+]
 export {
   gender,
   eduList,
@@ -729,5 +733,6 @@ export {
   feedbackTypes,
   teamRoles,
   teamInvitationHandlerTypes,
-  teamPermissionTypes
+  teamPermissionTypes,
+  teamApplicationHandleType
 }

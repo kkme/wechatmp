@@ -14,6 +14,7 @@
             <v-layout align-center>
               <span>{{item.username}}</span>
               <base-tag color="accent"
+                        v-if="item.position"
                         class="mx-3">{{item.position | valueToLabel(teamRoles)}}</base-tag>
             </v-layout>
           </v-list-tile-title>

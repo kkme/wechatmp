@@ -17,15 +17,14 @@ export default {
   applyMission: data => Api.post('/team/task/apply', data), // 战队任务报名
   quitMission: data => Api.post('/team/task/quit', data), // 战队任务退出
 
-  acceptApplies: data => Api.post('/team/joinApply/agree', data), // 同意入队
-  rejectApplies: data => Api.post('/team/joinApply/refuse', data), // 拒绝入队
+  handleApplies: data => Api.post('/team/joinApply/handler', data), // 同意入队 // 拒绝入队 check
 
-  adminTaskFind: data => Api.post('/team/adminTask/find', data), // 队长找任务
-  adminTaskCatch: data => Api.post('/team/adminTask/catch', data), // 已领取任务
-  adminTaskApplied: data => Api.post('/team/adminTask/applied', data), // 已申请任务
-  taskAdminGet: data => Api.post('/team/task/adminGet', data), // 队长领取任务
-  taskAdminGiveUp: data => Api.post('/team/task/adminGiveUp', data), // 队长放弃任务
-  taskAdminApply: data => Api.post('/team/task/adminApply', data), // 队长提交申请
+  fetchMisiionByOwner: data => Api.post('/team/adminTask/find', data), // 队长找任务 check
+  fetchClaimedMissionByOwner: data => Api.post('/team/adminTask/catch', data), // 已领取任务 check
+  fetchAppliedMissionByOwner: data => Api.post('/team/adminTask/applied', data), // 已申请任务 check
+  claimMissionByOwner: data => Api.post('/team/task/adminGet', data), // 队长领取任务 check
+  quitMissionByOwner: data => Api.post('/team/task/adminGiveUp', data), // 队长放弃任务
+  applyMissionByOwner: data => Api.post('/team/task/adminApply', data), // 队长提交申请
   taskGetTaskMember: data => Api.post('/team/task/getTaskMember', data), // 已领取任务 的报名人员列表
   taskGetTaskMemberRmove: data => Api.post('/team/task/getTaskMember/remove', data), // 移除已领取任务的报名人员
   taskAppliedMember: data => Api.post('/team/task/appliedMember', data), // 已申请任务 的人员列表

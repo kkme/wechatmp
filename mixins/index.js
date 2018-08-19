@@ -31,9 +31,10 @@ const page = {
           $infinite.loaded()
           if (length < this[property].pagesize) {
             $infinite.complete()
-            this[property] = null
+            // this[property] = null
           }
         } else {
+          this[property] = null
           $infinite.complete()
         }
         return res

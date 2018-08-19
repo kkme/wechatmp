@@ -1,6 +1,7 @@
 <template>
   <no-ssr>
-    <div class="amap-page-container">
+    <div class="amap-page-container"
+         v-if="currentCity.status !== 'loading' && currentCity.status !== 'located'">
       <el-amap vid="amap"
                :plugin="plugin"
                class="amap-demo">
@@ -22,6 +23,7 @@
 </template>
 
 <script>
+import { mapMutations, mapGetters } from 'vuex'
 export default {
   props: {
     locationOnly: {
@@ -49,14 +51,13 @@ export default {
           events: {
             init(o) {
               // o 是高德地图定位插件实例
-              console.log({o})
-
+              console.log({ o })
+              self.updateCurrentCity({ status: 'loading' })
               o.getCurrentPosition((status, result) => {
                 if (result && result.position) {
                   console.log(result)
-
                   let address = result.addressComponent
-                  self.$emit('located', {
+                  let location = {
                     adcode: address.adcode,
                     province: address.province,
                     city: address.city || address.province,
@@ -69,6 +70,15 @@ export default {
                       lat: result.position.lat,
                       lng: result.position.lng
                     }
+                  }
+                  self.$emit('input', location)
+                  self.updateCurrentLocation(location)
+                  self.updateCurrentCity({
+                    areaname: location.city || location.province,
+                    id: location.adcode.substr(0, 4),
+                    pid: location.adcode.substr(0, 2),
+                    position: location.position,
+                    status: 'located'
                   })
                   self.currentAddress = result.formattedAddress
                   self.cityName = address.city || address.province
@@ -80,6 +90,18 @@ export default {
         }
       ]
     }
+  },
+  computed: {
+    ...mapGetters({
+      currentLocation: 'common/currentLocation',
+      currentCity: 'common/currentCity'
+    })
+  },
+  methods: {
+    ...mapMutations({
+      updateCurrentLocation: 'common/UPDATE_CURRENT_LOCATION',
+      updateCurrentCity: 'common/UPDATE_CURRENT_CITY'
+    })
   }
 }
 </script>

@@ -63,7 +63,8 @@
         <v-layout align-center
                   dark>
           <div class="avatar-lg mx-3 flex-auto">
-            <base-avatar :src="myTeam.avatar"></base-avatar>
+            <base-avatar :src="myTeam.avatar"
+                         v-bind="{src: myTeam.avatar ? `${baseImgUrl}${myTeam.avatar}` : false}"></base-avatar>
           </div>
           <v-flex class="text-xs-left pr-3">
             <div class="subheading">{{myTeam.name}}</div>
@@ -218,6 +219,7 @@
 import btnBg from '@img/team_btn.png'
 import { mapActions, mapGetters } from 'vuex'
 import { teamRoles } from '@const'
+import constant from '@const/public'
 import { valueToLabel } from '@helper'
 import { page } from '@mixins'
 export default {
@@ -229,6 +231,7 @@ export default {
   },
   mixins: [page],
   data: () => ({
+    baseImgUrl: constant.BASE_URL,
     btnBg,
     showConent: false,
     teamRoles,

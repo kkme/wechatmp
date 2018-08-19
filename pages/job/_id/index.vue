@@ -23,7 +23,8 @@
             <job-item :items="recommend"></job-item>
             <base-infinite @infinite="handleInfinite"></base-infinite>
           </div>
-          <div class="job-detail-action">
+          <div class="job-detail-action"
+               v-if="!$route.params.team">
             <bottom-btns>
               <v-btn slot="no"
                      color="white"

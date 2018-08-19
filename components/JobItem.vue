@@ -6,7 +6,7 @@
          :key="item.recruitmentId">
       <v-layout class="px-3 pt-3 white"
                 column
-                @click="$router.push(`/job/${item.recruitmentId}`)"
+                @click="$router.push({name: 'job-id', params: { id: item.recruitmentId, team }})"
                 v-ripple>
         <v-flex>
           <v-layout align-center>
@@ -19,8 +19,9 @@
                     align-center>
             <v-flex>
               <div class="pt-2 caption text-muted">
-                <v-icon class="iconfont icon-location icon--text"></v-icon>{{item.county}}/{{ item.distance | formatDistance}}
-                <span class="pl-2">{{item.jobBeginTime | formatDateTime('MM.dd')}} - {{item.jobBeginTime | formatDateTime('MM.dd')}}</span>
+                <v-icon class="iconfont icon-location icon--text"></v-icon>{{item.county}}
+                <template v-if="item.distance">/{{ item.distance | formatDistance}}</template>
+                <span class="pl-2">{{item.jobBeginTime | formatDateTime('MM.dd')}} - {{item.jobEndTime | formatDateTime('MM.dd')}}</span>
               </div>
               <v-layout class="caption text-muted mt-1"
                         align-center>
@@ -38,7 +39,7 @@
         </v-flex>
         <v-divider class="mt-2 job-item-divider"></v-divider>
       </v-layout>
-      <slot></slot>
+      <slot :item="item"></slot>
     </div>
   </div>
 </template>
@@ -48,6 +49,10 @@ export default {
   props: {
     items: {
       type: [Array, Object]
+    },
+    team: {
+      type: Boolean,
+      default: false
     }
   }
 }

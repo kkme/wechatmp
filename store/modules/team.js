@@ -6,7 +6,11 @@ export const state = {
   invitations: null,
   members: null,
   teamApplications: null,
-  settings: null
+  settings: null,
+  // owner
+  missionsForOwner: null,
+  claimedMissionsForOwner: null,
+  appliedMissionsForOwner: null
 }
 
 export const getters = {
@@ -15,7 +19,11 @@ export const getters = {
   invitations: state => state.invitations,
   members: state => state.members,
   teamApplications: state => state.teamApplications,
-  settings: state => state.settings
+  settings: state => state.settings,
+  // owner
+  missionsForOwner: state => state.missionsForOwner,
+  claimedMissionsForOwner: state => state.claimedMissionsForOwner,
+  appliedMissionsForOwner: state => state.appliedMissionsForOwner
 }
 
 export const mutations = {
@@ -42,6 +50,20 @@ export const mutations = {
   },
   UPDATE_TEAM_APPLICATIONS(state, teamApplications) {
     state.teamApplications = unionBy(state.teamApplications, teamApplications, 'teamId')
+  },
+  DELETE_TEAM_APPLICATIONS_ITEM(state, id) {
+    state.teamApplications.splice(state.teamApplications.findIndex(teamApplication => teamApplication.userId === id), 1)
+  },
+
+  // owner
+  UPDATE_MISSIONS_FOR_OWNER(state, missions) {
+    state.missionsForOwner = unionBy(state.missionsForOwner, missions, 'recruitmentId')
+  },
+  UPDATE_CLAIMED_MISSIONS_FOR_OWNER(state, missions) {
+    state.claimedMissionsForOwner = unionBy(state.claimedMissionsForOwner, missions, 'taskId')
+  },
+  UPDATE_APPLIED_MISSIONS_FOR_OWNER(state, missions) {
+    state.appliedMissionsForOwner = unionBy(state.appliedMissionsForOwner, missions, 'taskId')
   }
 }
 
@@ -115,7 +137,7 @@ export const actions = {
   },
   fetchTeamApplications({ commit }, payload) {
     return TeamService.fetchTeamApplications(payload).then(res => {
-      commit('UPDATE_TEAM_APPLICATIONS', payload.id)
+      commit('UPDATE_TEAM_APPLICATIONS', res)
       return res
     })
   },
@@ -126,10 +148,34 @@ export const actions = {
     })
   },
   handleApplies({ commit }, { id, type }) {
-    if (type === 'reject') {
-      return TeamService.rejectApplies({ id })
-    } else if (type === 'accept') {
-      return TeamService.acceptApplies({ id })
-    }
+    return TeamService.handleApplies({ id, status: type }).then(res => {
+      commit('DELETE_TEAM_APPLICATIONS_ITEM', id)
+      return res
+    })
+  },
+
+  // owner fetchMisiionByOwner
+  fetchMisiionByOwner({ commit }, payload) {
+    return TeamService.fetchMisiionByOwner(payload).then(res => {
+      commit('UPDATE_MISSIONS_FOR_OWNER', res)
+      return res
+    })
+  },
+  fetchClaimedMissionByOwner({ commit }, payload) {
+    return TeamService.fetchClaimedMissionByOwner(payload).then(res => {
+      commit('UPDATE_CLAIMED_MISSIONS_FOR_OWNER', res)
+      return res
+    })
+  },
+  fetchAppliedMissionByOwner({ commit }, payload) {
+    return TeamService.fetchAppliedMissionByOwner(payload).then(res => {
+      commit('UPDATE_APPLIED_MISSIONS_FOR_OWNER', res)
+      return res
+    })
+  },
+  claimMissionByOwner({ commit }, payload) {
+    return TeamService.claimMissionByOwner(payload).then(res => {
+      return res
+    })
   }
 }

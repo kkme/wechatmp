@@ -77,8 +77,8 @@
                  :no-loading="rejecting"
                  :yes-loading="accepting"
                  rounded
-                 @no="handleApplies('reject')"
-                 @yes="handleApplies('accept')"
+                 @no="onHandleApplies('reject')"
+                 @yes="onHandleApplies('accept')"
                  class="px-4 py-3 border-bottom">
     </bottom-btns>
     <v-form v-model="valid"
@@ -119,7 +119,7 @@ import BottomBtns from '@/components/BottomBtns'
 import { page } from '@mixins'
 import { mapGetters, mapActions } from 'vuex'
 import TeamMemberSelector from '@/components/TeamMemberSelector'
-import { teamRoles } from '@const'
+import { teamRoles, teamApplicationHandleType } from '@const'
 import { valueToLabel, labelToValue } from '@helper'
 export default {
   components: {
@@ -219,10 +219,11 @@ export default {
           })
       }
     },
-    handleApplies(flag) {
+    onHandleApplies(flag) {
       if (this.selectedApplications.length > 0) {
         this[`${flag}ing`] = true
-        let actions = this.selectedApplications.map(id => this.handleApplies({ id, flag }))
+        let type = labelToValue(flag, teamApplicationHandleType)
+        let actions = this.selectedApplications.map(id => this.handleApplies({ id, type }))
         Promise.all(actions)
           .then(res => {
             console.log(res)

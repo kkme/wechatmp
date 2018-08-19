@@ -49,8 +49,8 @@
         </transition>
       </v-flex>
     </v-layout>
+    <base-location location-only></base-location>
   </div>
-
 </template>
 
 <script>
@@ -94,39 +94,39 @@ export default {
 
 <style lang="scss">
 .job-filter {
-    position: sticky;
-    top: $top-nav-height;
-    z-index: 1;
-    .job-filter-wrap {
-        position: relative;
-        z-index: 2;
-        .job-filter-item {
-            .job-filter-item-title.border-right__list::after {
-                transform: scaleY(0.5);
-            }
-            .job-filter-item-regions,
-            .job-filter-item-positions,
-            .job-filter-item-orderby,
-            .job-filter-item-conditions {
-                position: absolute;
-                left: 0;
-                top: 100%;
-                width: 100vw;
-                text-align: left;
-                max-height: calc(100vh - #{$top-nav-height + $bottom-nav-height + 36px});
-                &::before {
-                    content: '';
-                    display: block;
-                    position: absolute;
-                    width: 100vw;
-                    left: 0;
-                    top: 0;
-                    height: calc(100vh - #{$top-nav-height + $bottom-nav-height + 36px});
-                    background-color: rgba(0, 0, 0, 0.3);
-                    z-index: -1;
-                }
-            }
+  position: sticky;
+  top: $top-nav-height;
+  z-index: 1;
+  .job-filter-wrap {
+    position: relative;
+    z-index: 2;
+    .job-filter-item {
+      .job-filter-item-title.border-right__list::after {
+        transform: scaleY(0.5);
+      }
+      .job-filter-item-regions,
+      .job-filter-item-positions,
+      .job-filter-item-orderby,
+      .job-filter-item-conditions {
+        position: absolute;
+        left: 0;
+        top: 100%;
+        width: 100vw;
+        text-align: left;
+        max-height: calc(100vh - #{$top-nav-height + $bottom-nav-height + 36px});
+        &::before {
+          content: '';
+          display: block;
+          position: absolute;
+          width: 100vw;
+          left: 0;
+          top: 0;
+          height: calc(100vh - #{$top-nav-height + $bottom-nav-height + 36px});
+          background-color: rgba(0, 0, 0, 0.3);
+          z-index: -1;
         }
+      }
     }
+  }
 }
 </style>

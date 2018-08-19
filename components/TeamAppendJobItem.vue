@@ -1,15 +1,19 @@
 <template>
-  <div class="team-append-job-item white">
+  <div class="team-append-job-item white"
+       v-if="item">
     <v-layout align-center
               class="px-3 py-2">
       <div class="text-muted">
-        <div>5-10人战队</div>
-        <div class="caption">截止：2018-08-08 08:05</div>
+        <div>{{item.teamMinNumber}} - {{item.teamMaxNumber}}人战队</div>
+        <div class="caption">截止：{{item.endTime}}</div>
       </div>
       <v-spacer />
       <span class="pr-3"
             v-if="disableCount === false">已报名32人</span>
-      <v-btn color="primary ma-0">领取任务</v-btn>
+      <slot>
+        <v-btn color="primary ma-0"
+               @click="$emit('click')">领取任务</v-btn>
+      </slot>
     </v-layout>
     <v-divider></v-divider>
     <v-layout v-if="disableAvatar === false"
@@ -30,6 +34,7 @@
 <script>
 export default {
   props: {
+    item: Object,
     disableAvatar: {
       type: [String, Boolean],
       default: false

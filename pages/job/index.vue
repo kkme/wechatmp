@@ -47,8 +47,6 @@
                  @ready="gotLocation">
       </baidu-map>
     </no-ssr> -->
-    <base-location location-only
-                   @located="onLocated"></base-location>
   </div>
 </template>
 
@@ -56,7 +54,7 @@
 import JobFilter from '@/components/JobFilter'
 import JobSearsh from '@/components/JobSearsh'
 import JobItem from '@/components/JobItem'
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { page } from '@mixins'
 
 export default {
@@ -88,10 +86,10 @@ export default {
       fetchCities: 'common/fetchCities',
       duibaLogin: 'common/duibaLogin'
     }),
-    ...mapMutations({
-      updateCurrentLocation: 'common/UPDATE_CURRENT_LOCATION',
-      updateCurrentCity: 'common/UPDATE_CURRENT_CITY'
-    }),
+    // ...mapMutations({
+    //   updateCurrentLocation: 'common/UPDATE_CURRENT_LOCATION',
+    //   updateCurrentCity: 'common/UPDATE_CURRENT_CITY'
+    // }),
     getMoreData($state) {
       let opts = {}
       if (!this.currentLocation.position) return
@@ -109,15 +107,6 @@ export default {
           $state.complete()
           throw error.msg
         })
-    },
-    onLocated(location) {
-      this.updateCurrentLocation(location)
-      this.updateCurrentCity({
-        areaname: location.city || location.province,
-        id: location.adcode.substr(0, 4),
-        pid: location.adcode.substr(0, 2),
-        position: location.position
-      })
     }
     // gotLocation({ BMap, map }) {
     //   var geolocation = new BMap.Geolocation()
