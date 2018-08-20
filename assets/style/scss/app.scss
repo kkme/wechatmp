@@ -48,6 +48,13 @@
 .border-bottom {
   border-bottom: 1px solid $border-color !important;
 }
+.border-bottom-dash {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.6) 60%, rgba(255, 255, 255, 0) 0%);
+  background-position: bottom;
+  background-size: 8px 1px;
+  background-repeat: repeat-x;
+  height: 1px;
+}
 
 .bordered {
   border: 1px solid $border-color !important;

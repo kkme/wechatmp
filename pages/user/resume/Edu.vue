@@ -110,7 +110,7 @@ import CitySelector from '@/components/CitySelector'
 import { labelToValue } from '@helper'
 import { eduList } from '@const'
 export default {
-  components: {CitySelector},
+  components: { CitySelector },
   head: () => ({
     title: '学历信息'
   }),

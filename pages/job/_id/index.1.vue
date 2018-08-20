@@ -60,7 +60,7 @@
                           <template v-else>全程参加</template>
                         </div>
                         <div class="py-2">
-                          <base-date-picker v-model="job.jobBeginTime"
+                          <base-date-picker v-model="job.jobbegintime"
                                             placeholder="兼职开始日期"
                                             :min="minDay"
                                             :max="minAvailableDay"
@@ -68,7 +68,7 @@
                                             bordered></base-date-picker>
                         </div>
                         <div class="py-2">
-                          <base-date-picker v-model="job.jobEndTime"
+                          <base-date-picker v-model="job.jobendtime"
                                             placeholder="兼职结束日期"
                                             :min="maxAvailableDay"
                                             :max="maxDay"
@@ -88,12 +88,12 @@
                         </div>
                         <div>工作时段：{{detail.isanyjobperiod ? '不限时段' : detail.jobperiod}}</div>
                         <div class="py-2">
-                          <base-time-picker v-model="job.jobPeriodBegin"
+                          <base-time-picker v-model="job.jobperiodbegin"
                                             bordered
                                             placeholder="开始时间"></base-time-picker>
                         </div>
                         <div class="py-2">
-                          <base-time-picker v-model="job.jobPeriodEnd"
+                          <base-time-picker v-model="job.jobperiodend"
                                             bordered
                                             placeholder="结束时间"></base-time-picker>
                         </div>
@@ -189,11 +189,11 @@ export default {
     dialog: false,
     job: {
       parttimeId: '',
-      jobBeginTime: '',
-      jobEndTime: '',
-      jobPeriodBegin: '',
-      jobPeriodEnd: '',
-      deliveryType: ''
+      jobbegintime: '',
+      jobendtime: '',
+      jobperiodbegin: '',
+      jobperiodend: '',
+      deliverytype: ''
     },
     loading: false
   }),
@@ -203,28 +203,28 @@ export default {
     }),
     minDay() {
       if (!this.detail) return ''
-      let begin = this.detail.jobBeginTime || ''
+      let begin = this.detail.jobbegintime || ''
       if (begin) {
         begin = begin.replace(/\./g, '-')
       }
       return dateGreater(addDays(this.today, 1), begin)
     },
     minAvailableDay() {
-      return this.job.jobEndTime
-        ? addDays(this.job.jobEndTime, -this.detail.mintaskday + 1)
+      return this.job.jobendtime
+        ? addDays(this.job.jobendtime, -this.detail.mintaskday + 1)
         : addDays(this.maxDay, -this.detail.mintaskday + 1)
     },
     maxDay() {
       if (!this.detail) return ''
-      let end = this.detail.jobEndTime || ''
+      let end = this.detail.jobendtime || ''
       if (end) {
         end = end.replace(/\./g, '-')
       }
       return end
     },
     maxAvailableDay() {
-      return this.job.jobBeginTime
-        ? addDays(this.job.jobBeginTime, +this.detail.mintaskday - 1)
+      return this.job.jobbegintime
+        ? addDays(this.job.jobbegintime, +this.detail.mintaskday - 1)
         : addDays(this.minDay, +this.detail.mintaskday - 1)
     },
     disableDate() {
@@ -237,8 +237,8 @@ export default {
     },
     minAvailableTime() {
       if (this.detail.isanyjobperiod) return '23:59'
-      return this.job.jobPeriodEnd
-        ? addHour(this.job.jobPeriodEnd, -this.detail.mintaskhour)
+      return this.job.jobperiodend
+        ? addHour(this.job.jobperiodend, -this.detail.mintaskhour)
         : addHour(this.maxTime, -this.detail.mintaskhour)
     },
     maxTime() {
@@ -248,8 +248,8 @@ export default {
     },
     maxAvailableTime() {
       if (this.detail.isanyjobperiod) return '23:59'
-      return this.job.jobPeriodBegin
-        ? addHour(this.job.jobPeriodBegin, +this.detail.mintaskhour)
+      return this.job.jobperiodbegin
+        ? addHour(this.job.jobperiodbegin, +this.detail.mintaskhour)
         : addHour(this.minTime, +this.detail.mintaskhour)
     },
     disableTime() {
@@ -257,12 +257,12 @@ export default {
     },
     disableApply() {
       return !(
-        this.job.parttimeId !== '' &&
-        this.job.jobBeginTime !== '' &&
-        this.job.jobEndTime !== '' &&
-        this.job.jobPeriodBegin !== '' &&
-        this.job.jobPeriodEnd !== '' &&
-        this.job.deliveryType !== ''
+        this.job.recruitmentid !== '' &&
+        this.job.jobbegintime !== '' &&
+        this.job.jobendtime !== '' &&
+        this.job.jobperiodbegin !== '' &&
+        this.job.jobperiodend !== '' &&
+        this.job.deliverytype !== ''
       )
     }
   },
@@ -291,16 +291,10 @@ export default {
     },
     join() {
       this.loading = true
-      this.applyJob(this.job)
-        .then(res => {
-          this.loading = false
-          this.dialog = false
-        })
-        .catch(error => {
-          this.loading = false
-          this.dialog = false
-          console.log(error)
-        })
+      this.applyJob(this.job).then(res => {
+        this.loading = false
+        this.dialog = false
+      })
     },
     fetchData() {
       this.fetchJob({ id: this.$route.params.id })
@@ -308,13 +302,13 @@ export default {
           this.detail = job.parttime
           this.marked = !!job.collection
           this.applied = !!job.delivery
-          this.job.parttimeId = this.detail.id
-          this.job.deliveryType = labelToValue('user', applyTypes)
+          this.job.recruitmentid = this.detail.id
+          this.job.deliverytype = labelToValue('user', applyTypes)
           return job.parttime
         })
         .then(job => {
           this.fetchRecommendJobs({ checkSign: job.id, id: job.positionid }).then(res => {
-            this.recommend = res.filter(job => job.parttimeId !== this.detail.id)
+            this.recommend = res.filter(job => job.recruitmentId !== this.detail.id)
           })
           this.fetchCompanyInfo({ id: job.comid }).then(res => {
             this.companyInfo = res
@@ -324,7 +318,7 @@ export default {
     handleInfinite($infinite) {
       if (!this.detail.id) return
       this.fetchRecommendJobs({ checkSign: this.detail.id, id: this.detail.positionid }).then(res => {
-        this.recommend = res.filter(job => job.parttimeId !== this.detail.id)
+        this.recommend = res.filter(job => job.recruitmentId !== this.detail.id)
         $infinite.complete()
       })
     },

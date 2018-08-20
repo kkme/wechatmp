@@ -81,8 +81,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { eduList, paymentTypes, salaryTypes, paymentPlatfroms, applyTypes } from '@const'
-import { addDays, addHour, dateGreater, labelToValue } from '@helper'
+import { addDays, dateGreater } from '@helper'
 
 export default {
   props: {

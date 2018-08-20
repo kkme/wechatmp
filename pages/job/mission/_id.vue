@@ -92,7 +92,7 @@
                            v-if="active === 1" />
       </v-tab-item>
       <v-tab-item>
-        <my-mission-salary :id="detail.id"
+        <my-mission-salary :id="detail.recruitmentId"
                            v-if="active === 2" />
       </v-tab-item>
       <v-tab-item>

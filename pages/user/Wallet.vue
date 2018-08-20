@@ -97,7 +97,7 @@ export default {
       // v => !/[\\d\\.]+$/.test(v) || '禁止录入任何非数字和点',
       // v => !/^(\\d+\\.\\d{2}).+/.test(v) || '禁止录入小数点后两位以上',
 
-      v => v >= 1 || '最小限额为1元'
+      v => v > 0 || '最小限额为1元'
     ]
   }),
   computed: {
@@ -130,9 +130,13 @@ export default {
         })
           .then(res => {
             this.loading = false
+            this.dialog = false
           })
           .catch(error => {
             this.loading = false
+            if (error.code === 5000002) {
+              this.$router.push('/user/resume/info')
+            }
             console.log(error)
           })
       }

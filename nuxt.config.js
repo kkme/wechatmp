@@ -74,7 +74,17 @@ module.exports = {
       '~/assets/iconfont.css'
     ],
     publicPath: 'https://local.sapi.s-cout.com/',
-    extractCSS: true,
+    // extractCSS: true,
+    extractCSS: {
+      allChunks: true
+    },
+    // filenames: {
+    //   css: 'common.css',
+    //   manifest: 'manifest.js',
+    //   vendor: 'common.js',
+    //   app: 'app.js',
+    //   chunk: '[name].js'
+    // },
     cssSourceMap: false,
     /*
     ** Run ESLint on save

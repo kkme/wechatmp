@@ -111,22 +111,11 @@ export default {
       this.infiniteLoading($infinite, this.fetchFinishedMission, 'finishedMissionPage')
     },
     onApplyMission(id) {
-      this.applyMission({id})
+      this.applyMission({ id })
     },
     onQuitMission(id) {
-      this.quitMission({id})
+      this.quitMission({ id })
     }
   }
 }
 </script>
-
-<style lang="scss">
-.job-filter {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-}
-.team-mission-item {
-    min-height: calc(100vh - #{$top-nav-height * 2});
-}
-</style>

@@ -43,7 +43,7 @@
                     align-center>
             当前位置：
             <span class="primary--text">
-              <base-location @located="located"></base-location>
+              <base-location v-model="location"></base-location>
             </span>
             <v-spacer></v-spacer>
             <!-- <a href="#"
@@ -125,7 +125,8 @@ export default {
       inputValue: '',
       currentProvince: {},
       currentCity: {},
-      currentCounty: {}
+      currentCounty: {},
+      location: null
     }
   },
   computed: {
@@ -219,13 +220,21 @@ export default {
           })
         }
       } else this.fetchCities()
-    },
-    located(location) {
-      if (this.autoSelect !== false && !this.currentProvince.id && !this.currentCity.id && !this.currentCounty.id && !!location.adcode) {
+    }
+  },
+  watch: {
+    location(newValue) {
+      if (
+        this.autoSelect !== false &&
+        !this.currentProvince.id &&
+        !this.currentCity.id &&
+        !this.currentCounty.id &&
+        !!newValue.adcode
+      ) {
         this.$emit('input', {
           city: {
-            id: location.adcode.substr(0, 4),
-            areaname: location.city
+            id: newValue.adcode.substr(0, 4),
+            areaname: newValue.city || newValue.province
           }
         })
       }
@@ -239,54 +248,54 @@ export default {
 
 <style lang="scss">
 .city-selector-main {
-    height: calc(100vh - 87px);
-    display: flex;
+  height: calc(100vh - 87px);
+  display: flex;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  user-select: none;
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  .city-selector-main-provinces {
+    flex: 0 0 25%;
+    width: 25%;
+    height: 100%;
     overflow: auto;
-    -webkit-overflow-scrolling: touch;
-    user-select: none;
-    ul {
-        list-style: none;
-        padding: 0;
-    }
-    .city-selector-main-provinces {
-        flex: 0 0 25%;
-        width: 25%;
-        height: 100%;
-        overflow: auto;
-        .city-selector-main-province {
-            position: relative;
-            &.active {
-                background-color: #ffffff;
-                &::before {
-                    content: '';
-                    position: absolute;
-                    border-left: 2px solid $primary;
-                    border-radius: 4px;
-                    height: 100%;
-                    top: 0;
-                    left: 0.5em;
-                    transform: scaleY(0.5);
-                }
-            }
+    .city-selector-main-province {
+      position: relative;
+      &.active {
+        background-color: #ffffff;
+        &::before {
+          content: '';
+          position: absolute;
+          border-left: 2px solid $primary;
+          border-radius: 4px;
+          height: 100%;
+          top: 0;
+          left: 0.5em;
+          transform: scaleY(0.5);
         }
+      }
     }
-    .city-selector-main-cities {
-        overflow: auto;
-        height: 100%;
-        flex: 1;
-        .city-selector-main-city span {
-            border-radius: $border-radius;
-            cursor: pointer;
-            &:hover,
-            &.active {
-                background-color: lighten($primary, 15%);
-            }
-        }
+  }
+  .city-selector-main-cities {
+    overflow: auto;
+    height: 100%;
+    flex: 1;
+    .city-selector-main-city span {
+      border-radius: $border-radius;
+      cursor: pointer;
+      &:hover,
+      &.active {
+        background-color: lighten($primary, 15%);
+      }
     }
-    .body-1 {
-        line-height: 1.2;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-    }
+  }
+  .body-1 {
+    line-height: 1.2;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
 }
 </style>

@@ -272,6 +272,7 @@ export default {
       this.quiting = true
       this.quitTeam()
         .then(res => {
+          this.dialog = false
           return this.fetchMyTeamInfo()
         })
         .then(() => {
@@ -289,60 +290,60 @@ export default {
 
 <style lang="scss">
 .team-index {
+  position: relative;
+  .team-search {
+    .v-text-field--solo .v-input__slot {
+      background: lighten($secondary, 5%);
+    }
+  }
+  .team-index-banner {
     position: relative;
-    .team-search {
-        .v-text-field--solo .v-input__slot {
-            background: lighten($secondary, 5%);
-        }
+    .team--index-banner-action {
+      position: absolute;
+      bottom: 0;
+      .team--create,
+      .team--invitation {
+        display: flex;
+        border-radius: $border-radius * 2;
+      }
     }
-    .team-index-banner {
-        position: relative;
-        .team--index-banner-action {
-            position: absolute;
-            bottom: 0;
-            .team--create,
-            .team--invitation {
-                display: flex;
-                border-radius: $border-radius * 2;
-            }
-        }
+  }
+  .team--index-team-list {
+    .avatar {
+      border-radius: 0.5em;
     }
-    .team--index-team-list {
-        .avatar {
-            border-radius: 0.5em;
-        }
-        button {
-            background-position: center;
-            background-size: contain;
-            min-width: 75px;
-        }
+    button {
+      background-position: center;
+      background-size: contain;
+      min-width: 75px;
     }
-    .team-my-team {
-        .team-my-team-info {
-            position: fixed;
-            top: $top-nav-height;
-            left: 0;
-            width: 100%;
-            background-image: url('~@img/team_index_bg.jpg');
-            background-repeat: no-repeat;
-            background-position: top center;
-            background-size: contain;
-            color: $white;
-        }
-        .team-my-team-content {
-            position: relative;
-            z-index: 1;
-            top: 187px;
-            border-top-left-radius: 2em;
-            border-top-right-radius: 2em;
-            min-height: calc(100vh - 187px - #{$top-nav-height});
-        }
-        .team-notice .v-list__tile {
-            height: auto;
-            .v-list__tile__content {
-                justify-content: flex-start;
-            }
-        }
+  }
+  .team-my-team {
+    .team-my-team-info {
+      position: fixed;
+      top: $top-nav-height;
+      left: 0;
+      width: 100%;
+      background-image: url('~@img/team_index_bg.jpg');
+      background-repeat: no-repeat;
+      background-position: top center;
+      background-size: contain;
+      color: $white;
     }
+    .team-my-team-content {
+      position: relative;
+      z-index: 1;
+      top: 187px;
+      border-top-left-radius: 2em;
+      border-top-right-radius: 2em;
+      min-height: calc(100vh - 187px - #{$top-nav-height});
+    }
+    .team-notice .v-list__tile {
+      height: auto;
+      .v-list__tile__content {
+        justify-content: flex-start;
+      }
+    }
+  }
 }
 </style>

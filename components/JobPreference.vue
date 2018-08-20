@@ -151,7 +151,7 @@ export default {
       updatePreference: 'users/updatePreference'
     }),
     getData(location) {
-      this.fetchCities({pid: location.city.id})
+      this.fetchCities({ pid: location.city.id })
       // this.fetchDistricts({ areaid: location.city.id })
       this.fetchDistricts({ areaid: 51 })
 
@@ -201,8 +201,8 @@ export default {
 
 <style lang="scss">
 .job-preference {
-    .v-label {
-        font-size: $size1;
-    }
+  .v-label {
+    font-size: $size1;
+  }
 }
 </style>

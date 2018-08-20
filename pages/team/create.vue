@@ -68,7 +68,7 @@
             </div>
             <div class="caption mt-2">邀请</div>
             <v-dialog v-model="dialog"
-                      max-width="200px">
+                      max-width="500px">
               <v-card>
                 <v-card-title class="justify-center pt-4">
                   <span class="title">邀请加入战队</span>
@@ -135,7 +135,13 @@ export default {
   }),
   computed: {
     disabled() {
-      return !(!!this.team.name && !!this.team.slogan && this.inviteList.length >= this.minInvite && !!this.avatar.src)
+      return !(
+        this.team.name &&
+        this.team.slogan &&
+        this.inviteList.length >= this.minInvite &&
+        this.avatar &&
+        this.avatar.src
+      )
     }
   },
   methods: {
