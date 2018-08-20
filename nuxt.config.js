@@ -12,19 +12,19 @@ module.exports = {
       {
         hid: 'description',
         name: 'description',
-        content: 'Nuxt.js + Vuetify.js project'
+        content: '懒虫动动兼职平台'
       }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      {
-        rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
-      },
-      {
-        rel: 'stylesheet',
-        href: '//at.alicdn.com/t/font_755131_c6lpo5bu19.css'
-      }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      // {
+      //   rel: 'stylesheet',
+      //   href: 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons'
+      // },
+      // {
+      //   rel: 'stylesheet',
+      //   href: '//at.alicdn.com/t/font_755131_c6lpo5bu19.css'
+      // }
     ]
   },
   plugins: [
@@ -34,7 +34,7 @@ module.exports = {
     '~/plugins/filters.js',
     '~/plugins/svgicons.js',
     { src: '~/plugins/scrollto.js', ssr: false },
-    { src: '~/plugins/baidumap.js', ssr: false },
+    // { src: '~/plugins/baidumap.js', ssr: false },
     { src: '~/plugins/vue-amap.js', ssr: false }
   ],
   router: {
@@ -69,8 +69,9 @@ module.exports = {
       '~/plugins/simpleSvg.js',
       '~/plugins/svgicons.js',
       '~/plugins/scrollto.js',
-      '~/plugins/baidumap.js',
-      '~/plugins/vue-amap.js'
+      // '~/plugins/baidumap.js',
+      '~/plugins/vue-amap.js',
+      '~/assets/iconfont.css'
     ],
     publicPath: 'https://local.sapi.s-cout.com/',
     extractCSS: true,
@@ -108,7 +109,7 @@ module.exports = {
         }
       })
       svgRule.test = /(\.(png|jpe?g|gif)$)|(^(?!.*\.icon\.svg$).*\.svg$)/
-      console.log(svgRule)
+      // console.log(svgRule)
 
       config.module.rules.push({
         test: /\.icon\.svg$/,
