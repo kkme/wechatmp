@@ -43,7 +43,7 @@
                   wrap>
           <v-flex xs2
                   class="text-xs-center team-invite-item"
-                  v-for="user of inviteList"
+                  v-for="(user, index) of inviteList"
                   :key="user.userId">
             <div v-ripple>
               <base-avatar :src="user.avatar"></base-avatar>
@@ -53,6 +53,7 @@
               <v-btn small
                      icon
                      color="secondary darken-3"
+                     @click="inviteList.splice(index, 1)"
                      class="ma-0">
                 <v-icon class="caption"
                         color="white">iconfont icon-x</v-icon>
@@ -154,7 +155,11 @@ export default {
         this.loading = true
         this.searchUser({ keyword: this.keyword, id: '' })
           .then(res => {
-            this.inviteList.push(res)
+            if (this.inviteList.find(user => user.userId === res.userId)) {
+              this.$store.dispatch('sys/showSnackbar', { msg: '一个账号只能添加一次！', color: 'error' })
+            } else {
+              this.inviteList.push(res)
+            }
             this.loading = false
             this.dialog = false
           })

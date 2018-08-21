@@ -43,13 +43,15 @@ export const mutations = {
     state.invitations = invitations
   },
   DELETE_INVITATIONS_ITEM(state, id) {
-    state.invitations.splice(
-      state.invitations.findIndex(invitation => invitation.applyForId === id),
-      1
-    )
+    let index = state.invitations.findIndex(invitation => invitation.applyForId === id)
+    if (index > 0) state.invitations.splice(index, 1)
   },
   UPDATE_MEMBERS(state, members) {
-    state.members = members
+    state.members = unionBy(state.members, members, 'userId')
+  },
+  REMOVE_MEMBERS(state, { id }) {
+    let index = state.members.findIndex(member => member.userId === id)
+    if (index > 0) state.members.splice(index, 1)
   },
   UPDATE_SETTINGS(state, settings) {
     state.settings = settings
@@ -70,10 +72,8 @@ export const mutations = {
     state.finishedMissions = unionBy(state.finishedMissions, missions, 'taskId')
   },
   DELETE_TEAM_APPLICATIONS_ITEM(state, id) {
-    state.teamApplications.splice(
-      state.teamApplications.findIndex(teamApplication => teamApplication.userId === id),
-      1
-    )
+    let index = state.teamApplications.findIndex(teamApplication => teamApplication.userId === id)
+    if (index > 0) state.teamApplications.splice(index, 1)
   },
 
   // owner
@@ -137,7 +137,7 @@ export const actions = {
   },
   removeMember({ commit }, payload) {
     return TeamService.removeMember(payload).then(res => {
-      commit('REMOVE_MEMBERS', res)
+      commit('REMOVE_MEMBERS', payload)
       return res
     })
   },
@@ -168,9 +168,10 @@ export const actions = {
       return res
     })
   },
-  handleApplies({ commit }, { id, type }) {
+  handleApplies({ commit, dispatch }, { id, type }) {
     return TeamService.handleApplies({ id, status: type }).then(res => {
       commit('DELETE_TEAM_APPLICATIONS_ITEM', id)
+      dispatch('fetchMembers')
       return res
     })
   },

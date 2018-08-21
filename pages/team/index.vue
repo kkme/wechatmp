@@ -51,7 +51,8 @@
           <v-btn class="pa-0 ma-0"
                  small
                  flat
-                 @click="applyTeam({ id: team.teamId})"
+                 @click="onApplyTeam(team)"
+                 :loading="team.loading"
                  :style="{ backgroundImage: `url(${btnBg})`}"></v-btn>
         </v-layout>
         <base-infinite @infinite="infinite($event, search, { keyword })"></base-infinite>
@@ -278,6 +279,14 @@ export default {
         .then(() => {
           this.quiting = false
         })
+    },
+    onApplyTeam(item) {
+      this.$set(item, 'loading', true)
+      this.applying = true
+      this.applyTeam({ id: item.teamId }).then(() => {
+        this.$set(item, 'loading', false)
+        return this.fetchMyTeamInfo()
+      })
     }
   },
   created() {

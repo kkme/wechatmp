@@ -1,6 +1,7 @@
+import constant from './constant/public.js'
+console.log(constant.BASE_URL)
 const nodeExternals = require('webpack-node-externals')
 const path = require('path')
-
 module.exports = {
   mode: 'spa',
   head: {
@@ -73,11 +74,11 @@ module.exports = {
       '~/plugins/vue-amap.js',
       '~/assets/iconfont.css'
     ],
-    publicPath: 'https://local.sapi.s-cout.com/',
-    // extractCSS: true,
-    extractCSS: {
-      allChunks: true
-    },
+    publicPath: constant.BASE_URL,
+    extractCSS: true,
+    // extractCSS: {
+    //   allChunks: true
+    // },
     // filenames: {
     //   css: 'common.css',
     //   manifest: 'manifest.js',

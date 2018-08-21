@@ -44,6 +44,7 @@ const bdEncrypt = (ggLng, ggLat, returnObj) => {
   return returnObj ? { lat: bdLat, lng: bdLng } : [bdLng, bdLat]
 }
 const formatTime = (date, fmt = 'yyyy-MM-dd', appendZero = true) => {
+  if (!date) return ''
   date = new Date(date)
   const o = {
     'M+': date.getMonth() + 1, // 月份

@@ -21,7 +21,7 @@
               <v-flex xs12
                       align-end
                       flexbox>
-                <span class="headline fun-events-item-title">标题标题</span>
+                <span class="subheading fun-events-item-title">{{item.title}}</span>
               </v-flex>
             </v-layout>
           </v-card-media>
@@ -30,66 +30,49 @@
                        @infinite="getMoreFunEvents"></base-infinite>
       </v-tab-item>
       <v-tab-item>
-        <div class="white pa-3"
+        <div class="white"
              v-for="item of appliedFunEvents"
              :key="item.id">
-          <v-layout align-center>
-            <v-card class="ma-0 py-0 fun-thumb flex-auto"
-                    flat>
-              <v-card-media class="white--text"
-                            height="80px"
-                            :src="item.contentimage">
-                <v-layout column
-                          justify-space-between>
-                  <v-spacer></v-spacer>
-                  <div class="fun-thumb-text text-xs-center">预约</div>
-                </v-layout>
-              </v-card-media>
-            </v-card>
-            <v-flex class="caption ml-3">
-              <v-layout align-center>
-                <div class="body-2">{{item.title}}</div>
-                <v-spacer></v-spacer>
-                <v-btn small
-                       color="primary"
-                       @click="onReserve(item)"
-                       class="my-0 mr-0">预约</v-btn>
-              </v-layout>
-              <div class="grey--text text--darken-2">活动时间：{{item.jobbegintime}} - {{item.jobendtime}}</div>
-              <div class="grey--text text--darken-2">活动地址：{{item.address}}</div>
-            </v-flex>
-          </v-layout>
-          <div class="caption"
-               v-if="item.reservationLiteList.length">
-            <v-layout align-center
-                      class="my-2">
-              <span class="subheading">预约记录</span>
-              <v-spacer class="border-bottom-dash mx-2"></v-spacer>
-              <span class="subheading primary--text">{{item.deliveryStatus}}</span>
-            </v-layout>
-            <div class="grey--text text--darken-2">签到时间：2018年9月15日 13:00</div>
-            <div class="grey--text text--darken-2">验证码：
-              <span class="body-2 primary--text">890585
-                <span class="error--text ml-1 caption">
-                  <v-icon class="icon--text ma-0"
-                          color="error">iconfont icon-warning</v-icon>
-                  请在体验时将验证码出示给体验提供方
-                </span>
-              </span>
-            </div>
-            <div class="grey--text text--darken-2">
-              预约时间：2018年05月05日 15:00 - 2018年05月05日 15:00
-            </div>
-          </div>
+          <fun-event-item :item="item"
+                          @onQrCode="onQrCode">
+            <v-btn v-if="item.reservation && valueToLabel(item.deliveryStatus, funStatusTypes, 'name') === 'accept'"
+                   small
+                   color="primary"
+                   @click="onReserve(item)"
+                   class="mr-0">预约</v-btn>
+            <span v-if="!item.reservation">免预约</span>
+          </fun-event-item>
+          <base-divider></base-divider>
         </div>
         <base-infinite v-if="active === 1"
                        @infinite="getMoreAppliedFunEvents"></base-infinite>
       </v-tab-item>
       <v-tab-item>
+        <div class="white py-3"
+             v-if="comments.length"
+             v-for="item of comments"
+             :key="item.id">
+          <fun-event-item :item="item">
+            <v-btn v-if="!item.evaluationId"
+                   small
+                   color="primary"
+                   @click="$router.push({name: 'job-fun-comment-id', params: {id: item.recruitmentId}})"
+                   class="mr-0">评价</v-btn>
+            <span v-if="item.evaluationId">已评价</span>
+          </fun-event-item>
+        </div>
         <base-infinite v-if="active === 2"
                        @infinite="getMoreComments"></base-infinite>
       </v-tab-item>
     </v-tabs>
+    <v-dialog v-model="qrDialog"
+              max-width="500px">
+      <v-card>
+        <qr-code :value="qrCodeValue"
+                 level="H"
+                 :size="500"></qr-code>
+      </v-card>
+    </v-dialog>
     <v-dialog v-model="dialog"
               max-width="500px">
       <v-card>
@@ -97,25 +80,41 @@
           <span class="title">请选择日期</span>
         </v-card-title>
         <v-card-text>
-          <div class="mx-3 border-bottom">
-            <base-date-picker v-model="fun.begintime"
-                              placeholder="开始日期"
-                              :min="dateRange.min"
-                              :max="dateRange.max"
-                              ltr></base-date-picker>
-          </div>
-          <div class="mx-3 mt-2 border-bottom">
-            <base-date-picker v-model="fun.endtime"
-                              placeholder="结束日期"
-                              :min="dateRange.min"
-                              :max="dateRange.max"
-                              ltr></base-date-picker>
-          </div>
+          <v-layout class="mx-3 border-bottom"
+                    align-center>
+            <v-flex>
+              <base-date-picker v-model="startDate"
+                                placeholder="开始日期"
+                                :min="dateRange.min"
+                                :max="dateRange.max"
+                                ltr></base-date-picker>
+            </v-flex>
+            <v-flex>
+              <base-time-picker v-model="startTime"
+                                placeholder="开始时间"
+                                ltr></base-time-picker>
+            </v-flex>
+          </v-layout>
+          <v-layout class="mx-3 border-bottom"
+                    align-center>
+            <v-flex>
+              <base-date-picker v-model="endDate"
+                                placeholder="结束日期"
+                                :min="dateRange.min"
+                                :max="dateRange.max"
+                                ltr></base-date-picker>
+            </v-flex>
+            <v-flex>
+              <base-time-picker v-model="endTime"
+                                placeholder="结束时间"
+                                ltr></base-time-picker>
+            </v-flex>
+          </v-layout>
           <v-card-actions>
             <v-btn color="primary"
                    block
                    class="mx-4 my-3"
-                   :disabled="!fun.begintime || !fun.endtime"
+                   :disabled="!startDate || !startTime || !endDate || !endTime"
                    :loading="loading"
                    @click="submit">确定</v-btn>
           </v-card-actions>
@@ -129,8 +128,12 @@
 import { mapGetters, mapActions } from 'vuex'
 import constant from '@const/public'
 import { page } from '@mixins'
+import FunEventItem from '@/components/FunEventItem'
+import { valueToLabel } from '@helper'
+import { funStatusTypes } from '@const'
+import qrCode from '@xkeshi/vue-qrcode'
 export default {
-  components: {},
+  components: { FunEventItem, qrCode },
   head: () => ({
     title: '趣味体验'
   }),
@@ -139,12 +142,20 @@ export default {
   },
   mixins: [page],
   data: () => ({
-    active: 1,
+    active: 0,
     baseUrl: constant.BASE_URL,
     fun: {},
     dialog: false,
     dateRange: {},
-    loading: false
+    timeRange: {},
+    loading: false,
+    startDate: '',
+    endDate: '',
+    startTime: '',
+    endTime: '',
+    funStatusTypes,
+    qrDialog: false,
+    qrCodeValue: ''
   }),
   computed: {
     ...mapGetters({
@@ -162,6 +173,7 @@ export default {
       reserveFunEvent: 'fun/reserveFunEvent',
       addComment: 'fun/addComment'
     }),
+    valueToLabel,
     getMoreFunEvents($infinite) {
       this.infiniteLoading($infinite, this.fetchFunEvents, 'funEventsPage')
     },
@@ -172,21 +184,31 @@ export default {
       this.infiniteLoading($infinite, this.fetchComments, 'commentsPage')
     },
     onReserve(item) {
-      this.dialog = true
       this.dateRange = {
         min: item.jobbegintime.replace(/\./g, '-'),
         max: item.jobendtime.replace(/\./g, '-')
       }
       this.fun = {
-        recruitmenid: item.recruitmentId,
-        applyid: item.id,
-        begintime: null,
-        endtime: null
+        recruitmentid: item.recruitmentId,
+        applyid: item.id
       }
+      this.resetDateTime()
+      this.dialog = true
+    },
+    resetDateTime() {
+      this.startDate = ''
+      this.endDate = ''
+      this.startTime = ''
+      this.endTime = ''
     },
     submit() {
       this.loading = true
-      this.reserveFunEvent(this.fun)
+      this.reserveFunEvent({
+        recruitmentid: this.fun.recruitmentid,
+        applyid: this.fun.applyid,
+        begintime: `${this.startDate} ${this.startTime}`,
+        endtime: `${this.endDate} ${this.endTime}`
+      })
         .then(() => {
           this.dialog = false
           this.loading = false
@@ -199,6 +221,10 @@ export default {
     },
     onQuitMission(id) {
       this.quitMission({ id })
+    },
+    onQrCode(value) {
+      this.qrCodeValue = value
+      this.qrDialog = true
     }
   }
 }

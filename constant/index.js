@@ -588,10 +588,7 @@ export default {
   }
 }
 
-const gender = [
-  { name: 'male', label: '男', value: 'SEX_BOY' },
-  { name: 'female', label: '女', value: 'SEX_GIRL' }
-]
+const gender = [{ name: 'male', label: '男', value: 'SEX_BOY' }, { name: 'female', label: '女', value: 'SEX_GIRL' }]
 const eduList = [
   // { name: 'EDUCATION_LEVEL_0', label: '不限学历', value: 0 },
   { name: 'EDUCATION_LEVEL_1', label: '小学及小学以下', value: 311 },
@@ -715,6 +712,18 @@ const teamApplicationHandleType = [
   { name: 'accept', label: '通过', value: 'TEAM_APPLYFOR_STATUS_PASS' },
   { name: 'reject', label: '拒绝', value: 'TEAM_APPLYFOR_STATUS_DENY' }
 ]
+const funStatusTypes = [
+  { name: 'comfirm', label: '待确认', value: 'EXPERIENCE_RESERVATION_AWAIT' },
+  { name: 'success', label: '预约成功', value: 'EXPERIENCE_RESERVATION_SUCCESS' },
+  { name: 'fail', label: '预约失败', value: 'EXPERIENCE_RESERVATION_FAIL' },
+  { name: 'done', label: '已完成', value: 'EXPERIENCE_RESERVATION_END' },
+  { name: 'overdue', label: '过期', value: 'EXPERIENCE_RESERVATION_EXPIRED' },
+  { name: 'new', label: '新投递', value: 'EXPERIENCE_APPLY_NEW' },
+  { name: 'reject', label: '被拒绝', value: 'EXPERIENCE_APPLY_REFUSED' },
+  { name: 'accept', label: '已接受', value: 'EXPERIENCE_APPLY_ACCEPT' },
+  { name: 'finish', label: '已完成', value: 'EXPERIENCE_APPLY_COMPLETE' },
+  { name: 'cancel', label: '已取消', value: 'EXPERIENCE_APPLY_CANCEL' }
+]
 export {
   gender,
   eduList,
@@ -737,5 +746,6 @@ export {
   teamRoles,
   teamInvitationHandlerTypes,
   teamPermissionTypes,
-  teamApplicationHandleType
+  teamApplicationHandleType,
+  funStatusTypes
 }

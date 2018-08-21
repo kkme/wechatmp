@@ -37,6 +37,7 @@
              class="ma-0"
              depressed
              @click="onRemoveMember"
+             :loading="removing"
              :disabled="selectedMember.length === 0"
              block>移除成员</v-btn>
       <v-flex>
@@ -147,7 +148,8 @@ export default {
     changingRole: false,
     promoting: false,
     rejecting: false,
-    accepting: false
+    accepting: false,
+    removing: false
   }),
   computed: {
     ...mapGetters({
@@ -185,6 +187,18 @@ export default {
       if (this.selectedMember.length) {
         this.selectedMember.forEach(id => {
           this.removeMember({ id })
+          this.removing = true
+          let actions = this.selectedMember.map(userId => this.removeMember({ id }))
+          Promise.all(actions)
+            .then(res => {
+              console.log(res)
+              this.removing = false
+              this.selectedMember = []
+            })
+            .catch(error => {
+              console.log(error)
+              this.removing = true
+            })
         })
       }
     },
@@ -197,6 +211,7 @@ export default {
             console.log(res)
             this.pointsDialog = false
             this.loading = false
+            this.selectedMember = []
           })
           .catch(error => {
             console.log(error)
@@ -212,6 +227,7 @@ export default {
           .then(res => {
             console.log(res)
             this[loading] = false
+            memberList = []
           })
           .catch(error => {
             console.log(error)
@@ -228,6 +244,7 @@ export default {
           .then(res => {
             console.log(res)
             this[`${flag}ing`] = false
+            this.selectedApplications = []
           })
           .catch(error => {
             console.log(error)
