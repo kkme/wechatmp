@@ -1,16 +1,16 @@
-import Api from '@/services/Api'
+import axios from 'axios'
 import constant from '@const/public'
 const DEFAULT_PAGESIZE = constant.DEFAULT_PAGESIZE
 
 export default {
   // 获取工作列表
-  fetchJobs: (data = DEFAULT_PAGESIZE) => Api.post('job/search', data),
-  fetchJob: data => Api.post('job/detail', data),
-  addToJobCollection: data => Api.post('job/collection', data),
-  addToCorpCollection: data => Api.post('job/company/toCollection', data),
-  fetchRecommendJobs: data => Api.post('job/sameJob', data),
-  fetchCompanyInfo: data => Api.post('job/companyInfo', data),
-  applyJob: data => Api.post('parttimeApply/add', data),
-  fetchHotKeywords: () => Api.post('job/search/hot'),
-  fetchSearchHistory: () => Api.post('job/search/history')
+  fetchJobs: (data = DEFAULT_PAGESIZE) => axios.post('job/search', data),
+  fetchJob: data => axios.post('job/detail', data),
+  addToJobCollection: data => axios.post('job/collection', data),
+  addToCorpCollection: data => axios.post('job/company/toCollection', data),
+  fetchRecommendJobs: data => axios.post('job/sameJob', data),
+  fetchCompanyInfo: data => axios.post('job/companyInfo', data),
+  applyJob: data => axios.post('parttimeApply/add', data),
+  fetchHotKeywords: () => axios.post('job/search/hot'),
+  fetchSearchHistory: () => axios.post('job/search/history')
 }

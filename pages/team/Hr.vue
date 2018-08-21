@@ -188,7 +188,7 @@ export default {
         this.selectedMember.forEach(id => {
           this.removeMember({ id })
           this.removing = true
-          let actions = this.selectedMember.map(userId => this.removeMember({ id }))
+          let actions = this.selectedMember.map(userId => Promise.resolve(this.removeMember({ id })))
           Promise.all(actions)
             .then(res => {
               console.log(res)

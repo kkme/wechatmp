@@ -1,6 +1,6 @@
-import Api from '@/services/Api'
+import axios from 'axios'
 
 export default {
-  fetchTeamRanking: data => Api.post('/ranking/teamrank', data),
-  fetchUserRanking: data => Api.post('/ranking/userrank', data)
+  fetchTeamRanking: data => axios.post('/ranking/teamrank', data),
+  fetchUserRanking: data => axios.post('/ranking/userrank', data)
 }

@@ -1,5 +1,5 @@
-import Api from '@/services/Api'
+import axios from 'axios'
 
 export default {
-  fetchMsgs: data => Api.post('jobuser/message', data)
+  fetchMsgs: data => axios.post('jobuser/message', data)
 }

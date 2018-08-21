@@ -1,14 +1,14 @@
-import Api from '@/services/Api'
+import axios from 'axios'
 export default {
-  fetchCities: (params = { pid: 0 }) => Api.get('common/getArea', { params }),
-  fetchPositions: data => Api.post('common/getPosition', data),
-  fetchMetroPlatforms: data => Api.post('common/getMetroplat', data),
-  fetchDistricts: data => Api.post('common/getDistrict', data),
-  fetchDateTime: () => Api.post('common/getDateTime'),
-  fetchCommentTags: () => Api.post('/common/getEvaluationTag'),
-  fetchSpecialTags: data => Api.post('/common/getFeatureTag', data),
-  duibaLogin: () => Api.post('duiba/login'),
-  uploadFile: data => Api.post('common/upload', data),
-  sendSmsCode: data => Api.post('jobuser/getTelCode', data),
-  fetchMissionTags: () => Api.post('common/getTaskTag')
+  fetchCities: (params = { pid: 0 }) => axios.get('common/getArea', { params }),
+  fetchPositions: data => axios.post('common/getPosition', data),
+  fetchMetroPlatforms: data => axios.post('common/getMetroplat', data),
+  fetchDistricts: data => axios.post('common/getDistrict', data),
+  fetchDateTime: () => axios.post('common/getDateTime'),
+  fetchCommentTags: () => axios.post('/common/getEvaluationTag'),
+  fetchSpecialTags: data => axios.post('/common/getFeatureTag', data),
+  duibaLogin: () => axios.post('duiba/login'),
+  uploadFile: data => axios.post('common/upload', data),
+  sendSmsCode: data => axios.post('jobuser/getTelCode', data),
+  fetchMissionTags: () => axios.post('common/getTaskTag')
 }

@@ -31,9 +31,10 @@ module.exports = {
   plugins: [
     '~/plugins/vuetify.js',
     '~/plugins/globalComponents.js',
-    '~/plugins/simpleSvg.js',
+    // '~/plugins/simpleSvg.js',
     '~/plugins/filters.js',
     '~/plugins/svgicons.js',
+    '~/plugins/Api.js',
     { src: '~/plugins/scrollto.js', ssr: false },
     // { src: '~/plugins/baidumap.js', ssr: false },
     { src: '~/plugins/vue-amap.js', ssr: false }
