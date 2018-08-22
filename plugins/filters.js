@@ -26,9 +26,20 @@ Vue.filter('formatDistance', function(value) {
 })
 
 Vue.filter('formatCreateTime', function(value) {
-  // if (!(value > 0)) return '未知'
-  // if (value > 999) return Math.round((value / 1000) * 100) / 100 + 'km'
   return value
+})
+
+Vue.filter('formatNumberTime', function(time) {
+  if (time > 99 && time < 1000) {
+    time = time + ''
+    return `0${time.substr(0, 1)}:${time.substr(1, 2)}`
+  } else if (time > 999 && time < 2400) {
+    time = time + ''
+    return `${time.substr(0, 2)}:${time.substr(2, 3)}`
+  } else if (time === 2400) {
+    return '00:00'
+  }
+  return time
 })
 Vue.filter('formatDateTime', formatTime)
 

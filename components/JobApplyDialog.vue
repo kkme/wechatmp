@@ -50,7 +50,10 @@
               <template v-if="detail.minTaskHour">最短申请时段:{{detail.minTaskHour}}小时</template>
               <template v-else>全程参加</template>
             </div>
-            <div>工作时段：{{+detail.jobPeriodBegin === 0 && detail.jobPeriodEnd === 0 ? '不限时段' : `${detail.jobPeriodEnd} - ${detail.jobPeriodEnd}` }}</div>
+            <div>工作时段：
+              <template v-if="+detail.jobPeriodBegin === 0 && +detail.jobPeriodEnd === 0">不限时段</template>
+              <template v-else>{{detail.jobPeriodBegin | formatNumberTime}} - {{detail.jobPeriodEnd | formatNumberTime}}</template>
+            </div>
             <div class="py-2">
               <base-time-picker v-model="job.jobPeriodBegin"
                                 bordered
@@ -98,7 +101,6 @@ export default {
     marked: false,
     applied: false,
     loading: false,
-    disableApply: false,
     job: {}
   }),
   computed: {
@@ -134,6 +136,9 @@ export default {
       return this.job.jobBeginTime // ? '2018-08-21' : '2018-08-22'
         ? addDays(this.job.jobBeginTime, +this.detail.minTaskDay - 1)
         : addDays(this.minDay, +this.detail.minTaskDay - 1)
+    },
+    disableApply() {
+      return !(!!this.job.jobBeginTime && !!this.job.jobEndTime && !!this.job.jobPeriodBegin && !!this.job.jobPeriodEnd)
     }
   },
   watch: {
@@ -168,6 +173,9 @@ export default {
       this.claimMissionByOwner(this.job).then(() => {
         this.loading = false
         this.dialog = false
+      }).catch(error => {
+        console.log(error)
+        this.loading = false
       })
     }
   },

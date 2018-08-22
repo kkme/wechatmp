@@ -30,7 +30,10 @@ export default ({ app, store, router, redirect }) => {
         return Promise.reject(response.data)
       }
       if (code !== 1) {
-        store.dispatch('sys/showSnackbar', { msg: response.data.msg || response.data, color: 'error' })
+        store.dispatch('sys/showSnackbar', {
+          msg: response.data.msg || response.data,
+          color: 'error'
+        })
         return Promise.reject(response.data)
       }
       let data = response.data.data

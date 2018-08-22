@@ -46,14 +46,14 @@ export const mutations = {
   },
   DELETE_INVITATIONS_ITEM(state, id) {
     let index = state.invitations.findIndex(invitation => invitation.applyForId === id)
-    if (index > 0) state.invitations.splice(index, 1)
+    if (index > -1) state.invitations.splice(index, 1)
   },
   UPDATE_MEMBERS(state, members) {
     state.members = unionBy(state.members, members, 'userId')
   },
   REMOVE_MEMBERS(state, { id }) {
     let index = state.members.findIndex(member => member.userId === id)
-    if (index > 0) state.members.splice(index, 1)
+    if (index > -1) state.members.splice(index, 1)
   },
   UPDATE_SETTINGS(state, settings) {
     state.settings = settings
@@ -67,15 +67,27 @@ export const mutations = {
   UPDATE_RECRUITING_MISSIONS(state, missions) {
     state.recruitingMissions = unionBy(state.recruitingMissions, missions, 'taskId')
   },
+  REMOVE_RECRUITING_MISSIONS_ITEM(state, id) {
+    let index = state.recruitingMissions.findIndex(mission => mission.taskId === id)
+    if (index > -1) state.recruitingMissions.splice(index, 1)
+  },
   UPDATE_APPLIED_MISSIONS(state, missions) {
     state.appliedMissions = unionBy(state.appliedMissions, missions, 'taskId')
+  },
+  REMOVE_APPLIED_MISSIONS_ITEM(state, id) {
+    let index = state.appliedMissions.findIndex(mission => mission.taskId === id)
+    if (index > -1) state.appliedMissions.splice(index, 1)
   },
   UPDATE_FINISHED_MISSIONS(state, missions) {
     state.finishedMissions = unionBy(state.finishedMissions, missions, 'taskId')
   },
+  REMOVE_FINISHED_MISSIONS_ITEM(state, id) {
+    let index = state.finishedMissions.findIndex(mission => mission.taskId === id)
+    if (index > -1) state.finishedMissions.splice(index, 1)
+  },
   DELETE_TEAM_APPLICATIONS_ITEM(state, id) {
     let index = state.teamApplications.findIndex(teamApplication => teamApplication.userId === id)
-    if (index > 0) state.teamApplications.splice(index, 1)
+    if (index > -1) state.teamApplications.splice(index, 1)
   },
   UPDATE_TEAM_CREATE_INFO(state, payload) {
     state.teamCreateInfo = payload
@@ -147,10 +159,10 @@ export const actions = {
     })
   },
   handleInvitation({ commit }, payload) {
-    return TeamService.handleInvitation(payload).then(res => {
-      commit('DELETE_INVITATIONS_ITEM', payload.id)
-      return res
-    })
+    commit('DELETE_INVITATIONS_ITEM', payload.id)
+    // return TeamService.handleInvitation(payload).then(res => {
+    //   return res
+    // })
   },
   quitTeam({ commit }, payload) {
     return TeamService.quitTeam(payload)
@@ -208,6 +220,7 @@ export const actions = {
   },
   quitMission({ commit }, payload) {
     return TeamService.quitMission(payload).then(res => {
+      commit('REMOVE_APPLIED_MISSIONS_ITEM', payload.id)
       return res
     })
   },
@@ -256,5 +269,8 @@ export const actions = {
       commit('UPDATE_TEAM_CREATE_INFO', res)
       return res
     })
+  },
+  dissolveTeam({ commit }, payload) {
+    return TeamService.dissolveTeam(payload)
   }
 }

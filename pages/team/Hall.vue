@@ -18,7 +18,8 @@
           <span v-if="item.applyNumber > 0">已报名{{item.applyNumber}}人</span>
           <v-btn color="primary ma-0"
                  small
-                 @click="onApplyMission(item.taskId)">领取任务</v-btn>
+                 :loading="item.loading"
+                 @click="onApplyMission(item)">报名</v-btn>
         </team-append-job-item>
         <base-divider></base-divider>
       </job-item>
@@ -36,7 +37,8 @@
           <span>{{item.teamDelivStatus}}</span>
           <v-btn color="primary ma-0"
                  small
-                 @click="onQuitMission(item.taskId)">领取任务</v-btn>
+                 :loading="item.loading"
+                 @click="onQuitMission(item)">取消报名</v-btn>
         </team-append-job-item>
         <base-divider></base-divider>
       </job-item>
@@ -110,11 +112,23 @@ export default {
     getMoreFinishedMissions($infinite) {
       this.infiniteLoading($infinite, this.fetchFinishedMission, 'finishedMissionPage')
     },
-    onApplyMission(id) {
-      this.applyMission({ id })
+    onApplyMission(item) {
+      this.$set(item, 'loading', true)
+      this.applyMission({ id: item.taskId }).then(() => {
+        this.$set(item, 'loading', false)
+      }).catch(error => {
+        this.$set(item, 'loading', false)
+        console.log(error)
+      })
     },
-    onQuitMission(id) {
-      this.quitMission({ id })
+    onQuitMission(item) {
+      this.$set(item, 'loading', true)
+      this.quitMission({ id: item.taskId }).then(() => {
+        this.$set(item, 'loading', false)
+      }).catch(error => {
+        this.$set(item, 'loading', false)
+        console.log(error)
+      })
     }
   }
 }

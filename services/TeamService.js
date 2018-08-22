@@ -22,7 +22,7 @@ export default {
   fetchMisiionByOwner: data => axios.post('/team/adminTask/find', data), // 队长找任务 check
   fetchClaimedMissionByOwner: data => axios.post('/team/adminTask/catch', data), // 已领取任务 check
   fetchAppliedMissionByOwner: data => axios.post('/team/adminTask/applied', data), // 已申请任务 check
-  claimMissionByOwner: data => axios.post('/team/task/adminGet', data), // 队长领取任务 check
+  claimMissionByOwner: data => axios.post('/team/task/adminGet', data, { mgs: '领取成功' }), // 队长领取任务 check
   quitMissionByOwner: data => axios.post('/team/task/adminGiveUp', data, msg), // 队长放弃任务
   applyMissionByOwner: data => axios.post('/team/task/adminApply', data, msg), // 队长提交申请
 
@@ -36,6 +36,6 @@ export default {
   inviteUser: data => axios.post('/team/invite/send', data, msg), // 添加成员 发送邀请 check
   changeTeamRole: data => axios.post('/team/changePosition', data, msg), //  修改职位 check
   fetchTeamApplications: data => axios.post('/team/joinAppplyList', data), // 入队申请列表 check
-  dissolveTeam: data => axios.post('/team/disband', data), // 入队申请列表 check
+  dissolveTeam: () => axios.post('/team/disband'), // 解散战队、取消创建 check
   fetchTeamCreateInfo: data => axios.post('/team/teamInfo', data) // 战队在审核状态是获取战队信息 check
 }

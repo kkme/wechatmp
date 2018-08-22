@@ -4,7 +4,7 @@
               justify-center>
       <div class="my-4 text-xs-center">
         <div class="avatar-lg mx-3">
-          <base-avatar v-bind="{src: avatar ? `${baseImageUrl}${avatar.src}`: false}"></base-avatar>
+          <base-avatar v-bind="{src: avatar ? `${avatar.src}`: false}"></base-avatar>
         </div>
         <div class="pt-2 caption"
              @click="$refs.imageInput.chooseFile()">
@@ -75,18 +75,27 @@
       </v-container>
 
       <v-divider></v-divider>
-      <v-layout class="mt-3"
-                align-center
-                justify-center>
-        <v-flex xs10>
-          <v-btn color="primary"
-                 :disabled="disabled"
-                 :loading="creating"
+      <div>
+        <bottom-btns class="pa-3"
+                     rounded
+                     border>
+          <v-btn slot="no"
+                 class="ma-0"
+                 color="white"
+                 depressed
+                 @click="$refs.modal.active()"
+                 block>取消创建</v-btn>
+          <v-btn slot="yes"
+                 class="ma-0"
+                 color="primary"
+                 depressed
                  @click="submit"
-                 block>提交</v-btn>
-        </v-flex>
-      </v-layout>
+                 block>修改</v-btn>
+        </bottom-btns>
+      </div>
     </div>
+    <base-modal ref="modal"
+                @confirm="dissolveTeam" />
   </div>
 </template>
 
@@ -99,7 +108,8 @@ import constant from '@const/public'
 export default {
   components: {
     ImageUploader,
-    TeamInviteDialog
+    TeamInviteDialog,
+    BottomBtns
   },
   head: () => ({
     title: '创建战队'
@@ -113,9 +123,10 @@ export default {
     slogan: '',
     avatar: null,
     inviteList: [],
-    baseImageUrl: constant.BASE_URL,
     minInvite: constant.TEAM_CREATE_MIN_MEMBER,
-    creating: false
+    creating: false,
+    id: null,
+    dialog: false
   }),
   computed: {
     ...mapGetters({
@@ -128,7 +139,8 @@ export default {
   methods: {
     ...mapActions({
       createTeam: 'team/createTeam',
-      fetchTeamCreateInfo: 'team/fetchTeamCreateInfo'
+      fetchTeamCreateInfo: 'team/fetchTeamCreateInfo',
+      dissolveTeam: 'team/dissolveTeam'
     }),
     onSearch(data) {
       if (this.inviteList.find(user => user.userId === data.userId)) {
@@ -143,6 +155,7 @@ export default {
       this.team.userIdList = this.inviteList.map(user => user.userId)
       this.team.name = this.name
       this.team.slogan = this.slogan
+      if (this.id) this.team.id = this.id
       this.createTeam(this.team).then(res => {
         this.creating = false
         this.$router.push('/team')
@@ -151,11 +164,14 @@ export default {
   },
   mounted() {
     this.fetchTeamCreateInfo().then(res => {
-      this.name = res.name
-      this.slogan = res.slogan
-      this.avatar = {}
-      this.$set(this.avatar, 'src', res.avatar)
-      this.inviteList = res.inviteUsers
+      if (res) {
+        this.name = res.name
+        this.slogan = res.slogan
+        this.avatar = {}
+        this.$set(this.avatar, 'src', res.avatar)
+        this.inviteList = res.inviteUsers
+        this.id = res.id
+      }
     })
   }
 }
@@ -163,20 +179,20 @@ export default {
 
 <style lang="scss">
 .team-create {
-  .team-create-content .team-create-name {
-    .v-input__control .v-input__slot {
-      padding: 0;
+    .team-create-content .team-create-name {
+        .v-input__control .v-input__slot {
+            padding: 0;
+        }
     }
-  }
-  .team-create-invite .team-invite-item {
-    position: relative;
-    .team-invite-item-close {
-      position: absolute;
-      transform: scale(0.5);
-      top: 0;
-      right: 0;
-      transform-origin: top right;
+    .team-create-invite .team-invite-item {
+        position: relative;
+        .team-invite-item-close {
+            position: absolute;
+            transform: scale(0.5);
+            top: 0;
+            right: 0;
+            transform-origin: top right;
+        }
     }
-  }
 }
 </style>
