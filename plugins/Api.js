@@ -25,11 +25,12 @@ export default ({ app, store, router, redirect }) => {
       let code = +response.data.code
 
       if (code === 4000009) {
-        store.dispatch('sys/showSnackbar', response.data.msg)
+        store.dispatch('sys/showSnackbar', { msg: response.data.msg, color: 'error' })
+        redirect('/user/certification')
         return Promise.reject(response.data)
       }
       if (code !== 1) {
-        store.dispatch('sys/showSnackbar', { msg: response.data.msg || '出错了', color: 'error' })
+        store.dispatch('sys/showSnackbar', { msg: response.data.msg || response.data, color: 'error' })
         return Promise.reject(response.data)
       }
       let data = response.data.data

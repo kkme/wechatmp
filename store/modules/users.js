@@ -15,7 +15,8 @@ export const state = {
   histories: [],
   comments: [],
   resume: {},
-  userBaseInfo: {}
+  userBaseInfo: {},
+  certification: {}
 }
 
 export const getters = {
@@ -33,7 +34,8 @@ export const getters = {
   comments: state => state.comments,
   resume: state => state.resume,
   userBaseInfo: state => state.userBaseInfo,
-  pointsCollectList: state => state.pointsCollectList
+  pointsCollectList: state => state.pointsCollectList,
+  certification: state => state.certification
 }
 
 export const mutations = {
@@ -69,6 +71,9 @@ export const mutations = {
   },
   UPDATE_USER_BASE_INFO(state, userBaseInfo) {
     state.userBaseInfo = userBaseInfo
+  },
+  UPDATE_CERTIFICATION(state, certification) {
+    state.certification = certification
   }
 }
 
@@ -213,6 +218,7 @@ export const actions = {
   },
   fetchCertification({ commit }, payload) {
     return UserService.fetchCertification(payload).then(res => {
+      commit('UPDATE_CERTIFICATION', res)
       return res
     })
   },

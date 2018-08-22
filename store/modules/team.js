@@ -13,7 +13,8 @@ export const state = {
   // owner
   missionsForOwner: null,
   claimedMissionsForOwner: null,
-  appliedMissionsForOwner: null
+  appliedMissionsForOwner: null,
+  teamCreateInfo: null
 }
 
 export const getters = {
@@ -26,6 +27,7 @@ export const getters = {
   recruitingMissions: state => state.recruitingMissions,
   appliedMissions: state => state.appliedMissions,
   finishedMissions: state => state.finishedMissions,
+  teamCreateInfo: state => state.teamCreateInfo,
   // owner
   missionsForOwner: state => state.missionsForOwner,
   claimedMissionsForOwner: state => state.claimedMissionsForOwner,
@@ -74,6 +76,9 @@ export const mutations = {
   DELETE_TEAM_APPLICATIONS_ITEM(state, id) {
     let index = state.teamApplications.findIndex(teamApplication => teamApplication.userId === id)
     if (index > 0) state.teamApplications.splice(index, 1)
+  },
+  UPDATE_TEAM_CREATE_INFO(state, payload) {
+    state.teamCreateInfo = payload
   },
 
   // owner
@@ -238,6 +243,17 @@ export const actions = {
   },
   removeMissonAppliedUser({ commit }, payload) {
     return TeamService.removeMissonAppliedUser(payload).then(res => {
+      return res
+    })
+  },
+  inviteUser({ commit }, payload) {
+    return TeamService.inviteUser(payload).then(res => {
+      return res
+    })
+  },
+  fetchTeamCreateInfo({ commit }, payload) {
+    return TeamService.fetchTeamCreateInfo(payload).then(res => {
+      commit('UPDATE_TEAM_CREATE_INFO', res)
       return res
     })
   }

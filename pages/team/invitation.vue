@@ -77,7 +77,7 @@ export default {
     reject() {
       if (this.checked.length > 0) {
         let status = labelToValue('reject', teamInvitationHandlerTypes)
-        let actions = this.checked.map(id => this.handleInvitation({ id, status }))
+        let actions = this.checked.map(id => Promise.resolve(this.handleInvitation({ id, status })))
         Promise.all(actions)
           .then(res => {
             console.log(res)

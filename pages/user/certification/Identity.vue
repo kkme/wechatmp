@@ -57,7 +57,8 @@ export default {
   }),
   methods: {
     ...mapActions({
-      identifyByIdCard: 'users/identifyByIdCard'
+      identifyByIdCard: 'users/identifyByIdCard',
+      fetchCertification: 'users/fetchCertification'
     }),
     submit() {
       this.loading = true
@@ -65,6 +66,9 @@ export default {
       this.identity.idcardnegativefile = this.certificate.back
       this.identifyByIdCard(this.identity).then(res => {
         this.loading = false
+        this.fetchCertification({}).then(() => {
+          this.$router.replace('/user/certification')
+        })
       })
     }
   },

@@ -101,14 +101,20 @@ export default {
   meta: {
     title: '实名认证'
   },
-  data: () => ({
-    idcard: {},
-    student: {}
-  }),
+  data: () => ({}),
   computed: {
     ...mapGetters({
-      collections: 'users/collections'
-    })
+      collections: 'users/collections',
+      certification: 'users/certification'
+    }),
+    idcard() {
+      if (!this.certification) return {}
+      return this.certification.iDcardVerified || {}
+    },
+    student() {
+      if (!this.certification) return {}
+      return this.certification.studendVerified || {}
+    }
   },
   methods: {
     ...mapActions({
@@ -116,14 +122,7 @@ export default {
     })
   },
   created() {
-    this.fetchCertification({}).then(res => {
-      if (res && res.iDcardVerified) {
-        this.idcard = res.iDcardVerified
-      }
-      if (res && res.studendVerified) {
-        this.student = res.studendVerified
-      }
-    })
+    this.fetchCertification({})
   }
 }
 </script>

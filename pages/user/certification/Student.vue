@@ -103,6 +103,9 @@ export default {
       this.identity.studentbackfile = this.certificate.back
       this.identifyByStudentCard(this.identity).then(res => {
         this.loading = false
+        this.fetchCertification({}).then(() => {
+          this.$router.replace('/user/certification')
+        })
       })
     }
   }

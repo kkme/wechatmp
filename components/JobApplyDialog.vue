@@ -163,8 +163,12 @@ export default {
       this.detail = Object.assign({}, this.jobDetail)
     },
     join() {
+      this.loading = true
       this.job.parttimeId = this.detail.recruitmentId
-      this.claimMissionByOwner(this.job)
+      this.claimMissionByOwner(this.job).then(() => {
+        this.loading = false
+        this.dialog = false
+      })
     }
   },
   mounted() {

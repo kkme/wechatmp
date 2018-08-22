@@ -1,12 +1,12 @@
 <template>
   <v-app light>
     <v-toolbar flat
-               fixed
                app
                dense
                clipped-left
                color="white"
-               class="border-bottom">
+               class="border-bottom"
+               v-if="os === 'iOS'">
       <v-btn icon
              @click.stop="$router.back">
         <v-icon class="iconfont icon-left"></v-icon>
@@ -14,11 +14,13 @@
       <div v-text="title"></div>
     </v-toolbar>
     <v-content>
-      <v-container class="pa-0 main-container">
+      <v-container class="pa-0 main-container"
+                   :class="{'android': os !== 'iOS'}">
         <nuxt/>
       </v-container>
     </v-content>
-    <bottom-nav v-if="path"></bottom-nav>
+    <bottom-nav :class="{'bottom-nav-android': os !== 'iOS'}"
+                v-if="path"></bottom-nav>
     <v-snackbar v-model="showSnackbar"
                 :timeout="3000"
                 top
@@ -59,12 +61,24 @@ export default {
       let p = this.$route.fullPath
       if (p) p = p.trim().split('/')
       else return false
-
       return p.length === 2
     },
     title() {
       let meta = this.$store.getters['sys/meta']
       return meta ? meta.title || '懒虫动动兼职平台' : '懒虫动动兼职平台'
+    },
+    os() {
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera
+      if (/windows phone/i.test(userAgent)) {
+        return 'Windows Phone'
+      }
+      if (/android/i.test(userAgent)) {
+        return 'Android'
+      }
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return 'iOS'
+      }
+      return 'unknown'
     }
   },
   watch: {
@@ -74,8 +88,14 @@ export default {
   }
 }
 </script>
-<style scss="lang">
+<style lang="scss">
 .main-container {
   height: 100%;
+  &.android {
+    padding-bottom: $wechat-nav-bar-height !important;
+  }
+}
+.bottom-nav-android {
+  bottom: $wechat-nav-bar-height !important;
 }
 </style>

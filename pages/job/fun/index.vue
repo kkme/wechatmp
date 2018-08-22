@@ -66,11 +66,14 @@
       </v-tab-item>
     </v-tabs>
     <v-dialog v-model="qrDialog"
-              max-width="500px">
-      <v-card>
-        <qr-code :value="qrCodeValue"
+              max-width="300px">
+      <v-card height="300px" width="300px">
+        <v-layout align-center justify-center fill-height column>
+          <qr-code :value="qrCodeValue"
                  level="H"
-                 :size="500"></qr-code>
+                 :options="{ size: 250 }"></qr-code>
+                 <div class="pt-1">验证码： <span class="primary--text">{{qrCodeValue}}</span></div>
+        </v-layout>
       </v-card>
     </v-dialog>
     <v-dialog v-model="dialog"
@@ -238,5 +241,9 @@ export default {
   .fun-events-item-title {
     text-shadow: 1px 1px 1px #000;
   }
+}
+.qr-wrap {
+  width: 300px;
+  height: 300px;
 }
 </style>

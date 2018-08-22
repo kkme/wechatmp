@@ -1,5 +1,6 @@
 export default {
   // 评价类型
+  /******
   EVALTAGE_PART_B2C: {
     text: 'B2C兼职',
     value: 'EVALTAGE_PART_B2C',
@@ -585,9 +586,8 @@ export default {
   IDENTITY_OTHER: {
     text: '其它',
     value: 'IDENTITY_OTHER'
-  }
+  }  *****/
 }
-
 const gender = [{ name: 'male', label: '男', value: 'SEX_BOY' }, { name: 'female', label: '女', value: 'SEX_GIRL' }]
 const eduList = [
   // { name: 'EDUCATION_LEVEL_0', label: '不限学历', value: 0 },
@@ -658,7 +658,7 @@ const smsTypes = [
 ]
 
 const applyStatuses = [
-  { name: 'comfirm', label: '待确认', value: 'DELIVER_STATUS_WAITCONFIRM' },
+  { name: 'confirm', label: '待确认', value: 'DELIVER_STATUS_WAITCONFIRM' },
   { name: 'reject', label: '已拒绝', value: 'DELIVER_STATUS_REFUSED' },
   { name: 'pass', label: '已通过', value: 'DELIVER_STATUS_PASS' },
   { name: 'done', label: '已完成', value: 'DELIVER_STATUS_FINISH' },
@@ -713,7 +713,7 @@ const teamApplicationHandleType = [
   { name: 'reject', label: '拒绝', value: 'TEAM_APPLYFOR_STATUS_DENY' }
 ]
 const funStatusTypes = [
-  { name: 'comfirm', label: '待确认', value: 'EXPERIENCE_RESERVATION_AWAIT' },
+  { name: 'confirm', label: '待确认', value: 'EXPERIENCE_RESERVATION_AWAIT' },
   { name: 'success', label: '预约成功', value: 'EXPERIENCE_RESERVATION_SUCCESS' },
   { name: 'fail', label: '预约失败', value: 'EXPERIENCE_RESERVATION_FAIL' },
   { name: 'done', label: '已完成', value: 'EXPERIENCE_RESERVATION_END' },
@@ -723,6 +723,12 @@ const funStatusTypes = [
   { name: 'accept', label: '已接受', value: 'EXPERIENCE_APPLY_ACCEPT' },
   { name: 'finish', label: '已完成', value: 'EXPERIENCE_APPLY_COMPLETE' },
   { name: 'cancel', label: '已取消', value: 'EXPERIENCE_APPLY_CANCEL' }
+]
+
+const teamStatuses = [
+  { name: 'confirm', label: '创建中', value: 'TEAM_STATUS_WAIT' },
+  { name: 'normal', label: '创建成功', value: 'TEAM_STATUS_SUCCESS' },
+  { name: 'disable', label: '已禁用', value: 'TEAM_STATUS_DISBAND' }
 ]
 export {
   gender,
@@ -747,5 +753,6 @@ export {
   teamInvitationHandlerTypes,
   teamPermissionTypes,
   teamApplicationHandleType,
-  funStatusTypes
+  funStatusTypes,
+  teamStatuses
 }

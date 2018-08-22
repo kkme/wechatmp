@@ -20,12 +20,12 @@
       <div class="py-2 team-create-name">
         <base-input prepend-inner-icon="iconfont icon-edit"
                     placeholder="请输入战队名称"
-                    v-model="team.name"></base-input>
+                    v-model="name"></base-input>
         <v-divider></v-divider>
       </div>
       <base-textarea placeholder="来一段霸气的战队宣言或者口号吧~"
                      counter="500"
-                     v-model="team.slogan"></base-textarea>
+                     v-model="slogan"></base-textarea>
     </div>
     <base-divider></base-divider>
     <div class="team-create-invite px-3">
@@ -63,34 +63,13 @@
           <v-flex xs2
                   class="text-xs-center">
             <div v-ripple
-                 @click="dialog = true"
+                 @click="$refs.searchDialog.active()"
                  class="line-height-0">
               <svg-plus class="w-100"></svg-plus>
             </div>
             <div class="caption mt-2">邀请</div>
-            <v-dialog v-model="dialog"
-                      max-width="500px">
-              <v-card>
-                <v-card-title class="justify-center pt-4">
-                  <span class="title">邀请加入战队</span>
-                </v-card-title>
-                <v-card-text>
-                  <div class="mx-3">
-                    <v-text-field label="关键字"
-                                  v-model="keyword"
-                                  clearable></v-text-field>
-                  </div>
-                  <v-card-actions>
-                    <v-btn color="primary"
-                           block
-                           class="mx-4 my-3"
-                           :disabled="!keyword"
-                           :loading="loading"
-                           @click="search">确定</v-btn>
-                  </v-card-actions>
-                </v-card-text>
-              </v-card>
-            </v-dialog>
+            <team-invite-dialog @search="onSearch"
+                                ref="searchDialog"></team-invite-dialog>
           </v-flex>
         </v-layout>
       </v-container>
@@ -102,6 +81,7 @@
         <v-flex xs10>
           <v-btn color="primary"
                  :disabled="disabled"
+                 :loading="creating"
                  @click="submit"
                  block>提交</v-btn>
         </v-flex>
@@ -111,12 +91,15 @@
 </template>
 
 <script>
+import BottomBtns from '@/components/BottomBtns'
 import ImageUploader from '@/components/ImageUploader'
-import { mapActions } from 'vuex'
+import TeamInviteDialog from '@/components/TeamInviteDialog'
+import { mapActions, mapGetters } from 'vuex'
 import constant from '@const/public'
 export default {
   components: {
-    ImageUploader
+    ImageUploader,
+    TeamInviteDialog
   },
   head: () => ({
     title: '创建战队'
@@ -126,57 +109,54 @@ export default {
   },
   data: () => ({
     team: {},
+    name: '',
+    slogan: '',
     avatar: null,
     inviteList: [],
-    dialog: false,
-    loading: false,
-    keyword: null,
     baseImageUrl: constant.BASE_URL,
-    minInvite: constant.TEAM_CREATE_MIN_MEMBER
+    minInvite: constant.TEAM_CREATE_MIN_MEMBER,
+    creating: false
   }),
   computed: {
+    ...mapGetters({
+      teamCreateInfo: 'team/teamCreateInfo'
+    }),
     disabled() {
-      return !(
-        this.team.name &&
-        this.team.slogan &&
-        this.inviteList.length >= this.minInvite &&
-        this.avatar &&
-        this.avatar.src
-      )
+      return !(this.name && this.slogan && this.inviteList.length >= this.minInvite && this.avatar && this.avatar.src)
     }
   },
   methods: {
     ...mapActions({
-      searchUser: 'team/searchUser',
-      createTeam: 'team/createTeam'
+      createTeam: 'team/createTeam',
+      fetchTeamCreateInfo: 'team/fetchTeamCreateInfo'
     }),
-    search() {
-      if (this.keyword) {
-        this.loading = true
-        this.searchUser({ keyword: this.keyword, id: '' })
-          .then(res => {
-            if (this.inviteList.find(user => user.userId === res.userId)) {
-              this.$store.dispatch('sys/showSnackbar', { msg: '一个账号只能添加一次！', color: 'error' })
-            } else {
-              this.inviteList.push(res)
-            }
-            this.loading = false
-            this.dialog = false
-          })
-          .catch(error => {
-            this.loading = false
-            this.dialog = false
-            console.log(error)
-          })
+    onSearch(data) {
+      if (this.inviteList.find(user => user.userId === data.userId)) {
+        this.$store.dispatch('sys/showSnackbar', { msg: '一个账号只能添加一次！', color: 'error' })
+      } else {
+        this.inviteList.push(data)
       }
     },
     submit() {
-      this.team.avatar = this.baseImageUrl + this.avatar.src
+      this.creating = true
+      this.team.avatar = this.avatar.src
       this.team.userIdList = this.inviteList.map(user => user.userId)
+      this.team.name = this.name
+      this.team.slogan = this.slogan
       this.createTeam(this.team).then(res => {
+        this.creating = false
         this.$router.push('/team')
       })
     }
+  },
+  mounted() {
+    this.fetchTeamCreateInfo().then(res => {
+      this.name = res.name
+      this.slogan = res.slogan
+      this.avatar = {}
+      this.$set(this.avatar, 'src', res.avatar)
+      this.inviteList = res.inviteUsers
+    })
   }
 }
 </script>

@@ -39,7 +39,6 @@
               <base-input placeholder="请输入要搜索的兼职"
                           prepend-inner-icon="iconfont icon-search"
                           :background-color="active ? 'transparent' : ''"
-                          autofocus
                           clearable
                           v-model="inputValue"></base-input>
             </v-flex>

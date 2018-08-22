@@ -2,8 +2,9 @@
   <div class="white">
     <v-layout align-center
               pa-3>
-      <img :src="baseInfo.avatar"
-           class="avatar">
+      <div class="avatar">
+        <base-avatar :src="baseInfo.avatar"></base-avatar>
+      </div>
       <v-flex class="pl-3">
         <v-layout class="subheading"
                   align-center>

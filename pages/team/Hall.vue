@@ -26,8 +26,8 @@
                      @infinite="getMoreRecruitingMissions"></base-infinite>
     </v-tab-item>
     <v-tab-item class="team-mission-item">
-      <job-item :items="claimedMissions"
-                v-if="claimedMissions"
+      <job-item :items="appliedMissions"
+                v-if="appliedMissions"
                 :team="true">
         <team-append-job-item disableCount
                               slot-scope="{item}"
@@ -41,11 +41,11 @@
         <base-divider></base-divider>
       </job-item>
       <base-infinite v-if="active === 1"
-                     @infinite="getMoreAppliedMissions"></base-infinite>
+                     @infinite="getMorefinishedMissions"></base-infinite>
     </v-tab-item>
     <v-tab-item class="team-mission-item">
-      <job-item :items="appliedMissions"
-                v-if="appliedMissions"
+      <job-item :items="finishedMissions"
+                v-if="finishedMissions"
                 :team="true">
 
         <team-append-job-item disableCount
@@ -88,9 +88,9 @@ export default {
   }),
   computed: {
     ...mapGetters({
-      missions: 'team/missionsForOwner',
-      claimedMissions: 'team/claimedMissionsForOwner',
-      appliedMissions: 'team/appliedMissionsForOwner'
+      missions: 'team/recruitingMissions',
+      appliedMissions: 'team/appliedMissions',
+      finishedMissions: 'team/finishedMissions'
     })
   },
   methods: {
@@ -104,7 +104,7 @@ export default {
     getMoreRecruitingMissions($infinite) {
       this.infiniteLoading($infinite, this.fetchRecruitingMission, 'recruitingMissionPage')
     },
-    getMoreAppliedMissions($infinite) {
+    getMorefinishedMissions($infinite) {
       this.infiniteLoading($infinite, this.fetchAppliedMission, 'appliedMissionPage')
     },
     getMoreFinishedMissions($infinite) {

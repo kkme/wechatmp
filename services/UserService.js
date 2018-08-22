@@ -14,10 +14,10 @@ export default {
   fetchCertification: data => axios.post('jobuser/verify', data),
 
   // 身份证认证
-  identifyByIdCard: data => axios.post('jobuser/verify/idcard', data),
+  identifyByIdCard: data => axios.post('jobuser/verify/idcard', data, { msg: '提交成功' }),
 
   // 学生证认证
-  identifyByStudentCard: data => axios.post('jobuser/verify/student', data),
+  identifyByStudentCard: data => axios.post('jobuser/verify/student', data, { msg: '提交成功' }),
 
   // 收藏明细
   fetchCollections: data => axios.post('jobuser/collection', data),

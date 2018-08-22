@@ -34,10 +34,9 @@ instance.interceptors.response.use(
     }
     if (code !== 1) {
       store().dispatch('sys/showSnackbar', { msg: response.data.msg || '出错了', color: 'error' })
-      return Promise.reject(response.data)
+      return response.data
     }
-    let data = response.data.data
-    return data
+    return response.data.data
   },
   error => {
     store().dispatch('sys/showSnackbar', {

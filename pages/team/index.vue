@@ -64,8 +64,7 @@
         <v-layout align-center
                   dark>
           <div class="avatar-lg mx-3 flex-auto">
-            <base-avatar :src="myTeam.avatar"
-                         v-bind="{src: myTeam.avatar ? `${baseImgUrl}${myTeam.avatar}` : false}"></base-avatar>
+            <base-avatar :src="myTeam.avatar"></base-avatar>
           </div>
           <v-flex class="text-xs-left pr-3">
             <div class="subheading">{{myTeam.name}}</div>
@@ -117,48 +116,51 @@
         <v-list dense
                 flat
                 class="py-3">
-          <v-list-tile nuxt
-                       to="/team/hr"
-                       v-if="role === 'owner'">
-            <v-list-tile-avatar>
-              <svg-hr class="svg-sm" />
-            </v-list-tile-avatar>
-            <v-list-tile-content class="pl-2">
-              <v-list-tile-title>成员管理</v-list-tile-title>
-            </v-list-tile-content>
-            <svg-right class="svg-sm" />
-          </v-list-tile>
-          <div class="px-3">
-            <v-divider/>
-          </div>
-          <v-list-tile nuxt
-                       to="/team/setting"
-                       v-if="role !== 'member'">
-            <v-list-tile-avatar>
-              <svg-setting class="svg-sm" />
-            </v-list-tile-avatar>
-            <v-list-tile-content class="pl-2">
-              <v-list-tile-title>设置</v-list-tile-title>
-            </v-list-tile-content>
-            <svg-right class="svg-sm" />
-          </v-list-tile>
-          <div class="px-3">
-            <v-divider/>
-          </div>
-          <v-list-tile nuxt
-                       to="/team/mission"
-                       v-if="role !== 'member'">
-            <v-list-tile-avatar>
-              <svg-mission-manage class="svg-sm" />
-            </v-list-tile-avatar>
-            <v-list-tile-content class="pl-2">
-              <v-list-tile-title>任务管理</v-list-tile-title>
-            </v-list-tile-content>
-            <svg-right class="svg-sm" />
-          </v-list-tile>
-          <div class="px-3">
-            <v-divider/>
-          </div>
+          <template v-if="role === 'owner'">
+            <v-list-tile nuxt
+                         to="/team/hr">
+              <v-list-tile-avatar>
+                <svg-hr class="svg-sm" />
+              </v-list-tile-avatar>
+              <v-list-tile-content class="pl-2">
+                <v-list-tile-title>成员管理</v-list-tile-title>
+              </v-list-tile-content>
+              <svg-right class="svg-sm" />
+            </v-list-tile>
+            <div class="px-3">
+              <v-divider/>
+            </div>
+          </template>
+          <template v-if="role !== 'member'">
+            <v-list-tile nuxt
+                         to="/team/setting">
+              <v-list-tile-avatar>
+                <svg-setting class="svg-sm" />
+              </v-list-tile-avatar>
+              <v-list-tile-content class="pl-2">
+                <v-list-tile-title>设置</v-list-tile-title>
+              </v-list-tile-content>
+              <svg-right class="svg-sm" />
+            </v-list-tile>
+            <div class="px-3">
+              <v-divider/>
+            </div>
+          </template>
+          <template v-if="role !== 'member'">
+            <v-list-tile nuxt
+                         to="/team/mission">
+              <v-list-tile-avatar>
+                <svg-mission-manage class="svg-sm" />
+              </v-list-tile-avatar>
+              <v-list-tile-content class="pl-2">
+                <v-list-tile-title>任务管理</v-list-tile-title>
+              </v-list-tile-content>
+              <svg-right class="svg-sm" />
+            </v-list-tile>
+            <div class="px-3">
+              <v-divider/>
+            </div>
+          </template>
           <v-list-tile class="team-notice">
             <v-list-tile-avatar>
               <svg-notice class="svg-sm" />
@@ -173,6 +175,19 @@
           <div class="px-3">
             <v-divider/>
           </div>
+          <template v-if="role === 'owner'">
+            <v-list-tile @click="$refs.searchDialog.active()">
+              <v-list-tile-avatar>
+                <svg-hr class="svg-sm" />
+              </v-list-tile-avatar>
+              <v-list-tile-content class="pl-2">
+                <v-list-tile-title>邀请成员</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <div class="px-3">
+              <v-divider/>
+            </div>
+          </template>
           <template v-if="role !== 'owner'">
             <v-list-tile @click="dialog = true">
               <v-list-tile-avatar>
@@ -189,11 +204,12 @@
         </v-list>
       </div>
     </div>
+    <team-invite-dialog @search="onInvite"
+                        ref="searchDialog"></team-invite-dialog>
     <v-dialog v-model="dialog"
-              max-width="290">
+              max-width="500">
       <v-card>
         <v-card-title class="headline">温馨提示</v-card-title>
-
         <v-card-text>
           确定要退出战队吗？
         </v-card-text>
@@ -221,12 +237,15 @@
 
 <script>
 import btnBg from '@img/team_btn.png'
+import TeamInviteDialog from '@/components/TeamInviteDialog'
 import { mapActions, mapGetters } from 'vuex'
-import { teamRoles } from '@const'
-import constant from '@const/public'
+import { teamRoles, teamStatuses } from '@const'
 import { valueToLabel } from '@helper'
 import { page } from '@mixins'
 export default {
+  components: {
+    TeamInviteDialog
+  },
   head: () => ({
     title: '战队'
   }),
@@ -235,7 +254,6 @@ export default {
   },
   mixins: [page],
   data: () => ({
-    baseImgUrl: constant.BASE_URL,
     btnBg,
     showConent: false,
     teamRoles,
@@ -254,6 +272,9 @@ export default {
     },
     role() {
       return valueToLabel(this.myTeam.postion, teamRoles, 'name')
+    },
+    teamStatus() {
+      return valueToLabel(this.myTeam.teamstatus, teamStatuses, 'name')
     }
   },
   methods: {
@@ -261,7 +282,9 @@ export default {
       fetchMyTeamInfo: 'team/fetchMyTeamInfo',
       search: 'team/search',
       applyTeam: 'team/applyTeam',
-      quitTeam: 'team/quitTeam'
+      quitTeam: 'team/quitTeam',
+      inviteUser: 'team/inviteUser'
+      // dissolveTeam: 'team/dissolveTeam'
     }),
     onSearch() {
       this.searching = true
@@ -283,14 +306,28 @@ export default {
     onApplyTeam(item) {
       this.$set(item, 'loading', true)
       this.applying = true
-      this.applyTeam({ id: item.teamId }).then(() => {
-        this.$set(item, 'loading', false)
-        return this.fetchMyTeamInfo()
-      })
+      this.applyTeam({ id: item.teamId })
+        .then(() => {
+          this.$set(item, 'loading', false)
+          return this.fetchMyTeamInfo()
+        })
+        .catch(error => {
+          this.applying = false
+          console.log(error)
+        })
+    },
+    onInvite(user) {
+      // console.log(user)
+      if (!user) return
+      let id = user.userId
+      this.inviteUser({ id })
     }
   },
   created() {
     this.fetchMyTeamInfo().then(res => {
+      if (this.teamStatus !== 'confirm') {
+        this.$router.replace('/team/create')
+      }
       this.showConent = true
     })
   }
