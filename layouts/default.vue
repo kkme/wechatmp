@@ -91,11 +91,11 @@ export default {
 <style lang="scss">
 .main-container {
   height: 100%;
-  &.android {
-    padding-bottom: $wechat-nav-bar-height !important;
-  }
+  // &.android {
+  //   padding-bottom: $wechat-nav-bar-height !important;
+  // }
 }
 .bottom-nav-android {
-  bottom: $wechat-nav-bar-height !important;
+  // bottom: $wechat-nav-bar-height !important;
 }
 </style>

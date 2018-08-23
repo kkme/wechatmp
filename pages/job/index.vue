@@ -5,10 +5,11 @@
                   interval="3000"
                   class="job-carousel elevation-0"
                   delimiter-icon="iconfont icon-dot">
-        <v-carousel-item v-for="(item,i) in items"
+        <v-carousel-item v-for="(item,i) in banners"
                          :key="i"
-                         :src="item.src"
+                         :src="imgBaseUrl + item.imgpath"
                          reverse-transition="fade"
+                         @click="jump(item)"
                          transition="fade"></v-carousel-item>
       </v-carousel>
       <job-searsh></job-searsh>
@@ -56,7 +57,9 @@ import JobSearsh from '@/components/JobSearsh'
 import JobItem from '@/components/JobItem'
 import { mapGetters, mapActions } from 'vuex'
 import { page } from '@mixins'
-
+import { jumpPageTypes } from '@const'
+import { labelToValue, valueToLabel } from '@helper'
+import constant from '@const/public'
 export default {
   components: {
     JobFilter,
@@ -64,27 +67,34 @@ export default {
     JobItem
   },
   data: () => ({
-    items: [{ src: require('@img/slider0.jpg') }, { src: require('@img/slider1.jpg') }],
     shortcuts: [
       { icon: 'svg-my-mission', title: '我的任务', href: '/job/mission' },
       { icon: 'svg-fun', title: '趣味体验', href: '/job/fun' },
       { icon: 'svg-recommend', title: '组合推荐', href: '/job/recommend' },
       { icon: 'svg-reward', title: '领取奖励', href: '/job/reward' }
-    ]
+    ],
+    imgBaseUrl: constant.BASE_URL
   }),
   mixins: [page],
   computed: {
     ...mapGetters({
       jobs: 'job/jobs',
       currentLocation: 'common/currentLocation',
-      currentCity: 'common/currentCity'
-    })
+      currentCity: 'common/currentCity',
+      jumpPages: 'common/jumpPages'
+    }),
+    banners() {
+      return this.jumpPages.filter(
+        page => valueToLabel(page.linktype, jumpPageTypes, 'name') === 'banner' && page.imgpath !== ''
+      )
+    }
   },
   methods: {
     ...mapActions({
       fetchJobs: 'job/fetchJobs',
       fetchCities: 'common/fetchCities',
-      duibaLogin: 'common/duibaLogin'
+      duibaLogin: 'common/duibaLogin',
+      fetchJumpPages: 'common/fetchJumpPages'
     }),
     // ...mapMutations({
     //   updateCurrentLocation: 'common/UPDATE_CURRENT_LOCATION',
@@ -107,6 +117,11 @@ export default {
           $state.complete()
           throw error.msg
         })
+    },
+    jump(item) {
+      let url = item.jumpurl
+      if (url) {
+      }
     }
     // gotLocation({ BMap, map }) {
     //   var geolocation = new BMap.Geolocation()
@@ -123,6 +138,7 @@ export default {
   },
   mounted() {
     this.fetchCities({ pid: 0 })
+    this.fetchJumpPages({ linkType: labelToValue('banner', jumpPageTypes) })
     // this.duibaLogin()
   }
 }

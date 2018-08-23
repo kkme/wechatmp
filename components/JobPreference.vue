@@ -1,14 +1,18 @@
 <template>
   <div class="job-preference white min-h-100">
-    <v-layout class="job-preference-city pt-3">
+    <v-layout class="job-preference-city pt-2"
+              align-center>
       <div class="body-2 pl-3">城市</div>
-      <v-icon class="icon--text ml-3">iconfont icon-location</v-icon>
+      <v-icon class="icon--text ml-3 mr-0">iconfont icon-location</v-icon>
       <city-selector auto-select
                      disable-county
                      v-model="currentLocation"
                      @input="getData">
-        <span class="primary--text"
-              v-if="currentLocation.city">{{ currentLocation.city.areaname }}</span>
+        <v-btn color="primary"
+               class="ma-0"
+               flat
+               small
+               :loading="!currentLocation.city || !currentLocation.city.areaname">{{ currentLocation.city.areaname }}</v-btn>
       </city-selector>
     </v-layout>
     <div class="job-preference-region mt-3">
@@ -23,8 +27,10 @@
                       off-icon="iconfont icon-checkbox_off"
                       on-icon="iconfont icon-checkbox_on"
                       hide-details
+                      :disabled="region.length >= maxRegion && !region.includes(item.id)"
                       v-model="region"
                       :value="item.id"
+                      v-if="!isNonRegionItem(item.id)"
                       :label="item.areaname"></v-checkbox>
         </v-flex>
       </v-layout>
@@ -41,9 +47,9 @@
                       off-icon="iconfont icon-checkbox_off"
                       on-icon="iconfont icon-checkbox_on"
                       hide-details
-                      v-model="region"
+                      v-model="district"
                       :value="item.id"
-                      :label="item.areaname"></v-checkbox>
+                      :label="item.name"></v-checkbox>
         </v-flex>
       </v-layout>
     </div>
@@ -111,10 +117,11 @@
                     v-model="subscribe"
                     label="订阅"></v-checkbox>
       </v-layout>
-      <v-layout class="my-4">
+      <v-layout class="py-4">
         <v-btn block
                class="mx-4"
                color="primary"
+               :loading="loading"
                @click="onUpdatePreference">确定</v-btn>
       </v-layout>
     </div>
@@ -125,6 +132,7 @@
 import CitySelector from '@/components/CitySelector'
 import { mapActions, mapGetters } from 'vuex'
 import { paymentTypes } from '@const'
+import constant from '@const/public'
 export default {
   components: {
     CitySelector
@@ -135,31 +143,54 @@ export default {
       city: {}
     },
     region: [],
+    maxRegion: constant.PREFERENCE_MAX_REGION,
     metro: [],
     district: [],
     startTime: '',
     endTime: '',
     paymentType: '',
     subscribe: '',
-    allow: ''
+    allow: '',
+    loading: false
   }),
   methods: {
     ...mapActions({
       fetchCities: 'common/fetchCities',
       fetchDistricts: 'common/fetchDistricts',
       fetchMetroes: 'common/fetchMetroPlatforms',
-      updatePreference: 'users/updatePreference'
+      updatePreference: 'users/updatePreference',
+      fetchPreference: 'users/fetchPreference'
     }),
     getData(location) {
       this.fetchCities({ pid: location.city.id })
       // this.fetchDistricts({ areaid: location.city.id })
-      this.fetchDistricts({ areaid: 51 })
-
-      // this.fetchMetroes({ areaid: location.city.id, metroid: 0 })
-      this.fetchMetroes({ areaid: 5101, metroid: 0 })
+      this.fetchMetroes({ areaid: location.city.id, metroid: 0 })
+    },
+    getPreference() {
+      this.fetchPreference({})
+        .then(res => {
+          if (res) {
+            this.currentLocation.city.id = res.cityid
+            this.allow = res.isrecommend
+            this.subscribe = res.subscription
+            this.paymentType = res.wageclearing
+            this.startTime = res.jobperiodbegin
+            this.endTime = res.jobperiodend
+            this.region = res.countyids
+            this.district = res.districtids
+            this.metro = res.metroAndPlatform
+            this.$emit('input', res)
+          } else {
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          // this.getPreference({})
+        })
     },
     onUpdatePreference() {
-      this.updatePreference({
+      this.loading = true
+      let preference = {
         cityid: this.currentLocation.city.id,
         isrecommend: this.allow,
         subscription: this.subscribe,
@@ -170,14 +201,28 @@ export default {
         countyids: this.region,
         districtids: this.district,
         metroAndPlatform: this.metro
-      })
+      }
+      this.updatePreference(preference)
+        .then(res => {
+          this.loading = false
+          this.$emit('input', preference)
+        })
+        .catch(error => {
+          this.loading = false
+          console.log(error)
+        })
+    },
+    isNonRegionItem(id) {
+      id = id.substr(id.length - 2, id.length)
+      return +id === 99
     }
   },
   computed: {
     ...mapGetters({
       areas: 'common/areas',
       districts: 'common/districts',
-      metroes: 'common/metroPlatforms'
+      metroes: 'common/metroPlatforms',
+      preference: 'users/preference'
     }),
     currentCounties() {
       if (!this.currentLocation || !this.currentLocation.city) return []
@@ -187,14 +232,31 @@ export default {
     metroLines() {
       if (!this.currentLocation || !this.currentLocation.city) return []
       // let metroes = this.metroes.filter(metro => this.currentLocation.city.id === metro.areaid && +metro.metroid === 0)
-      let metroes = this.metroes.filter(metro => +metro.areaid === 5101 && +metro.metroid === 0)
+      let metroes = this.metroes.filter(
+        metro => +metro.areaid === +this.currentLocation.city.id && +metro.metroid === 0
+      )
       return metroes.sort((a, b) => a.sort - b.sort)
     },
     businessDistricts() {
       // let businessDistricts = this.districts.filter(district => +this.currentLocation.city.id === 5101 )
-      let businessDistricts = this.districts.filter(district => +district.areaid === 5101)
+      let businessDistricts = this.districts.filter(district => this.region.includes(district.areaid))
       return businessDistricts
     }
+  },
+  watch: {
+    region(newValue) {
+      if (newValue && newValue.length) {
+        newValue.forEach(areaid => {
+          let district = this.districts.find(district => +district.areaid === +areaid)
+          if (!district) {
+            this.fetchDistricts({ areaid })
+          }
+        })
+      }
+    }
+  },
+  mounted() {
+    this.getPreference()
   }
 }
 </script>
@@ -203,6 +265,9 @@ export default {
 .job-preference {
   .v-label {
     font-size: $size1;
+  }
+  .v-input--selection-controls__input {
+    align-self: flex-start;
   }
 }
 </style>

@@ -601,7 +601,7 @@ const eduList = [
 ]
 const identity = [
   { name: 'student', label: '学生', value: 'IDENTITY_STUDENT' },
-  { name: 'other', label: '其他', value: 'IDENTITY_OTHER' }
+  { name: 'other', label: '非学生', value: 'IDENTITY_OTHER' }
 ]
 const collectionTypes = [
   { name: 'job', label: '兼职', value: 'COLLECTION_TYPE_PARTTIME' },
@@ -730,6 +730,16 @@ const teamStatuses = [
   { name: 'normal', label: '创建成功', value: 'TEAM_STATUS_SUCCESS' },
   { name: 'disable', label: '已禁用', value: 'TEAM_STATUS_DISBAND' }
 ]
+
+const jumpPageTypes = [
+  { name: 'guide', label: '用户端引导页', value: 'LINK_UPP_LPAGE' },
+  { name: 'banner', label: '用户端banner', value: 'LINK_UPP_BANNER' },
+  { name: 'guideForCorp', label: '企业端引导页', value: 'LINK_CPP_LPAGE' },
+  { name: 'bannerForCorp', label: '企业端banner', value: 'LINK_CPP_BANNER' },
+  { name: 'partner', label: '合作伙伴', value: 'LINK_WEB_PARTNER' },
+  { name: 'teamIntro', label: '战队介绍banner', value: 'LINK_TEAM_BANNER' },
+  { name: 'funEvents', label: '趣味体验', value: 'LINK_UPP_EXPERIENCE' }
+]
 export {
   gender,
   eduList,
@@ -754,5 +764,6 @@ export {
   teamPermissionTypes,
   teamApplicationHandleType,
   funStatusTypes,
-  teamStatuses
+  teamStatuses,
+  jumpPageTypes
 }

@@ -60,6 +60,7 @@ export default {
   updateUserAbout: data => axios.post('/jobuser/addSelfEvaluation', data),
   updateUserSkill: data => axios.post('/jobuser/addAbility', data),
   updatePreference: data => axios.post('/customize/add', data),
+  fetchPreference: () => axios.post('/customize/query'),
 
   // 领取经验
   collectExp: data => axios.post('/jobuser/experience/receive', data),

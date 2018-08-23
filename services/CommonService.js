@@ -10,5 +10,6 @@ export default {
   duibaLogin: () => axios.post('duiba/login'),
   uploadFile: data => axios.post('common/upload', data),
   sendSmsCode: data => axios.post('jobuser/getTelCode', data),
-  fetchMissionTags: () => axios.post('common/getTaskTag')
+  fetchMissionTags: () => axios.post('common/getTaskTag'),
+  fetchJumpPages: data => axios.post('common/basisLine', data)
 }

@@ -60,5 +60,11 @@ export const actions = {
       commit('UPDATE_SEARCH_HISTORIES', res)
       return res
     })
+  },
+  fetchPackageJobs({ commit, state }, payload) {
+    return JobService.fetchPackageJobs(payload).then(res => {
+      // commit('UPDATE_SEARCH_HISTORIES', res)
+      return res
+    })
   }
 }

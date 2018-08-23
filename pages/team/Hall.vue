@@ -15,7 +15,8 @@
                               :item="item"
                               @click="claimMission(item.recruitmentId)"
                               disableCount>
-          <span v-if="item.applyNumber > 0">已报名{{item.applyNumber}}人</span>
+          <span v-if="item.applyNumber > 0"
+                class="px-3">已报名{{item.applyNumber}}人</span>
           <v-btn color="primary ma-0"
                  small
                  :loading="item.loading"
@@ -114,21 +115,25 @@ export default {
     },
     onApplyMission(item) {
       this.$set(item, 'loading', true)
-      this.applyMission({ id: item.taskId }).then(() => {
-        this.$set(item, 'loading', false)
-      }).catch(error => {
-        this.$set(item, 'loading', false)
-        console.log(error)
-      })
+      this.applyMission({ id: item.taskId })
+        .then(() => {
+          this.$set(item, 'loading', false)
+        })
+        .catch(error => {
+          this.$set(item, 'loading', false)
+          console.log(error)
+        })
     },
     onQuitMission(item) {
       this.$set(item, 'loading', true)
-      this.quitMission({ id: item.taskId }).then(() => {
-        this.$set(item, 'loading', false)
-      }).catch(error => {
-        this.$set(item, 'loading', false)
-        console.log(error)
-      })
+      this.quitMission({ id: item.taskId })
+        .then(() => {
+          this.$set(item, 'loading', false)
+        })
+        .catch(error => {
+          this.$set(item, 'loading', false)
+          console.log(error)
+        })
     }
   }
 }

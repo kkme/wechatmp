@@ -8,12 +8,14 @@
           <v-list-tile-title>个人头像</v-list-tile-title>
         </v-list-tile-content>
         <v-spacer></v-spacer>
-        <img :src="userAvatar.src"
-             class="avatar-sm">
+        <div class="avatar-sm">
+          <base-avatar :src="avatar.src || userAvatar.src"></base-avatar>
+        </div>
         <image-uploader class="d-none"
                         ref="imageInput"
                         :multiple="false"
-                        v-model="avatar" />
+                        v-model="avatar"
+                        :max="1" />
         <svg-right class="svg-sm" />
       </v-list-tile>
 
@@ -178,9 +180,16 @@ export default {
     }),
     submit() {
       this.loading = true
-      this.updateUserBaseInfo(this.info).then(res => {
-        this.loading = false
-      })
+      this.updateUserBaseInfo(this.info)
+        .then(res => {
+          this.loading = false
+          this.fetchResume()
+          this.$router.back()
+        })
+        .catch(error => {
+          this.loading = false
+          console.log(error)
+        })
     }
   },
   mounted() {

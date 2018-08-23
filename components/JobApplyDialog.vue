@@ -52,7 +52,7 @@
             </div>
             <div>工作时段：
               <template v-if="+detail.jobPeriodBegin === 0 && +detail.jobPeriodEnd === 0">不限时段</template>
-              <template v-else>{{detail.jobPeriodBegin | formatNumberTime}} - {{detail.jobPeriodEnd | formatNumberTime}}</template>
+              <template v-else>{{detail.jobPeriod }}</template>
             </div>
             <div class="py-2">
               <base-time-picker v-model="job.jobPeriodBegin"
@@ -170,13 +170,15 @@ export default {
     join() {
       this.loading = true
       this.job.parttimeId = this.detail.recruitmentId
-      this.claimMissionByOwner(this.job).then(() => {
-        this.loading = false
-        this.dialog = false
-      }).catch(error => {
-        console.log(error)
-        this.loading = false
-      })
+      this.claimMissionByOwner(this.job)
+        .then(() => {
+          this.loading = false
+          this.dialog = false
+        })
+        .catch(error => {
+          console.log(error)
+          this.loading = false
+        })
     }
   },
   mounted() {

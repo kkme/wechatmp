@@ -12,5 +12,6 @@ export default {
   fetchCompanyInfo: data => axios.post('job/companyInfo', data),
   applyJob: data => axios.post('parttimeApply/add', data),
   fetchHotKeywords: () => axios.post('job/search/hot'),
-  fetchSearchHistory: () => axios.post('job/search/history')
+  fetchSearchHistory: () => axios.post('job/search/history'),
+  fetchPackageJobs: data => axios.post('customize/findJob', data)
 }

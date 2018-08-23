@@ -8,13 +8,11 @@ export default ({ app, store, router, redirect }) => {
   axios.interceptors.request.use(
     function(config) {
       // Do something before request is sent
-      console.log(axios.interceptors.request)
-
-      console.log(config)
+      // console.log(axios.interceptors.request)
+      // console.log(config)
       return config
     },
     function(error) {
-      // Do something with request error
       return Promise.reject(error)
     }
   )
@@ -23,13 +21,14 @@ export default ({ app, store, router, redirect }) => {
       // TODO: some auth stuff
 
       let code = +response.data.code
-
-      if (code === 4000009) {
+      if (code === 4000004) {
+        redirect('/user/signIn')
+        return Promise.reject(response.data)
+      } else if (code === 4000009) {
         store.dispatch('sys/showSnackbar', { msg: response.data.msg, color: 'error' })
         redirect('/user/certification')
         return Promise.reject(response.data)
-      }
-      if (code !== 1) {
+      } else if (code !== 1) {
         store.dispatch('sys/showSnackbar', {
           msg: response.data.msg || response.data,
           color: 'error'
@@ -44,7 +43,7 @@ export default ({ app, store, router, redirect }) => {
       return data
     },
     error => {
-      store().dispatch('sys/showSnackbar', {
+      store.dispatch('sys/showSnackbar', {
         msg: '网络似乎出现了问题，请稍后再试。',
         color: 'error'
       })

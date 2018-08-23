@@ -1,5 +1,6 @@
 import CommonService from '@/services/CommonService'
 import { unionBy, groupBy } from 'lodash'
+
 export const state = {
   currentLocation: {},
   currentCity: {},
@@ -11,7 +12,8 @@ export const state = {
   specialTags: [],
   datetime: null,
   today: '',
-  now: ''
+  now: '',
+  jumpPages: []
 }
 
 export const getters = {
@@ -19,6 +21,7 @@ export const getters = {
   currentCity: state => state.currentCity,
   areas: state => state.areas,
   positions: state => state.positions,
+  jumpPages: state => state.jumpPages,
   groupedPositions: state => {
     let list = groupPosition(state.positions)
     // console.log(JSON.stringify(list, null, 2))
@@ -50,6 +53,9 @@ export const mutations = {
   },
   UPDATE_POSITIONS(state, positions) {
     state.positions = unionBy(positions, state.positions, 'id')
+  },
+  UPDATE_JUMP_PAGES(state, jumpPages) {
+    state.jumpPages = unionBy(jumpPages, state.jumpPages, 'id')
   },
   UPDATE_METRO_PLATFORMS(state, metroPlatforms) {
     state.metroPlatforms = unionBy(metroPlatforms, state.metroPlatforms, 'id')
@@ -140,6 +146,12 @@ export const actions = {
   },
   sendSmsCode({ commit }, payload) {
     return CommonService.sendSmsCode(payload)
+  },
+  fetchJumpPages({ commit }, payload) {
+    return CommonService.fetchJumpPages(payload).then(res => {
+      commit('UPDATE_JUMP_PAGES', res)
+      return res
+    })
   }
 }
 const groupPosition = data => {

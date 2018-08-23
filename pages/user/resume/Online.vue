@@ -23,8 +23,10 @@
           <span>{{userInfo.education | valueToLabel(eduList)}}</span>
         </div>
       </v-flex>
-      <img class="avatar-lg"
-           :src="userInfo.avatar" />
+      <div class="avatar-lg">
+        <base-avatar :src="userInfo.avatar"
+                     tile></base-avatar>
+      </div>
     </v-layout>
 
     <base-divider></base-divider>
@@ -203,7 +205,7 @@ export default {
   meta: {
     title: '在线简历'
   },
-  data: () => ({eduList}),
+  data: () => ({ eduList }),
   computed: {
     ...mapGetters({
       resume: 'users/resume'
@@ -231,42 +233,42 @@ export default {
 
 <style lang="scss">
 .resume-online {
-    .resume-online-contact {
-        svg {
-            .st1 {
-                fill: #666666;
-            }
-            .st2 {
-                fill: #cccccc;
-            }
-            .st3 {
-                fill: #ffffff;
-            }
-        }
+  .resume-online-contact {
+    svg {
+      .st1 {
+        fill: #666666;
+      }
+      .st2 {
+        fill: #cccccc;
+      }
+      .st3 {
+        fill: #ffffff;
+      }
     }
-    .resume-online-item {
-        position: relative;
-        &::before {
-            content: '';
-            position: absolute;
-            height: 100%;
-            width: 0;
-            left: $svg-icon-width / 2;
-            transform: translateX(-50%);
-            z-index: 0;
-            border-left: 1px solid $border-color;
-        }
-        .resume-online-item-icon {
-            position: relative;
-            z-index: 2;
-            padding: 2px 0;
-            .st1 {
-                fill: #73b256;
-            }
-            .st2 {
-                fill: #c8efb6;
-            }
-        }
+  }
+  .resume-online-item {
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      height: 100%;
+      width: 0;
+      left: $svg-icon-width / 2;
+      transform: translateX(-50%);
+      z-index: 0;
+      border-left: 1px solid $border-color;
     }
+    .resume-online-item-icon {
+      position: relative;
+      z-index: 2;
+      padding: 2px 0;
+      .st1 {
+        fill: #73b256;
+      }
+      .st2 {
+        fill: #c8efb6;
+      }
+    }
+  }
 }
 </style>

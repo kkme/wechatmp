@@ -25,7 +25,7 @@
               </div>
               <v-layout class="caption text-muted mt-1"
                         align-center>
-                <v-icon class="iconfont icon-time icon--text"></v-icon> {{ item.createTime | formatCreateTime}}
+                <v-icon class="iconfont icon-time icon--text"></v-icon>
                 <base-tag color="grey">{{item.wageClearing}}</base-tag>
                 <base-tag color="primary">
                   <v-icon class="icon--text mr-0">iconfont icon-safety</v-icon>{{item.wageGeneration}}</base-tag>
